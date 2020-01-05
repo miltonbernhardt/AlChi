@@ -16,8 +16,12 @@ public class App extends Application {
     private static Scene scene;
 
     @Override
+    @SuppressWarnings("exports")
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"));
+        scene = new Scene(loadFXML("CU03View01"));
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        stage.setTitle("CU03");
+     
         stage.setScene(scene);
         stage.show();
     }
@@ -33,6 +37,7 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+        //System.out.println(javafx.scene.text.Font.getFamilies());
     }
 
 }
