@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.MenuController">
+   <center>
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" spacing="25.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#setCU02View" text="CU02View" />
+            <Button mnemonicParsing="false" onAction="#setCU03View01" text="CU03View01" />
+            <Button mnemonicParsing="false" onAction="#setCU03View02" text="CU03View02" />
+            <Button mnemonicParsing="false" onAction="#setCU07View" text="CU07View" />
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
