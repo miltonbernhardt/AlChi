@@ -1,13 +1,11 @@
 package app;
 
 import java.io.IOException;
-import javafx.fxml.FXML;
 
 public class CU07Controller {
 	
-    @FXML
 	public void btnVolver() throws IOException {
-		App.setRoot("menu");
+    	App.volver();
 	}
 
     public void btnAnadir() throws IOException {
