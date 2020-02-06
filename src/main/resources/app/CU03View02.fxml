@@ -29,7 +29,7 @@
                               <Insets />
                            </HBox.margin>
                         </Label>
-                        <ComboBox minWidth="100.0">
+                        <ComboBox fx:id="productos" minWidth="100.0">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -50,7 +50,7 @@
                            <children>
                               <VBox alignment="CENTER_LEFT" spacing="20.0">
                                  <children>
-                                    <RadioButton mnemonicParsing="false" text="100g anterior">
+                                    <RadioButton fx:id="rd100Anterior" mnemonicParsing="false" text="100g anterior">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="cien" />
                                        </toggleGroup>
@@ -58,7 +58,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </RadioButton>
-                                    <RadioButton mnemonicParsing="false" selected="true" text="100g actual" toggleGroup="$cien">
+                                    <RadioButton fx:id="rd100Actual" mnemonicParsing="false" selected="true" text="100g actual" toggleGroup="$cien">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
@@ -67,8 +67,8 @@
                               </VBox>
                               <VBox alignment="CENTER" spacing="12.0">
                                  <children>
-                                    <TextField editable="false" prefWidth="80.0" promptText="0,00" />
-                                    <TextField editable="false" prefWidth="80.0" promptText="0,00" />
+                                    <TextField fx:id="precio100Anterior" editable="false" prefWidth="80.0" promptText="0,00" />
+                                    <TextField fx:id="precio100Actual" editable="false" prefWidth="80.0" promptText="0,00" />
                                  </children>
                               </VBox>
                            </children>
@@ -78,7 +78,7 @@
                            <children>
                               <VBox alignment="CENTER_LEFT" spacing="20.0">
                                  <children>
-                                    <RadioButton mnemonicParsing="false" text="250g anterior">
+                                    <RadioButton fx:id="rd250Anterior" mnemonicParsing="false" text="250g anterior">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="dosCinco" />
                                        </toggleGroup>
@@ -86,7 +86,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </RadioButton>
-                                    <RadioButton mnemonicParsing="false" selected="true" text="250g actual" toggleGroup="$dosCinco">
+                                    <RadioButton fx:id="rd250Actual" mnemonicParsing="false" selected="true" text="250g actual" toggleGroup="$dosCinco">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
@@ -95,8 +95,8 @@
                               </VBox>
                               <VBox alignment="CENTER" spacing="12.0">
                                  <children>
-                                    <TextField editable="false" prefWidth="80.0" promptText="0,00" />
-                                    <TextField editable="false" prefWidth="80.0" promptText="0,00" />
+                                    <TextField fx:id="precio250Anterior" editable="false" prefWidth="80.0" promptText="0,00" />
+                                    <TextField fx:id="precio250Actual" editable="false" prefWidth="80.0" promptText="0,00" />
                                  </children>
                               </VBox>
                            </children>
@@ -112,7 +112,7 @@
                            <children>
                               <VBox alignment="CENTER_LEFT" spacing="20.0">
                                  <children>
-                                    <RadioButton mnemonicParsing="false" text="500g anterior">
+                                    <RadioButton fx:id="rd500Anterior" mnemonicParsing="false" text="500g anterior">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="cincoCero" />
                                        </toggleGroup>
@@ -120,7 +120,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </RadioButton>
-                                    <RadioButton mnemonicParsing="false" selected="true" text="500g actual" toggleGroup="$cincoCero">
+                                    <RadioButton fx:id="rd500Actual" mnemonicParsing="false" selected="true" text="500g actual" toggleGroup="$cincoCero">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
@@ -129,8 +129,8 @@
                               </VBox>
                               <VBox alignment="CENTER" spacing="12.0">
                                  <children>
-                                    <TextField editable="false" prefWidth="80.0" promptText="0,00" />
-                                    <TextField editable="false" prefWidth="80.0" promptText="0,00" />
+                                    <TextField fx:id="precio500Anterior" editable="false" prefWidth="80.0" promptText="0,00" />
+                                    <TextField fx:id="precio500Actual" editable="false" prefWidth="80.0" promptText="0,00" />
                                  </children>
                               </VBox>
                            </children>
@@ -140,7 +140,7 @@
                            <children>
                               <VBox alignment="CENTER_LEFT" spacing="20.0">
                                  <children>
-                                    <RadioButton mnemonicParsing="false" text="1000g anterior">
+                                    <RadioButton fx:id="rd1000Anterior" mnemonicParsing="false" text="1000g anterior">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="mil" />
                                        </toggleGroup>
@@ -148,7 +148,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </RadioButton>
-                                    <RadioButton mnemonicParsing="false" selected="true" text="1000g actual" toggleGroup="$mil">
+                                    <RadioButton fx:id="rd1000Actual" mnemonicParsing="false" selected="true" text="1000g actual" toggleGroup="$mil">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
@@ -157,8 +157,8 @@
                               </VBox>
                               <VBox alignment="CENTER" spacing="12.0">
                                  <children>
-                                    <TextField editable="false" prefWidth="80.0" promptText="0,00" />
-                                    <TextField editable="false" prefWidth="80.0" promptText="0,00" />
+                                    <TextField fx:id="precio1000Anterior" editable="false" prefWidth="80.0" promptText="0,00" />
+                                    <TextField fx:id="precio1000Actual" editable="false" prefWidth="80.0" promptText="0,00" />
                                  </children>
                               </VBox>
                            </children>
@@ -168,7 +168,7 @@
                            <children>
                               <VBox alignment="CENTER_LEFT" spacing="20.0">
                                  <children>
-                                    <RadioButton mnemonicParsing="false" text="1 unidad anterior">
+                                    <RadioButton fx:id="rdUnidadAnterior" mnemonicParsing="false" text="1 unidad anterior">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="unaUnidad" />
                                        </toggleGroup>
@@ -176,7 +176,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </RadioButton>
-                                    <RadioButton mnemonicParsing="false" selected="true" text="1 unidad actual" toggleGroup="$unaUnidad">
+                                    <RadioButton fx:id="rdUnidadActual" mnemonicParsing="false" selected="true" text="1 unidad actual" toggleGroup="$unaUnidad">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
@@ -185,8 +185,8 @@
                               </VBox>
                               <VBox alignment="CENTER" spacing="12.0">
                                  <children>
-                                    <TextField editable="false" prefWidth="80.0" promptText="0,00" />
-                                    <TextField editable="false" prefWidth="80.0" promptText="0,00" />
+                                    <TextField fx:id="precioUnidadAnterior" editable="false" prefWidth="80.0" promptText="0,00" />
+                                    <TextField fx:id="precioUnidadActual" editable="false" prefWidth="80.0" promptText="0,00" />
                                  </children>
                               </VBox>
                            </children>
@@ -207,7 +207,7 @@
                   <Pane VBox.vgrow="SOMETIMES" />
                   <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="150.0">
                      <content>
-                        <TableView>
+                        <TableView fx:id="tabla">
                           <columns>
                             <TableColumn minWidth="150.0" prefWidth="200.0" text="Producto" />
                             <TableColumn maxWidth="500.0" minWidth="150.0" prefWidth="75.0" text="Precio 100g final" />

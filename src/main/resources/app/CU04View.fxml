@@ -34,30 +34,30 @@
                      <children>
                         <Pane HBox.hgrow="SOMETIMES" />
                         <Label text="Producto:" />
-                        <ComboBox minWidth="100.0" HBox.hgrow="SOMETIMES">
+                        <ComboBox fx:id="producto" minWidth="100.0" HBox.hgrow="SOMETIMES">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </ComboBox>
                         <Pane maxWidth="60.0" HBox.hgrow="SOMETIMES" />
                         <Label text="Paquete:" />
-                        <ComboBox disable="true" minWidth="100.0">
+                        <ComboBox fx:id="paquete" disable="true" minWidth="100.0">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </ComboBox>
                         <Pane maxWidth="60.0" HBox.hgrow="SOMETIMES" />
                         <Label text="Cantidad:" />
-                        <ComboBox disable="true" minWidth="100.0" HBox.hgrow="SOMETIMES">
+                        <ComboBox fx:id="cantidad" disable="true" minWidth="100.0" HBox.hgrow="SOMETIMES">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </ComboBox>
                         <Pane maxWidth="60.0" HBox.hgrow="SOMETIMES" />
-                        <CheckBox mnemonicParsing="false" text="Envío" />
+                        <CheckBox fx:id="envio" mnemonicParsing="false" text="Envío" />
                         <Pane maxWidth="60.0" HBox.hgrow="SOMETIMES" />
                         <Label text="Precio ($):" />
-                        <TextField alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minWidth="60.0" prefHeight="30.0" prefWidth="40.0" promptText="0,00" />
+                        <TextField fx:id="precio" alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minWidth="60.0" prefHeight="30.0" prefWidth="40.0" promptText="0,00" />
                         <Pane HBox.hgrow="SOMETIMES" />
                      </children>
                   </HBox>
@@ -77,7 +77,7 @@
                   </HBox>
                   <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="150.0" minWidth="-Infinity" VBox.vgrow="SOMETIMES">
                      <content>
-                        <TableView>
+                        <TableView fx:id="tabla">
                            <columns>
                               <TableColumn editable="false" maxWidth="1000.0" minWidth="150.0" prefWidth="200.0" text="Producto" />
                               <TableColumn maxWidth="500.0" minWidth="150.0" prefWidth="200.0" text="Tipo de venta" />

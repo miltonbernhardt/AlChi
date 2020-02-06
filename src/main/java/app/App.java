@@ -15,7 +15,8 @@ public class App extends Application {
     @Override
     @SuppressWarnings("exports")
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("menu"));
+        //scene = new Scene(loadFXML("menu"));CU01View
+    	scene = new Scene(loadFXML("menu"));
       //scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         stage.setTitle("AlChi");
         stage.setMinHeight(500);

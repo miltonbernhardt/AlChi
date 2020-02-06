@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 
-public class MenuController {
+public class MenuController  {
 	
     @FXML
     private void setCU01View() throws IOException {

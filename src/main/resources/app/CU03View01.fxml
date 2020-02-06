@@ -46,7 +46,7 @@
                               <Insets />
                            </GridPane.margin>
                         </Label>
-                        <ComboBox prefWidth="200.0" GridPane.columnIndex="2" GridPane.vgrow="ALWAYS">
+                        <ComboBox fx:id="productos" prefWidth="200.0" GridPane.columnIndex="2" GridPane.vgrow="ALWAYS">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -57,7 +57,7 @@
                            </cursor>
                         </Button>
                         <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Proveedor:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <ComboBox prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                        <ComboBox fx:id="proveedores" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -73,8 +73,8 @@
                            </GridPane.margin>
                         </Label>
                         <Label text="Cantidad (Kg):" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                        <TextField alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="40.0" promptText="0,00" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-                        <TextField alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="40.0" promptText="0,00" GridPane.columnIndex="6" />
+                        <TextField fx:id="cantidad" alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="40.0" promptText="0,00" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                        <TextField fx:id="precioCompra" alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="40.0" promptText="0,00" GridPane.columnIndex="6" />
                      </children>
                   </GridPane>
                   <Pane VBox.vgrow="SOMETIMES" />
@@ -112,11 +112,11 @@
                         <Label text="Precio 500g:" GridPane.columnIndex="2" />
                         <Label text="Precio 1000g:" GridPane.columnIndex="3" />
                         <Label text="Precio 1 unidad:" GridPane.columnIndex="4" />
-                        <TextField alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="40.0" promptText="0,00" GridPane.rowIndex="1" />
-                        <TextField alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="40.0" promptText="0,00" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="40.0" promptText="0,00" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <TextField alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="40.0" promptText="0,00" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                        <TextField alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="40.0" promptText="0,00" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                        <TextField fx:id="precio100" alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="40.0" promptText="0,00" GridPane.rowIndex="1" />
+                        <TextField fx:id="precio250" alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="40.0" promptText="0,00" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="precio500" alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="40.0" promptText="0,00" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <TextField fx:id="precio1000" alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="40.0" promptText="0,00" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <TextField fx:id="precioUnidad" alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="40.0" promptText="0,00" GridPane.columnIndex="4" GridPane.rowIndex="1" />
                      </children>
                      <opaqueInsets>
                         <Insets />
@@ -137,7 +137,7 @@
                   <Pane />
                   <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="150.0" minWidth="-Infinity">
                      <content>
-                        <TableView>
+                        <TableView fx:id="tabla">
                            <columns>
                               <TableColumn editable="false" prefWidth="75.0" text="Producto" />
                               <TableColumn editable="false" prefWidth="75.0" text="Cantidad" />

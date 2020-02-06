@@ -24,21 +24,21 @@
                      <children>
                         <Pane HBox.hgrow="SOMETIMES" />
                         <Label text="Producto:" />
-                        <ComboBox minWidth="100.0" HBox.hgrow="SOMETIMES">
+                        <ComboBox fx:id="tipoProducto" minWidth="100.0" HBox.hgrow="SOMETIMES">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </ComboBox>
                         <Pane maxWidth="60.0" HBox.hgrow="SOMETIMES" />
                         <Label text="Paquete:" />
-                        <ComboBox disable="true" minWidth="100.0">
+                        <ComboBox fx:id="tipoPaquete" disable="true" minWidth="100.0">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </ComboBox>
                         <Pane maxWidth="60.0" HBox.hgrow="SOMETIMES" />
                         <Label text="Cantidad:" />
-                        <ComboBox disable="true" minWidth="100.0" HBox.hgrow="SOMETIMES">
+                        <ComboBox fx:id="cantidad" disable="true" minWidth="100.0" HBox.hgrow="SOMETIMES">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -64,7 +64,7 @@
                   </HBox>
                   <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="150.0" minWidth="-Infinity" VBox.vgrow="SOMETIMES">
                      <content>
-                        <TableView>
+                        <TableView fx:id="tabla">
                            <columns>
                               <TableColumn editable="false" maxWidth="1000.0" minWidth="150.0" prefWidth="200.0" text="Producto" />
                               <TableColumn maxWidth="500.0" minWidth="150.0" prefWidth="200.0" text="Tipo de paquete" />

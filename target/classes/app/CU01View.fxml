@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -45,7 +46,7 @@
             <HBox alignment="CENTER_LEFT" maxHeight="70.0" spacing="15.0" BorderPane.alignment="CENTER_LEFT">
                <children>
                   <Label text="Categoría:" />
-                  <ComboBox>
+                  <ComboBox fx:id="categoria">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -69,13 +70,13 @@
                               <Insets bottom="-5.0" />
                            </padding>
                         </Label>
-                        <TextField VBox.vgrow="SOMETIMES" />
+                        <TextField fx:id="nombre" VBox.vgrow="SOMETIMES" />
                         <Label text="Descripción:">
                            <padding>
                               <Insets bottom="-5.0" />
                            </padding>
                         </Label>
-                        <TextArea maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" wrapText="true" VBox.vgrow="ALWAYS" />
+                        <TextArea fx:id="descripcion" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" wrapText="true" VBox.vgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets right="15.0" />
@@ -89,10 +90,14 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <StackPane>
+                        <StackPane maxHeight="300.0" maxWidth="300.0" VBox.vgrow="SOMETIMES">
                            <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="300.0" stroke="BLACK" strokeType="INSIDE" width="300.0" />
-                              <ImageView fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" />
+                              <Rectangle fx:id="rectangulo" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="300.0" stroke="BLACK" strokeType="INSIDE" width="300.0" />
+                              <ImageView fx:id="imagen" fitHeight="300.0" pickOnBounds="true" preserveRatio="true">
+                                 <viewport>
+                                    <Rectangle2D />
+                                 </viewport>
+                              </ImageView>
                            </children>
                         </StackPane>
                         <Pane minHeight="0.0" minWidth="0.0" VBox.vgrow="SOMETIMES" />

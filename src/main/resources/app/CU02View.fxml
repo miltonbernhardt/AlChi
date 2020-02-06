@@ -25,7 +25,7 @@
                         <Insets right="-5.0" />
                      </padding>
                   </Label>
-                  <ComboBox prefWidth="150.0">
+                  <ComboBox fx:id="categoria">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -38,12 +38,12 @@
                         <Insets right="-5.0" />
                      </padding>
                   </Label>
-                  <TextField>
+                  <TextField fx:id="nombre">
                      <VBox.margin>
                         <Insets top="-10.0" />
                      </VBox.margin>
                   </TextField>
-                  <CheckBox mnemonicParsing="false" text="En venta">
+                  <CheckBox fx:id="enVenta" mnemonicParsing="false" text="En venta">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin></CheckBox>
@@ -71,7 +71,7 @@
             </VBox>
          </left>
          <center>
-            <TableView BorderPane.alignment="CENTER">
+            <TableView fx:id="tabla" BorderPane.alignment="CENTER">
                <columns>
                   <TableColumn maxWidth="1000.0" minWidth="100.0" prefWidth="150.0" text="Categoría" />
                   <TableColumn prefWidth="185.0" text="Nombre" />

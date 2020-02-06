@@ -26,7 +26,7 @@
                         <Insets right="-5.0" />
                      </padding>
                   </Label>
-                  <ComboBox prefWidth="150.0">
+                  <ComboBox fx:id="categoria" prefWidth="150.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -39,13 +39,13 @@
                         <Insets right="-5.0" />
                      </padding>
                   </Label>
-                  <TextField />
+                  <TextField fx:id="codigoBarra" />
                   <Label text="Nombre:">
                      <padding>
                         <Insets right="-5.0" />
                      </padding>
                   </Label>
-                  <TextField>
+                  <TextField fx:id="nombre">
                      <VBox.margin>
                         <Insets top="-10.0" />
                      </VBox.margin>
@@ -55,7 +55,7 @@
                         <Insets right="-5.0" />
                      </padding>
                   </Label>
-                  <ComboBox prefWidth="150.0">
+                  <ComboBox fx:id="proveedores" prefWidth="150.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -68,7 +68,7 @@
                         <Insets right="-5.0" />
                      </padding>
                   </Label>
-                  <DatePicker minWidth="100.0">
+                  <DatePicker fx:id="fechaAntes" minWidth="100.0">
                      <VBox.margin>
                         <Insets top="-10.0" />
                      </VBox.margin>
@@ -78,12 +78,12 @@
                         <Insets right="-5.0" />
                      </padding>
                   </Label>
-                  <DatePicker minWidth="100.0">
+                  <DatePicker fx:id="fechaDespues" minWidth="100.0">
                      <VBox.margin>
                         <Insets top="-10.0" />
                      </VBox.margin>
                   </DatePicker>
-                  <CheckBox mnemonicParsing="false" text="En venta">
+                  <CheckBox fx:id="enVenta" mnemonicParsing="false" text="En venta">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin></CheckBox>
@@ -111,7 +111,7 @@
             </VBox>
          </left>
          <center>
-            <TableView BorderPane.alignment="CENTER">
+            <TableView fx:id="tabla" BorderPane.alignment="CENTER">
                <columns>
                   <TableColumn prefWidth="75.0" text="Categoría" />
                   <TableColumn prefWidth="185.0" text="Código de barra" />

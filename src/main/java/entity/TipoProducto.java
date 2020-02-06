@@ -14,7 +14,7 @@ public class TipoProducto {
 	private String nombre;
 	private String descripcion;	
 	private Boolean enVenta;
-	//private graphics
+	private String directorioImagen;
 
 	public Categoria getCategoria() {
 		return categoria;
@@ -42,6 +42,10 @@ public class TipoProducto {
 
 	public Boolean getEnVenta() {
 		return enVenta;
+	}	
+
+	public String getDirectorioImagen() {
+		return directorioImagen;
 	}
 
 	public void setCategoria(Categoria categoria) {
@@ -70,6 +74,10 @@ public class TipoProducto {
 
 	public void setEnVenta(Boolean enVenta) {
 		this.enVenta = enVenta;
+	}
+
+	public void setDirectorioImagen(String directorioImagen) {
+		this.directorioImagen = directorioImagen;
 	}
 	
 	
