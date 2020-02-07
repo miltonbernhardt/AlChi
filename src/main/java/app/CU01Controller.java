@@ -37,7 +37,6 @@ public class CU01Controller {
     @FXML
     private void initialize(){
     	setCombo();
-    	imagen.setPreserveRatio(true);
     }
      
     @FXML
