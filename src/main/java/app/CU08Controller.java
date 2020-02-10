@@ -2,7 +2,7 @@ package app;
 
 import java.io.IOException;
 
-import entity.ProductoTotal;
+import entity.ProductoInicial;
 import entity.Proveedor;
 import enums.Categoria;
 import javafx.fxml.FXML;
@@ -40,7 +40,7 @@ public class CU08Controller {
 	private CheckBox enVenta;
 	
 	@FXML
-	private TableView<ProductoTotal> tabla;
+	private TableView<ProductoInicial> tabla;
 	
 	@FXML
 	private TableColumn<?, ?> categoria2;

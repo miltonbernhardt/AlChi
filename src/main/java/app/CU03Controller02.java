@@ -1,7 +1,7 @@
 package app;
 
 import java.io.IOException;
-import entity.ProductoTotal;
+import entity.ProductoInicial;
 import entity.TipoProducto;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -75,7 +75,7 @@ public class CU03Controller02 {
 	private RadioButton rdUnidadActual;
 	
 	@FXML
-	private TableView<ProductoTotal> tabla;
+	private TableView<ProductoInicial> tabla;
 	
 	public CU03Controller02(){ }
     

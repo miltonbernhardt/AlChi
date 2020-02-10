@@ -3,7 +3,7 @@ package app;
 import java.io.IOException;
 
 import entity.ProductoEmpaquetado;
-import entity.ProductoTotal;
+import entity.ProductoInicial;
 import entity.TipoProducto;
 import enums.Categoria;
 import javafx.fxml.FXML;
@@ -29,7 +29,7 @@ public class CU06Controller {
 	private ComboBox<Integer> cantidad;
 	
 	@FXML
-	private TableView<ProductoTotal> tabla; //VER
+	private TableView<ProductoInicial> tabla; //VER
 	
 	@FXML
 	private TextField precioVenta;

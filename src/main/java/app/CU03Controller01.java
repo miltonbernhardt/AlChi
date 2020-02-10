@@ -2,7 +2,7 @@ package app;
 
 import java.io.IOException;
 
-import entity.ProductoTotal;
+import entity.ProductoInicial;
 import entity.Proveedor;
 import entity.TipoProducto;
 import javafx.fxml.FXML;
@@ -40,7 +40,7 @@ public class CU03Controller01 {
 	private TextField precioUnidad;
 	
 	@FXML
-	private TableView<ProductoTotal> tabla;
+	private TableView<ProductoInicial> tabla;
 	
 	public CU03Controller01(){ }
     

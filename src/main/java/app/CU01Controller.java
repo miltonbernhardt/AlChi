@@ -2,11 +2,14 @@ package app;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 import enums.Categoria;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -14,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * Controller para la view de "Registro de un nuevo tipo de producto"
@@ -74,12 +78,35 @@ public class CU01Controller {
     	 * TODO CU01 guardar direccion directorio en tipoproducto y tratar de copiar la imagen en el directorio del proyecto
     	 */
     	
-    	if(seleccionCombo && completoNombre && completoDescripcion && subioImagen) {
-    		//TODO CU01 buscar tipos alertas
-    		 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-             alert.setTitle("Confirmar producto nuevo");
-             alert.setHeaderText("¿Desea confirmar los datos ingresados?");
-             alert.showAndWait();
+    	if(seleccionCombo && completoNombre && completoDescripcion) {
+    		String categoriaProducto = categoria.getValue().toString(), 
+    				nombreProducto = nombre.getText(), 
+    				descripcionProducto = descripcion.getText();
+    		
+    		Alert alert = new Alert(AlertType.CONFIRMATION);
+    		
+    		/* TODO CU01 poner iconos a las alertas
+    		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+    		stage.getIcons().add(new Image(this.getClass().getResource("app/icon/logo.png").toString()));
+    		*/
+    		//TODO setear el padre dialog.initOwner(parentWindow);
+    		alert.initStyle(StageStyle.UTILITY);
+    		alert.setTitle("Confirmar producto nuevo");
+    		alert.setHeaderText("¿Desea confirmar los siguientes datos ingresados?");
+    		alert.setContentText("Categoría: "+categoriaProducto+"\n"
+    				+ "Nombre del producto: "+nombreProducto+"\n"
+    				+ "Descripción: "+descripcionProducto+"\n");
+
+    		
+    		Optional<ButtonType> result = alert.showAndWait();
+    		if (result.get() == ButtonType.OK){
+    			
+    			
+    			Alert alert2 = new Alert(AlertType.INFORMATION);
+                alert2.setTitle("Confirmar producto nuevo");
+                alert2.setHeaderText("");
+                alert2.showAndWait();
+    		}    		
     	}
     	else {
     		//TODO CU01 crear notifiacion error
