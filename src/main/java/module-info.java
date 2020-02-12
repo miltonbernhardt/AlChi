@@ -8,8 +8,10 @@ module App {
 	requires org.hibernate.commons.annotations;
 	requires java.logging;
 	requires java.sql;
+	requires java.desktop;
 
     opens app to javafx.fxml;
     opens entity to org.hibernate.orm.core;
+    opens dto to org.hibernate.orm.core;
     exports app;
 }

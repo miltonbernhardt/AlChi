@@ -23,7 +23,7 @@
          <bottom>
             <HBox alignment="CENTER" maxHeight="70.0" spacing="25.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button defaultButton="true" disable="true" maxHeight="70.0" mnemonicParsing="false" onAction="#btnActualizar" text="Actualizar">
+                  <Button fx:id="btnActualizar" defaultButton="true" disable="true" maxHeight="70.0" mnemonicParsing="false" onAction="#btnActualizar" text="Actualizar">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -42,7 +42,7 @@
          <center>
             <HBox alignment="CENTER" spacing="25.0" BorderPane.alignment="CENTER">
                <children>
-                  <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+                  <VBox minWidth="200.0" spacing="15.0" HBox.hgrow="ALWAYS">
                      <children>
                         <HBox alignment="CENTER_LEFT" maxHeight="70.0" spacing="15.0">
                            <children>
@@ -74,7 +74,7 @@
                   <VBox alignment="TOP_CENTER" spacing="15.0">
                      <children>
                         <Pane minHeight="0.0" minWidth="0.0" VBox.vgrow="SOMETIMES" />
-                        <Button disable="true" mnemonicParsing="false" onAction="#btnCambiarImagen" text="Cambiar imágen">
+                        <Button fx:id="btnCambiarImagen" disable="true" mnemonicParsing="false" onAction="#btnCambiarImagen" text="Cambiar imágen">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -88,6 +88,11 @@
                                  </viewport></ImageView>
                            </children>
                         </StackPane>
+                        <Button fx:id="btnQuitarImagen" disable="true" mnemonicParsing="false" onAction="#btnQuitarImagen" text="Quitar imágen">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
                         <Pane minHeight="0.0" minWidth="0.0" VBox.vgrow="SOMETIMES" />
                      </children>
                   </VBox>

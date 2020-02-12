@@ -2,10 +2,10 @@ package app;
 
 import java.io.IOException;
 
+import entity.Categoria;
 import entity.ProductoEmpaquetado;
 import entity.ProductoInicial;
 import entity.TipoProducto;
-import enums.Categoria;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;

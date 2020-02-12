@@ -17,9 +17,10 @@ public class App extends Application {
     @SuppressWarnings("exports")
     public void start(Stage stage) throws IOException {
     	HibernateUtil.apagarLog(true);
-    	//HibernateUtil.getSessionFactory();
+    	HibernateUtil.getSessionFactory();
     	
     	scene = new Scene(loadFXML("menu"));
+    	
     	stage.setOnCloseRequest(e->{
         	
         	Platform.exit();
@@ -27,7 +28,7 @@ public class App extends Application {
         	System.exit(0);
         	
         });
-      //scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+
         stage.setTitle("AlChi");
         stage.setMinHeight(500);
         stage.setMinWidth(900);

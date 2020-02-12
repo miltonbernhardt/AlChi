@@ -2,9 +2,9 @@ package app;
 
 import java.io.IOException;
 
+import entity.Categoria;
 import entity.ProductoInicial;
 import entity.Proveedor;
-import enums.Categoria;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;

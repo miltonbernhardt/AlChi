@@ -1,19 +1,16 @@
 package entity;
 
 import java.util.List;
-import enums.Categoria;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -30,10 +27,14 @@ public class TipoProducto {
 	private List<ProductoInicial> productos;
 	
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_tipo_producto", foreignKey=@ForeignKey(name = "fk_tipo_producto"))
 	@IndexColumn(name = "idx")
 	private List<Precio> precios;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_categoria", nullable = false)
+	private Categoria categoria;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_tipo_producto")
@@ -42,13 +43,8 @@ public class TipoProducto {
 	private Integer id;
 	
 	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private Categoria categoria;
-	
-	@Column(nullable = false)
 	private String nombre;
 	
-	@Column(nullable = false)
 	private String descripcion;	
 	
 	@Column(nullable = false, name = "en_venta")
@@ -76,4 +72,9 @@ public class TipoProducto {
 	public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 	public void setEnVenta(Boolean enVenta) { this.enVenta = enVenta; }
 	public void setDirectorioImagen(String directorioImagen) { this.directorioImagen = directorioImagen; }
+
+	@Override
+	public String toString() {
+		return nombre;
+	}	
 }

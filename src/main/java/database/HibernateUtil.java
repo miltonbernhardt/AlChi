@@ -2,9 +2,6 @@ package database;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.persistence.metamodel.Type.PersistenceType;
-
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;

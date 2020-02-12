@@ -2,11 +2,12 @@ package app;
 
 import java.io.IOException;
 
+import dto.DTOCategoria;
 import entity.TipoProducto;
-import enums.Categoria;
+import gestor.GestorProductos;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
@@ -16,13 +17,19 @@ import javafx.scene.control.TextField;
 public class CU02Controller {
 	
 	@FXML
-	private ComboBox<Categoria> categoria;
+	private ComboBox<DTOCategoria> categoria;
 	
 	@FXML
 	private TextField nombre;
 	
 	@FXML
-	private CheckBox enVenta;
+	private RadioButton noImporta;
+	
+	@FXML
+	private RadioButton siVende;
+	
+	@FXML
+	private RadioButton noVende;
 	
 	@FXML
 	private TableView<TipoProducto> tabla;
@@ -38,29 +45,36 @@ public class CU02Controller {
     @FXML
     private void setCombo(){
     	categoria.getItems().clear();
-    	categoria.getItems().addAll(Categoria.values());
+    	categoria.getItems().add(new DTOCategoria(null, "Seleccionar categoría"));
+    	categoria.getItems().addAll(GestorProductos.get().getDTOCategorias());
+    	categoria.getSelectionModel().selectFirst();
     }	
 
 	
     @FXML
     private void btnBuscar() throws IOException {
-    	Boolean seleccionCombo = true, completoNombre = true, seVende = true;
+    	Integer idCategoria = null;
+    	String nombreProducto = null;
+    	Boolean vende = null;    	
     	
-    	if(categoria.getValue() == null) {
-    		seleccionCombo = false;
+    	if(categoria.getValue() != null) {
+    		idCategoria = categoria.getValue().getId();
     	}
 
-    	if(nombre.getText().isBlank()) {
-    		completoNombre = false;
+    	if(!nombre.getText().isBlank()) {
+    		nombreProducto = nombre.getText();
     	}
     	
-    	if(!enVenta.isSelected()) {
-    		seVende = false;
+    	if(siVende.isSelected()) {
+    		vende = true;
     	}
 
-    	if(seleccionCombo && completoNombre && seVende) {
-    		//TODO CU02 buscar
+    	if(noVende.isSelected()) {
+    		vende = false;
     	}
+    	
+    	GestorProductos.get().buscarTiposProductos(idCategoria, nombreProducto, vende); //TODO proseguir de aquí
+    	
     	llenarTabla();
 	}
     

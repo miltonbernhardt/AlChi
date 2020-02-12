@@ -2,12 +2,16 @@ package app;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.nio.file.Paths;
 import java.util.Optional;
-
-import enums.Categoria;
+import dto.DTOCategoria;
+import gestor.Directorio;
+import gestor.GestorProductos;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -25,7 +29,10 @@ import javafx.stage.StageStyle;
 public class CU01Controller {
 	
 	@FXML
-	private ComboBox<Categoria> categoria;
+	private Button btnQuitarImagen;
+	
+	@FXML
+	private ComboBox<DTOCategoria> categoria;
 	
 	@FXML
 	private TextField nombre;
@@ -35,6 +42,8 @@ public class CU01Controller {
 	
 	@FXML
 	private ImageView imagen;
+	
+	private URI imagenPath;	
 	
 	public CU01Controller(){ }
      
@@ -46,96 +55,103 @@ public class CU01Controller {
     @FXML
     private void setCombo(){
     	categoria.getItems().clear();
-    	categoria.getItems().addAll(Categoria.values());
+    	categoria.getItems().add(new DTOCategoria(null, "Seleccionar categoría"));
+    	categoria.getItems().addAll(GestorProductos.get().getDTOCategorias());
+    	categoria.getSelectionModel().selectFirst();
     }
     
     @FXML
-    private void btnConfirmar(){
-    	Boolean seleccionCombo = true, completoNombre = true, completoDescripcion = true, subioImagen = true;
-    	
-    	if(categoria.getValue() == null) {
-    		seleccionCombo = false;
-    	}
+    private void btnConfirmar() throws IOException{
+    	Boolean seleccionCombo = true, completoNombre = true, completoDescripcion = true;
+    	String cadenaError = "Debe determinar los siguientes campos del producto:\n";
+    	Integer nroCampo = 1;
     	
     	/**
-    	 * TODO CU01 ignorar espacios al princio y al nombre convertir todo a minus y luego la primera letra en mayus
+    	 * TODO cambiar color al equivocarse
     	 */
+    	if(categoria.getValue().getId() == null) {
+    		cadenaError += nroCampo.toString()+") Categoría.\n";
+    		nroCampo++;
+    		seleccionCombo = false;
+    	}
 
     	if(nombre.getText().isBlank()) {
+    		cadenaError += nroCampo.toString()+") Nombre.\n";
+    		nroCampo++;
     		completoNombre = false;
     	}
     	
     	if(descripcion.getText().isBlank()) {
-    		completoNombre = false;
-    	}
+    		completoDescripcion = false;
+    	}    
     	
-    	
-    	if(imagen.getImage() == null) {
-    		subioImagen = false;
-    	}
-    	
-    	/*
-    	 * TODO CU01 guardar direccion directorio en tipoproducto y tratar de copiar la imagen en el directorio del proyecto
-    	 */
-    	
-    	if(seleccionCombo && completoNombre && completoDescripcion) {
-    		String categoriaProducto = categoria.getValue().toString(), 
-    				nombreProducto = nombre.getText(), 
-    				descripcionProducto = descripcion.getText();
+    	if(seleccionCombo && completoNombre) {
+    		String nombreProducto = nombre.getText().toLowerCase(), 
+    			   descripcionProducto = descripcion.getText().toLowerCase();
+    		
+    		nombreProducto = nombreProducto.substring(0, 1).toUpperCase() + nombreProducto.substring(1);
+    		
+    		if(completoDescripcion) {
+        		descripcionProducto = descripcionProducto.substring(0, 1).toUpperCase() + descripcionProducto.substring(1);
+    		}
     		
     		Alert alert = new Alert(AlertType.CONFIRMATION);
     		
     		/* TODO CU01 poner iconos a las alertas
     		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
     		stage.getIcons().add(new Image(this.getClass().getResource("app/icon/logo.png").toString()));
-    		*/
-    		//TODO setear el padre dialog.initOwner(parentWindow);
+    		*/   		
+    		
     		alert.initStyle(StageStyle.UTILITY);
     		alert.setTitle("Confirmar producto nuevo");
     		alert.setHeaderText("¿Desea confirmar los siguientes datos ingresados?");
-    		alert.setContentText("Categoría: "+categoriaProducto+"\n"
+    		alert.setContentText("Categoría: "+categoria.getValue().toString()+"\n"
     				+ "Nombre del producto: "+nombreProducto+"\n"
-    				+ "Descripción: "+descripcionProducto+"\n");
-
+    				+ "Descripción: "+descripcionProducto);
     		
     		Optional<ButtonType> result = alert.showAndWait();
-    		if (result.get() == ButtonType.OK){
-    			
-    			
-    			Alert alert2 = new Alert(AlertType.INFORMATION);
-                alert2.setTitle("Confirmar producto nuevo");
-                alert2.setHeaderText("");
-                alert2.showAndWait();
+    		if (result.get() == ButtonType.OK){    			
+    			if(GestorProductos.get().agregarTipoProducto(categoria.getValue().getId(), nombreProducto, descripcionProducto, imagenPath)) {
+        			alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Confirmación");
+                    alert.setHeaderText(null);
+                    alert.setContentText("'"+nombreProducto+"' correctamente guardado.");
+                    alert.showAndWait();  
+                    
+                    App.volver();
+    			}   			
     		}    		
     	}
     	else {
-    		//TODO CU01 crear notifiacion error
+    		Alert alert = new Alert(AlertType.ERROR);
+    		alert.setTitle("Aviso");
+    		alert.setHeaderText(null);
+    		alert.setContentText(cadenaError);
+    		alert.showAndWait();
     	}
     }
     
     @FXML
     private void btnAgregarImagen(ActionEvent actionEvent) throws java.io.IOException {
-        FileChooser chooser = new FileChooser();
+    	FileChooser chooser = new FileChooser();
         chooser.setTitle("Subir imágen");
-        chooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files","*.bmp", "*.png", "*.jpg", "*.gif")); 
-        File file = chooser.showOpenDialog(new Stage());
-        if(file != null) {
-                String imagepath = file.toURI().toURL().toString();
-                Image image = new Image(imagepath);
-                imagen.setImage(image);
+        chooser.setInitialDirectory(new File(Directorio.get().getDirectorio()));
+        chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files","*.bmp", "*.png", "*.jpg", "*.gif", "*.jpeg"));
+        File file = chooser.showOpenDialog(new Stage());        
+        if(file != null) {        	
+        	imagenPath = file.toURI();
+            Image image = new Image(imagenPath.toURL().toString());
+            imagen.setImage(image);
+            btnQuitarImagen.setDisable(false);
+            Directorio.get().setDirectorio(Paths.get(imagenPath).toString().substring(0,Paths.get(imagenPath).toString().lastIndexOf("\\")));	
         }
-       /*
-       	TODO CU01 alerta
-        else
-        {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information Dialog");
-            alert.setHeaderText("Please Select a File");
-        	//alert.setContentText("You didn't select a file!");
-            alert.showAndWait();
-        }
-    	*/
+    }
+    
+    @FXML
+    private void btnQuitarImagen() {
+    	imagen.setImage(null);
+    	imagenPath = null;
+    	btnQuitarImagen.setDisable(true);
     }
     
     @FXML

@@ -3,18 +3,19 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.CU02Controller">
+<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="ALWAYS" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.CU02Controller">
    <content>
       <BorderPane>
          <left>
@@ -43,10 +44,20 @@
                         <Insets top="-10.0" />
                      </VBox.margin>
                   </TextField>
-                  <CheckBox fx:id="enVenta" mnemonicParsing="false" text="En venta">
-                     <VBox.margin>
-                        <Insets top="5.0" />
-                     </VBox.margin></CheckBox>
+                  <Label text="¿Se vende?" />
+                  <HBox spacing="20.0">
+                     <padding>
+                        <Insets top="-10.0" />
+                     </padding>
+                     <children>
+                        <RadioButton fx:id="noImporta" mnemonicParsing="false" selected="true" text="No importa">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="venta" />
+                           </toggleGroup></RadioButton>
+                        <RadioButton fx:id="siVende" mnemonicParsing="false" text="Si" toggleGroup="$venta" />
+                        <RadioButton fx:id="noVende" mnemonicParsing="false" text="No" toggleGroup="$venta" />
+                     </children>
+                  </HBox>
                   <HBox alignment="CENTER" spacing="25.0">
                      <children>
                         <Button defaultButton="true" mnemonicParsing="false" onAction="#btnBuscar" text="Buscar">
@@ -71,16 +82,16 @@
             </VBox>
          </left>
          <center>
-            <TableView fx:id="tabla" BorderPane.alignment="CENTER">
+            <TableView fx:id="tabla" minWidth="800.0" BorderPane.alignment="CENTER">
                <columns>
                   <TableColumn maxWidth="1000.0" minWidth="100.0" prefWidth="150.0" text="Categoría" />
-                  <TableColumn prefWidth="185.0" text="Nombre" />
+                  <TableColumn minWidth="100.0" prefWidth="185.0" text="Nombre" />
                   <TableColumn maxWidth="300.0" minWidth="100.0" prefWidth="100.0" text="En venta" />
-                  <TableColumn maxWidth="500.0" minWidth="150.0" prefWidth="150.0" text="Precio 100g final" />
-                  <TableColumn maxWidth="500.0" minWidth="150.0" prefWidth="150.0" text="Precio 250g final" />
-                  <TableColumn maxWidth="500.0" minWidth="150.0" prefWidth="150.0" text="Precio 500g final" />
-                  <TableColumn maxWidth="500.0" minWidth="150.0" prefWidth="150.0" text="Precio 1000g final" />
-                  <TableColumn maxWidth="500.0" minWidth="150.0" prefWidth="150.0" text="Precio 1 unidad final" />
+                  <TableColumn maxWidth="500.0" minWidth="100.0" prefWidth="150.0" text="Precio 100g final" />
+                  <TableColumn maxWidth="500.0" minWidth="100.0" prefWidth="150.0" text="Precio 250g final" />
+                  <TableColumn maxWidth="500.0" minWidth="100.0" prefWidth="150.0" text="Precio 500g final" />
+                  <TableColumn maxWidth="500.0" minWidth="100.0" prefWidth="150.0" text="Precio 1000g final" />
+                  <TableColumn maxWidth="500.0" minWidth="100.0" prefWidth="150.0" text="Precio 1 unidad final" />
                </columns>
                <BorderPane.margin>
                   <Insets left="15.0" />

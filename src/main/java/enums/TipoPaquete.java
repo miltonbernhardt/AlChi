@@ -5,6 +5,7 @@ public enum TipoPaquete {
 	G250("250g"),
 	G500("500g"),
 	G1000("1000g"),
+	G2000("2000g"),
 	UNIDAD("Unidad");
 
 	private String value;
