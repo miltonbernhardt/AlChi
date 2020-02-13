@@ -1,4 +1,4 @@
-module App {
+open module App {
     requires javafx.controls;
     requires javafx.fxml;
 	requires javafx.graphics;
@@ -10,8 +10,5 @@ module App {
 	requires java.sql;
 	requires java.desktop;
 
-    opens app to javafx.fxml;
-    opens entity to org.hibernate.orm.core;
-    opens dto to org.hibernate.orm.core;
     exports app;
 }

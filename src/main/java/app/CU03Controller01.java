@@ -1,16 +1,34 @@
 package app;
 
-import java.io.IOException;
-
 import entity.ProductoInicial;
 import entity.Proveedor;
 import entity.TipoProducto;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
+/*
+ * Controller para la view "Registro de entrada de productos"
+ */
 public class CU03Controller01 {	
+	private static CU03Controller01 instance = null;
+	private static Parent sceneAnterior = null;
+	private static String tituloAnterior = null;
+	
+    public CU03Controller01() { }
+
+    public static CU03Controller01 get() {
+        if (instance == null){ instance = new CU03Controller01(); }    
+        return instance;
+    }
+	
+	public void setView() {
+		sceneAnterior = App.getSceneAnterior();
+		tituloAnterior = App.getTituloAnterior();
+		App.setRoot("CU03View01", "AlChi: Registrar entrada de productos");
+	}
 	
 	@FXML
 	private ComboBox<TipoProducto> productos;
@@ -41,8 +59,6 @@ public class CU03Controller01 {
 	
 	@FXML
 	private TableView<ProductoInicial> tabla;
-	
-	public CU03Controller01(){ }
     
     @FXML
     private void initialize(){
@@ -80,13 +96,15 @@ public class CU03Controller01 {
     }  
     
     @FXML
-    private void btnConfirmarProductos() throws IOException {
-        App.setRoot("CU03View02");
+    private void btnConfirmarProductos() {
+        new CU03Controller02();
+        CU03Controller02.get().setView();
     }    
-    
+
     @FXML
-	private void btnVolver() throws IOException {
-    	App.volver();
+    private void volver() {
+    	App.setRoot(sceneAnterior, tituloAnterior); 
+    	instance = null;
 	}
 	
 }

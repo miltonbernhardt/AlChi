@@ -230,7 +230,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button cancelButton="true" mnemonicParsing="false" onAction="#btnVolverCU0301" text="Volver">
+                        <Button cancelButton="true" mnemonicParsing="false" onAction="#volver" text="Volver">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

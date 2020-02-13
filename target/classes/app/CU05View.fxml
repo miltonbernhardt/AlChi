@@ -28,7 +28,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button cancelButton="true" maxHeight="70.0" mnemonicParsing="false" onAction="#btnVolver" text="Volver">
+                  <Button cancelButton="true" maxHeight="70.0" mnemonicParsing="false" onAction="#volver" text="Volver">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -47,7 +47,7 @@
                         <HBox alignment="CENTER_LEFT" maxHeight="70.0" spacing="15.0">
                            <children>
                               <Label text="Categoría:" />
-                              <ComboBox fx:id="categoria" disable="true">
+                              <ComboBox fx:id="categoria">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -59,13 +59,13 @@
                               <Insets bottom="-5.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="nombre" disable="true" VBox.vgrow="SOMETIMES" />
+                        <TextField fx:id="nombre" VBox.vgrow="SOMETIMES" />
                         <Label text="Descripción:">
                            <padding>
                               <Insets bottom="-5.0" />
                            </padding>
                         </Label>
-                        <TextArea fx:id="descripcion" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" wrapText="true" VBox.vgrow="SOMETIMES" />
+                        <TextArea fx:id="descripcion" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" wrapText="true" VBox.vgrow="SOMETIMES" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -74,7 +74,7 @@
                   <VBox alignment="TOP_CENTER" spacing="15.0">
                      <children>
                         <Pane minHeight="0.0" minWidth="0.0" VBox.vgrow="SOMETIMES" />
-                        <Button fx:id="btnCambiarImagen" disable="true" mnemonicParsing="false" onAction="#btnCambiarImagen" text="Cambiar imágen">
+                        <Button fx:id="btnCambiarImagen" mnemonicParsing="false" onAction="#btnCambiarImagen" text="Cambiar imágen">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -103,11 +103,6 @@
             <HBox BorderPane.alignment="CENTER">
                <children>
                   <Pane minHeight="0.0" minWidth="0.0" HBox.hgrow="SOMETIMES" />
-                  <Button mnemonicParsing="false" onAction="#btnBuscarTipoProducto" text="Buscar producto">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
                   <Pane HBox.hgrow="SOMETIMES" />
                </children>
                <BorderPane.margin>

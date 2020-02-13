@@ -1,98 +1,97 @@
 package app;
 
-import java.io.IOException;
 import javafx.fxml.FXML;
 
 public class MenuController  {
 	
     @FXML
-    private void setCU01View() throws IOException {
-        App.setRoot("CU01View");
+    private void setCU01View() {
+        new CU01Controller();
+		CU01Controller.get().setView();
     }
 	
     @FXML
-    private void setCU02View() throws IOException {
-        App.setRoot("CU02View");
+    private void setCU02View() {
+        new CU02Controller();
+		CU02Controller.get().setView();
     }
 
     @FXML
-    private void setCU03View01() throws IOException {
-        App.setRoot("CU03View01");
-    }
+    private void setCU03View01() {
+        new CU03Controller01();
+		CU03Controller01.get().setView();
+    } 
     
     @FXML
-    private void setCU03View02() throws IOException {
-        App.setRoot("CU03View02");
+    private void setCU04View() {
+        new CU04Controller();
+		CU04Controller.get().setView();
     }  
     
     @FXML
-    private void setCU04View() throws IOException {
-        App.setRoot("CU04View");
-    }  
-    
-    @FXML
-    private void setCU05View() throws IOException {
-        App.setRoot("CU05View");
+    private void setCU05View() {
+        new CU05Controller();
+		CU05Controller.get().setView(null);
     }
     
     @FXML
-    private void setCU06View() throws IOException {
-        App.setRoot("CU06View");
+    private void setCU06View() {
+        new CU06Controller();
+		CU06Controller.get().setView();
     } 
         
     @FXML
-    private void setCU07View() throws IOException {
-        App.setRoot("CU07View");
+    private void setCU07View() {
+        new CU07Controller();
+		CU07Controller.get().setView();
     }  
     
     @FXML
-    private void setCU08View() throws IOException {
-        App.setRoot("CU08View");
+    private void setCU08View() {
+        new CU08Controller();
+		CU08Controller.get().setView();
     }   
     
     @FXML
-    private void setCU09View() throws IOException {
-        App.setRoot("CU09View");
+    private void setCU09View() {
+        new CU09Controller();
+		CU09Controller.get().setView();
     }
 
     @FXML
-    private void setCU10View() throws IOException {
-        App.setRoot("CU10View");
+    private void setCU10View() {
+        new CU10Controller();
+		CU10Controller.get().setView();
     }
     
     @FXML
-    private void setCU11View() throws IOException {
-        App.setRoot("CU11View");
+    private void setCU11View() {
+        new CU11Controller();
+		CU11Controller.get().setView();
     }  
     
     @FXML
-    private void setCU12View() throws IOException {
-        App.setRoot("CU12View");
+    private void setCU12View() {
+        new CU12Controller();
+		CU12Controller.get().setView();
     }  
     
     @FXML
-    private void setCU13View() throws IOException {
-        App.setRoot("CU13View");
+    private void setCU13View() {
+        new CU13Controller();
+		CU13Controller.get().setView();
     }
     
     @FXML
-    private void setCU14View() throws IOException {
-        App.setRoot("CU14View");
+    private void setCU14View() {
+        new CU14Controller();
+		CU14Controller.get().setView();
     } 
         
     @FXML
-    private void setCU15View() throws IOException {
-        App.setRoot("CU15View");
+    private void setCU15View() {
+        new CU15Controller();
+		CU15Controller.get().setView();
     }  
-    
-    @FXML
-    private void setCU16View() throws IOException {
-        App.setRoot("CU16View");
-    }
-    
-    @FXML
-    private void setCU17View() throws IOException {
-        App.setRoot("CU17View");
-    } 
 	
 }

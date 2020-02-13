@@ -13,12 +13,12 @@ import java.util.Iterator;
 import java.util.List;
 import app.ExceptionPane;
 import database.DAOEntity;
-import dto.DTOCategoria;
 import dto.DTOTipoProductoCU02;
 import dto.DTOTipoProductoCU05;
 import entity.Categoria;
 import entity.Precio;
 import entity.TipoProducto;
+
 import enums.TipoPaquete;
 
 public class GestorProductos {
@@ -33,100 +33,104 @@ public class GestorProductos {
         }    
         return instance;
     }
-    
-	@SuppressWarnings("unchecked")
-	public List<DTOCategoria> getDTOCategorias() {	
-		String consulta = "SELECT new dto.DTOCategoria(c.id, c.nombre) FROM Categoria c ORDER BY c.nombre ASC";
-		
-		return (List<DTOCategoria>) DAOEntity.get().getResultList(consulta, new DTOCategoria());
-	}
 
-	public Boolean agregarTipoProducto(Integer idCategoria, String nombreProducto, String descripcionProducto,
-			URI imagenPath) { 
-		Categoria cat = new Categoria();
-		cat.setId(idCategoria);
-		
-		TipoProducto t = new TipoProducto();
-		t.setCategoria(cat);
-		t.setNombre(nombreProducto);
-		t.setDescripcion(descripcionProducto);
-		t.setEnVenta(true);
-		
-		if(!(imagenPath == null)) {
-			Path imagenOriginal = Paths.get(imagenPath);
-			Path directorioImagenes = Paths.get("D:/AlChi/Imágenes");
-			Path pathFinal = null;
-			String extension = "";
+	public Boolean agregarTipoProducto(DTOTipoProductoCU05 dto) { 
+		try {		
+			Categoria cat = new Categoria();
+			cat.setId(dto.getIdCategoria());
 			
-			try {				
-				Files.createDirectories(directorioImagenes);
-				extension = imagenPath.toURL().toString().substring(imagenPath.toURL().toString().lastIndexOf('.'));				
-				pathFinal = directorioImagenes.resolve(nombreProducto+extension);				
-				Files.copy(imagenOriginal, pathFinal, StandardCopyOption.REPLACE_EXISTING);
+			TipoProducto t = new TipoProducto();
+			t.setCategoria(cat);
+			
+			t.setNombre(dto.getNombreTipoProducto());
+			t.setDescripcion(dto.getDescripcion());
+			t.setEnVenta(true);
+			
+			if(!dto.getDirectorioImagen().isEmpty()) {
+				URI imagenPath = URI.create(dto.getDirectorioImagen());
+				Path imagenOriginal = Paths.get(imagenPath);
+				Path directorioImagenes = Paths.get("D:/AlChi/Imágenes");
+				Path pathFinal = null;
+				String extension = "";
 				
-				t.setDirectorioImagen(pathFinal.toUri().toString());
-			} catch (IOException e) {				
-				new ExceptionPane(e, "Error al copiar la imágen.");				
+				try {				
+					Files.createDirectories(directorioImagenes);
+					extension = imagenPath.toURL().toString().substring(imagenPath.toURL().toString().lastIndexOf('.'));				
+					pathFinal = directorioImagenes.resolve(dto.getNombreTipoProducto()+extension);				
+					Files.copy(imagenOriginal, pathFinal, StandardCopyOption.REPLACE_EXISTING);
+					
+					t.setDirectorioImagen(pathFinal.toUri().toString());
+				} catch (IOException e) {				
+					new ExceptionPane(e, "Error al copiar la imágen.");				
+				}
 			}
+			else {
+				t.setDirectorioImagen("");
+			}
+			
+			List<Precio> precios = new ArrayList<Precio> ();		
+			for(int i = 0; i<TipoPaquete.values().length; i++) {
+				Precio p = new Precio();
+				p.setFecha(LocalDate.now());
+				p.setTipoVenta(TipoPaquete.values()[i]);
+				p.setValor(0f);
+				precios.add(p);
+			}
+			t.setPrecios(precios);
+			
+			return DAOEntity.get().save(t);		
+		}catch(Exception e) {
+			new ExceptionPane(e, "Ocurrió un error inesperado.");      	
+			return false;
 		}
-		else {
-			t.setDirectorioImagen("");
-		}
-		
-		List<Precio> precios = new ArrayList<Precio> ();		
-		for(int i = 0; i<TipoPaquete.values().length; i++) {
-			Precio p = new Precio();
-			p.setTipoProducto(t);
-			p.setFecha(LocalDate.now());
-			p.setTipoVenta(TipoPaquete.values()[i]);
-			p.setValor(0f);
-			precios.add(p);
-		}
-		t.setPrecios(precios);
-		
-		return DAOEntity.get().save(t);
 	}
 	
-	public Boolean updateTipoProducto(Integer idCategoria, Integer idProducto, String nombreProducto, String descripcionProducto,
-			URI imagenPath) {
-		TipoProducto t = (TipoProducto) DAOEntity.get().get(idProducto, new TipoProducto());
-		Categoria cat = (Categoria) DAOEntity.get().get(idCategoria, new Categoria());
-		t.setCategoria(cat);
-		t.setNombre(nombreProducto);
-		t.setDescripcion(descripcionProducto);
-		
-		if(!(imagenPath == null)) {
-			Path imagenOriginal = Paths.get(imagenPath);
-			Path directorioImagenes = Paths.get("D:/AlChi/Imágenes");
-			Path pathFinal = null;
-			//TODO reemplzar user.home por el de la imagenes en todos
-			String extension = "";
+	public Boolean updateTipoProducto(DTOTipoProductoCU05 dto) {
+		try {
+			TipoProducto t = (TipoProducto) DAOEntity.get().get(dto.getIdProducto(), new TipoProducto());
+			Categoria cat = (Categoria) DAOEntity.get().get(dto.getIdCategoria(), new Categoria());
+			t.setCategoria(cat);
+			t.setNombre(dto.getNombreTipoProducto());
+			t.setDescripcion(dto.getDescripcion());			
 			
-			try {				
-				Files.createDirectories(directorioImagenes);
-				extension = imagenPath.toURL().toString().substring(imagenPath.toURL().toString().lastIndexOf('.'));				
-				pathFinal = directorioImagenes.resolve(nombreProducto+extension);				
-				Files.copy(imagenOriginal, pathFinal, StandardCopyOption.REPLACE_EXISTING);
+			
+			if(!dto.getDirectorioImagen().isEmpty()) {
+				URI imagenPath = URI.create(dto.getDirectorioImagen());
+				Path imagenOriginal = Paths.get(imagenPath);
+				Path directorioImagenes = Paths.get("D:/AlChi/Imágenes");
+				Path pathFinal = null;
+				//TODO GESTOR-PRODUCTOS reemplzar user.home por el de la imagenes en todos
+				String extension = "";
 				
-				t.setDirectorioImagen(pathFinal.toUri().toString());
-			} catch (IOException e) {				
-				new ExceptionPane(e, "Error al copiar la imágen.");				
+				try {				
+					Files.createDirectories(directorioImagenes);
+					extension = imagenPath.toURL().toString().substring(imagenPath.toURL().toString().lastIndexOf('.'));				
+					pathFinal = directorioImagenes.resolve(dto.getNombreTipoProducto()+extension);				
+					Files.copy(imagenOriginal, pathFinal, StandardCopyOption.REPLACE_EXISTING);
+					
+					t.setDirectorioImagen(pathFinal.toUri().toString());
+				} catch (IOException e) {				
+					new ExceptionPane(e, "Error al copiar la imágen.");				
+				}
 			}
+			else {
+				if(!t.getDirectorioImagen().isEmpty()) {
+					new File(URI.create(t.getDirectorioImagen())).delete();
+				}			
+				t.setDirectorioImagen("");
+			}
+			
+			return DAOEntity.get().update(t);
+		}catch(Exception e) {
+			new ExceptionPane(e, "Ocurrió un error inesperado.");      	
+			return false;
 		}
-		else {
-			if(!t.getDirectorioImagen().isEmpty()) {
-				new File(URI.create(t.getDirectorioImagen())).delete();
-			}			
-			t.setDirectorioImagen("");
-		}
-		
-		return DAOEntity.get().update(t);
 	}
 
-	public DTOTipoProductoCU05 getTipoProducto() {	
+	public DTOTipoProductoCU05 getTipoProducto(Integer idTipoProducto) {	
 		String consulta = "SELECT new dto.DTOTipoProductoCU05(c.id, c.nombre, t.id, t.nombre, t.descripcion, t.directorioImagen) "
     			+ "FROM Categoria c, TipoProducto t "
-    			+ "WHERE c.id=t.categoria and t.id="+103;
+    			+ "WHERE c.id=t.categoria and t.id="+idTipoProducto;
 		
 		return  (DTOTipoProductoCU05) DAOEntity.get().getSingleResult(consulta, new DTOTipoProductoCU05());
 	}
@@ -135,6 +139,7 @@ public class GestorProductos {
 	public List<DTOTipoProductoCU02> buscarTiposProductos(Integer idCategoria, String nombreProducto, Boolean vende) {
 		String consulta = "SELECT new dto.DTOTipoProductoCU02(c.nombre, t.id, t.nombre, t.enVenta) "
 				+ "FROM Categoria c, TipoProducto t WHERE c.id=t.categoria ";
+
 		
 		// Float precio100,	Float precio250, Float precio500, Float precio1000, Float precio2000, Float precioUnidad
 		if(idCategoria != null) {

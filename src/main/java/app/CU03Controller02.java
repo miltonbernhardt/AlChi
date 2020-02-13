@@ -1,15 +1,34 @@
 package app;
 
-import java.io.IOException;
 import entity.ProductoInicial;
 import entity.TipoProducto;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
+/*
+ * Controller para la view de "Confirmación del registro de entrada"
+ */
 public class CU03Controller02 {
+	private static CU03Controller02 instance = null;
+	private static Parent sceneAnterior = null;
+	private static String tituloAnterior = null;
+	
+    public CU03Controller02() { }
+
+    public static CU03Controller02 get() {
+        if (instance == null){ instance = new CU03Controller02(); }    
+        return instance;
+    }
+	
+	public void setView() {
+		sceneAnterior = App.getSceneAnterior();
+		tituloAnterior = App.getTituloAnterior();
+		App.setRoot("CU03View02", "AlChi: Confirmación de registro de entrada de productos");
+	}
 	
 	@FXML
 	private ComboBox<TipoProducto> productos;
@@ -76,8 +95,6 @@ public class CU03Controller02 {
 	
 	@FXML
 	private TableView<ProductoInicial> tabla;
-	
-	public CU03Controller02(){ }
     
     @FXML
     private void initialize(){
@@ -90,12 +107,13 @@ public class CU03Controller02 {
 	}
     
 	@FXML
-    private void btnFinalizar() throws IOException {
+    private void btnFinalizar() {
     	
     }
 
     @FXML
-    private void btnVolverCU0301() throws IOException {
-    	App.setRoot("CU03View01");;
-    }
+    private void volver() {
+    	App.setRoot(sceneAnterior, tituloAnterior); 
+    	instance = null;
+	}
 }

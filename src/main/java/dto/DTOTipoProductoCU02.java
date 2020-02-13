@@ -22,17 +22,6 @@ public class DTOTipoProductoCU02 {
 		this.enVenta = enVenta;
 	}
 	
-	public String getNombreCategoria() { return nombreCategoria; }
-	public String getNombreTipoProducto() { return nombreTipoProducto; }
-	public Integer getIdProducto() { return idProducto; }
-	public Boolean getEnVenta() { return enVenta; 	}
-	public Float getPrecio100() { return precio100; }
-	public Float getPrecio250() { return precio250; }
-	public Float getPrecio500() { return precio500; }
-	public Float getPrecio1000() { return precio1000; }
-	public Float getPrecio2000() { return precio2000; }
-	public Float getPrecioUnidad() { return precioUnidad; }
-	
 	public void setNombreCategoria(String nombreCategoria) { this.nombreCategoria = nombreCategoria; 	}
 	public void setNombreTipoProducto(String nombreTipoProducto) { this.nombreTipoProducto = nombreTipoProducto; }
 	public void setIdProducto(Integer idProducto) { this.idProducto = idProducto; }
@@ -44,12 +33,35 @@ public class DTOTipoProductoCU02 {
 	public void setPrecio2000(Float precio2000) { this.precio2000 = precio2000; 	}
 	public void setPrecioUnidad(Float precioUnidad) { this.precioUnidad = precioUnidad; }
 
-	@Override
-	public String toString() {
-		return "DTOTipoProductoCU02 [nombreCategoria=" + nombreCategoria + ", idProducto=" + idProducto
-				+ ", nombreTipoProducto=" + nombreTipoProducto + ", enVenta=" + enVenta + ", precio100=" + precio100
-				+ ", precio250=" + precio250 + ", precio500=" + precio500 + ", precio1000=" + precio1000
-				+ ", precio2000=" + precio2000 + ", precioUnidad=" + precioUnidad + "]";
+	public String getNombreCategoria() { return nombreCategoria; }
+	public String getNombreTipoProducto() { return nombreTipoProducto; }
+	public Integer getIdProducto() { return idProducto; }
+	
+	public String getEnVenta() { 
+		String s = "NO";
+		if(enVenta) {
+			s= "SI";
+		}
+		return s; 	
+	}
+	
+	public String getPrecio100() {
+		return precio100.toString()+" $"; 
+	}
+	public String getPrecio250() {
+		return precio250.toString()+" $";  
+	}
+	public String getPrecio500() { 
+		return precio500.toString()+" $"; 
+	}
+	public String getPrecio1000() { 
+		return precio1000.toString()+" $"; 
+	}
+	public String getPrecio2000() { 
+		return precio2000.toString()+" $"; 
+	}
+	public String getPrecioUnidad() { 
+		return precioUnidad.toString()+" $"; 
 	}
 	
 }

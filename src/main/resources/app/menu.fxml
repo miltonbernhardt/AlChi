@@ -18,7 +18,7 @@
          <top>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                <image>
-                  <Image url="@icon/logo.png" />
+                  <Image url="@icon/logoAlChi.png" />
                </image>
             </ImageView>
          </top>
@@ -55,7 +55,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#setCU07View" text="CU07 - Manejar proveedores">
+                  <Button mnemonicParsing="false" onAction="#setCU07View" text="CU07 - Administrar proveedores">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -91,6 +91,11 @@
                      </cursor>
                   </Button>
                   <Button mnemonicParsing="false" onAction="#setCU14View" text="CU14 - Buscar combos">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#setCU15View" text="CU15 - Administrar categorías">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

@@ -1,12 +1,11 @@
 package app;
 
-import java.io.IOException;
-
 import entity.Categoria;
 import entity.ProductoEmpaquetado;
 import entity.ProductoInicial;
 import entity.TipoProducto;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -15,6 +14,22 @@ import javafx.scene.control.TextField;
  * Controller para la view de "Registrar venta de combos"
  */
 public class CU06Controller {
+	private static CU06Controller instance = null;
+	private static Parent sceneAnterior = null;
+	private static String tituloAnterior = null;
+	
+    public CU06Controller() { }
+
+    public static CU06Controller get() {
+        if (instance == null){ instance = new CU06Controller(); }    
+        return instance;
+    }
+	
+	public void setView() {
+		sceneAnterior = App.getSceneAnterior();
+		tituloAnterior = App.getTituloAnterior();
+		App.setRoot("CU06View", "AlChi: Registrar venta de combos");
+	}
 	
 	@FXML
 	private ComboBox<Categoria> categoria;
@@ -33,8 +48,6 @@ public class CU06Controller {
 	
 	@FXML
 	private TextField precioVenta;
-	
-	public CU06Controller(){ }
     
     @FXML
     private void initialize(){
@@ -61,9 +74,10 @@ public class CU06Controller {
 		
 	}
 	
-	@FXML
-	private void btnVolver() throws IOException {
-		App.volver();
+    @FXML
+    private void volver() {
+    	App.setRoot(sceneAnterior, tituloAnterior); 
+    	instance = null;
 	}
 
 }

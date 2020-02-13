@@ -1,11 +1,10 @@
 package app;
 
-import java.io.IOException;
-
 import entity.Categoria;
 import entity.ProductoInicial;
 import entity.Proveedor;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -14,9 +13,25 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 /**
- * Controller para la view de "Búsqueda de productos"
+ * Controller para la view de "Búsqueda de productos en stock"
  */
 public class CU08Controller {
+	private static CU08Controller instance = null;
+	private static Parent sceneAnterior = null;
+	private static String tituloAnterior = null;
+	
+    public CU08Controller() { }
+
+    public static CU08Controller get() {
+        if (instance == null){ instance = new CU08Controller(); }    
+        return instance;
+    }
+	
+	public void setView() {
+		sceneAnterior = App.getSceneAnterior();
+		tituloAnterior = App.getTituloAnterior();
+		App.setRoot("CU08View", "AlChi: Búsqueda de productos en stock");
+	}
 	
 	@FXML
 	private ComboBox<Categoria> categoria;
@@ -44,8 +59,6 @@ public class CU08Controller {
 	
 	@FXML
 	private TableColumn<?, ?> categoria2;
-	
-	public CU08Controller(){ }
     
     @FXML
     private void initialize(){
@@ -53,13 +66,13 @@ public class CU08Controller {
     }
 	 
 	@FXML
-	private void btnBuscar() throws IOException {
+	private void btnBuscar() {
 		
 	}
 	
-	@FXML
-	private void btnVolver() throws IOException {
-		App.volver();
+    @FXML
+    private void volver() {
+    	App.setRoot(sceneAnterior, tituloAnterior); 
+    	instance = null;
 	}
-
 }

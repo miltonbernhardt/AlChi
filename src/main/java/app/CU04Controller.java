@@ -1,11 +1,10 @@
 package app;
 
-import java.io.IOException;
-
 import entity.ProductoEmpaquetado;
 import entity.TipoProducto;
 import enums.TipoPaquete;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
@@ -15,6 +14,22 @@ import javafx.scene.control.TextField;
  * Controller para la view de "Registro de salida de productos"
  */
 public class CU04Controller {
+	private static CU04Controller instance = null;
+	private static Parent sceneAnterior = null;
+	private static String tituloAnterior = null;
+	
+    public CU04Controller() { }
+
+    public static CU04Controller get() {
+        if (instance == null){ instance = new CU04Controller(); }    
+        return instance;
+    }
+	
+	public void setView() {
+		sceneAnterior = App.getSceneAnterior();
+		tituloAnterior = App.getTituloAnterior();
+		App.setRoot("CU04View", "AlChi: Registro de salida de productos");
+	}
 	
 	@FXML
 	private ComboBox<TipoProducto> producto;
@@ -33,9 +48,7 @@ public class CU04Controller {
 	
 	@FXML
 	private TableView<ProductoEmpaquetado> tabla;
-	
-	public CU04Controller(){ }
-    
+
     @FXML
     private void initialize(){
     	setCombo();
@@ -45,11 +58,6 @@ public class CU04Controller {
     private void setCombo(){
     	
     }
-    
-    @FXML
-    private void btnVolver() throws IOException {
-    	App.volver();
-	}
 	
     @FXML
     private void btnAnadirVenta() {
@@ -57,8 +65,9 @@ public class CU04Controller {
 	}
 	
     @FXML
-    private void btnAnadirCombo() throws IOException {
-        App.setRoot("CU06View");
+    private void btnAnadirCombo() {
+        new CU06Controller();
+        CU06Controller.get().setView();
 	}
 	
 	
@@ -82,4 +91,9 @@ public class CU04Controller {
 		
 	}
 	
+    @FXML
+    private void volver() {
+    	App.setRoot(sceneAnterior, tituloAnterior); 
+    	instance = null;
+	}
 }

@@ -3,9 +3,11 @@ package app;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.stage.Stage;
 
 public class ExceptionPane {
 
@@ -14,6 +16,8 @@ public class ExceptionPane {
     	alert.setTitle("Excepción!");
     	alert.setHeaderText(null);
     	alert.setContentText(tipoError);
+    	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
     	
     	String exceptionText = excepcion.toString();
 
