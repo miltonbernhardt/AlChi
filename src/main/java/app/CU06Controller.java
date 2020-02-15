@@ -21,15 +21,13 @@ public class CU06Controller {
     public CU06Controller() { }
 
     public static CU06Controller get() {
-        if (instance == null){ instance = new CU06Controller(); }    
+        if (instance == null){ 
+        	sceneAnterior = App.getSceneAnterior();
+    		tituloAnterior = App.getTituloAnterior();
+    		instance = (CU06Controller) App.setRoot("CU06View", "AlChi: Registrar venta de combos");
+    	}    
         return instance;
     }
-	
-	public void setView() {
-		sceneAnterior = App.getSceneAnterior();
-		tituloAnterior = App.getTituloAnterior();
-		App.setRoot("CU06View", "AlChi: Registrar venta de combos");
-	}
 	
 	@FXML
 	private ComboBox<Categoria> categoria;
@@ -78,6 +76,8 @@ public class CU06Controller {
     private void volver() {
     	App.setRoot(sceneAnterior, tituloAnterior); 
     	instance = null;
+    	tituloAnterior = null;
+    	sceneAnterior = null;
 	}
 
 }

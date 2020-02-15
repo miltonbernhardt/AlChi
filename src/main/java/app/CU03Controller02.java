@@ -20,15 +20,13 @@ public class CU03Controller02 {
     public CU03Controller02() { }
 
     public static CU03Controller02 get() {
-        if (instance == null){ instance = new CU03Controller02(); }    
+        if (instance == null){
+        	sceneAnterior = App.getSceneAnterior();
+    		tituloAnterior = App.getTituloAnterior();
+        	instance = (CU03Controller02) App.setRoot("CU03View02", "AlChi: Confirmación de registro de entrada de productos");
+        }    
         return instance;
     }
-	
-	public void setView() {
-		sceneAnterior = App.getSceneAnterior();
-		tituloAnterior = App.getTituloAnterior();
-		App.setRoot("CU03View02", "AlChi: Confirmación de registro de entrada de productos");
-	}
 	
 	@FXML
 	private ComboBox<TipoProducto> productos;
@@ -115,5 +113,7 @@ public class CU03Controller02 {
     private void volver() {
     	App.setRoot(sceneAnterior, tituloAnterior); 
     	instance = null;
+    	tituloAnterior = null;
+    	sceneAnterior = null;
 	}
 }

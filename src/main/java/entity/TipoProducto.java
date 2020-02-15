@@ -49,6 +49,7 @@ public class TipoProducto {
 	
 	@Column(nullable = false, name = "en_venta")
 	private Boolean enVenta;
+	//TODO entity TipoProducto: no se que hacer con esto, cuando actualizarlo etc
 	
 	@Column(name = "directorio_imagen")
 	private String directorioImagen;

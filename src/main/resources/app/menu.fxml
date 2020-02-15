@@ -45,11 +45,6 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#setCU05View" text="CU05 - Actualización de características de tipos de productos">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
                   <Button mnemonicParsing="false" onAction="#setCU06View" text="CU06 - Registrar venta de combos">
                      <cursor>
                         <Cursor fx:constant="HAND" />

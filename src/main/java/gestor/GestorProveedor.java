@@ -2,9 +2,9 @@ package gestor;
 
 import java.util.List;
 
-import app.ExceptionPane;
+import app.PanelAlerta;
 import database.DAOEntity;
-import dto.DTOProveedorCU07;
+import dto.DTOProveedor;
 import entity.Proveedor;
 
 public class GestorProveedor {
@@ -21,14 +21,14 @@ public class GestorProveedor {
     }
 
 	@SuppressWarnings("unchecked")
-	public List<DTOProveedorCU07> getProveedores() {
-		String consulta = "SELECT new dto.DTOProveedorCU07(p.id, p.nombre, p.numeroTelefono) "
+	public List<DTOProveedor> getProveedores() {
+		String consulta = "SELECT new dto.DTOProveedor(p.id, p.nombre, p.numeroTelefono) "
 				+ "FROM Proveedor p ORDER BY p.nombre ASC"; 		
 	
-		return (List<DTOProveedorCU07>) DAOEntity.get().getResultList(consulta, new DTOProveedorCU07());
+		return (List<DTOProveedor>) DAOEntity.get().getResultList(consulta, new DTOProveedor());
 	}
 
-	public Boolean agregarProveedor(DTOProveedorCU07 dto) {
+	public Boolean agregarProveedor(DTOProveedor dto) {
 		try {
 			Proveedor p = new Proveedor();		
 			p.setNombre(dto.getNombre());
@@ -39,13 +39,13 @@ public class GestorProveedor {
 			return validez;
 			
 		}catch(Exception e) {
-			new ExceptionPane(e, "Ocurrió un error inesperado.");      	
+			PanelAlerta.getExcepcion(e, "Ocurrió un error inesperado.");      	
 			return false;
 		}
 		
 	}
   
-	public Boolean editarProveedor(DTOProveedorCU07 dto) {
+	public Boolean editarProveedor(DTOProveedor dto) {
 		Proveedor p = (Proveedor) DAOEntity.get().get(dto.getId(), new Proveedor());
 		p.setNombre(dto.getNombre());
 		p.setNumeroTelefono(dto.getNumeroTelefono());			

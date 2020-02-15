@@ -10,29 +10,23 @@ public class CU09Controller {
 	private static CU09Controller instance = null;
 	private static Parent sceneAnterior = null;
 	private static String tituloAnterior = null;
-	
-    public CU09Controller() { }
 
     public static CU09Controller get() {
-        if (instance == null){ instance = new CU09Controller(); }    
+        if (instance == null){ 
+        	sceneAnterior = App.getSceneAnterior();
+    		tituloAnterior = App.getTituloAnterior();
+        	instance = (CU09Controller) App.setRoot("CU09View", "AlChi: Dar de baja paquetes de productos");
+        }    
         return instance;
     }
-	
-	public void setView() {
-		sceneAnterior = App.getSceneAnterior();
-		tituloAnterior = App.getTituloAnterior();
-		App.setRoot("CU09View", "AlChi: Dar de baja paquetes de productos");
-	}
-	
-	
-	
-	
-	
-	
+
+    public CU09Controller() { }	
 	
     @FXML
     private void volver() {
     	App.setRoot(sceneAnterior, tituloAnterior); 
     	instance = null;
+    	tituloAnterior = null;
+    	sceneAnterior = null;
 	}
 }

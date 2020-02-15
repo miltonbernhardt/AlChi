@@ -46,7 +46,7 @@
                               <Insets />
                            </GridPane.margin>
                         </Label>
-                        <ComboBox fx:id="productos" prefWidth="200.0" GridPane.columnIndex="2" GridPane.vgrow="ALWAYS">
+                        <ComboBox fx:id="productos" minWidth="200.0" prefWidth="250.0" GridPane.columnIndex="2" GridPane.vgrow="ALWAYS">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -57,7 +57,7 @@
                            </cursor>
                         </Button>
                         <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Proveedor:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <ComboBox fx:id="proveedores" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                        <ComboBox fx:id="proveedores" minWidth="200.0" prefWidth="250.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -158,23 +158,23 @@
                   <Pane VBox.vgrow="SOMETIMES" />
                   <HBox alignment="CENTER" spacing="30.0">
                      <children>
-                        <Button disable="true" mnemonicParsing="false" onAction="#btnEliminarFila" text="Eliminar fila">
+                        <Button fx:id="btnEliminarFila" disable="true" mnemonicParsing="false" onAction="#btnEliminarFila" text="Eliminar fila">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button disable="true" mnemonicParsing="false" onAction="#btnDuplicarFila" text="Duplicar fila">
+                        <Button fx:id="btnDuplicarFila" disable="true" mnemonicParsing="false" onAction="#btnDuplicarFila" text="Duplicar fila">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button disable="true" mnemonicParsing="false" onAction="#btnEditarFila" text="Editar fila">
+                        <Button fx:id="btnEditarFila" disable="true" mnemonicParsing="false" onAction="#btnEditarFila" text="Editar fila">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
                         <Region minWidth="20.0" prefWidth="50.0" />
-                        <Button defaultButton="true" mnemonicParsing="false" onAction="#btnConfirmarProductos" text="Confirmar productos">
+                        <Button mnemonicParsing="false" onAction="#btnConfirmarProductos" text="Confirmar productos">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

@@ -13,6 +13,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -29,18 +30,14 @@ public class CU02Controller {
 
     public static CU02Controller get() {
         if (instance == null){
-        	instance = new CU02Controller();
+    		sceneAnterior = App.getSceneAnterior();
+    		tituloAnterior = App.getTituloAnterior();
+        	instance = (CU02Controller) App.setRoot("CU02View", "AlChi: Buscar productos");
         }    
         return instance;
     }
 	
-	public void setView() {
-		sceneAnterior = App.getSceneAnterior();
-		tituloAnterior = App.getTituloAnterior();
-		App.setRoot("CU02View", "AlChi: Buscar productos");
-	}
-
-	private DTOTipoProductoCU02 productosSeleccionado = null;
+	private DTOTipoProductoCU02 productoSeleccionado = null;
 	
 	@FXML
 	private ComboBox<DTOCategoria> categoria;
@@ -94,12 +91,26 @@ public class CU02Controller {
     private void initialize(){
     	setCombo();
     	iniciarTabla();
+    	
+    	tabla.setRowFactory( tv -> {
+    	    TableRow<DTOTipoProductoCU02> fila = new TableRow<>();
+    	    fila.setOnMouseClicked(event -> {
+    	    	productoSeleccionado = tabla.getSelectionModel().getSelectedItem();
+    	        if (event.getClickCount() == 2 && (! fila.isEmpty()) && productoSeleccionado != null ) {
+    	        	@SuppressWarnings("unused")
+					DTOTipoProductoCU02 dto = fila.getItem();    
+    	        	//TODO CU02 si lo tengo que retornar al producto buscado
+    	        	//Agregar que cuando se pase el mouse encima se avise de la posible accion
+    	        }
+    	    });
+    	    return fila ;
+    	});
     }
      
     private void setCombo(){
     	categoria.getItems().clear();
     	categoria.getItems().add(new DTOCategoria(null, "Seleccionar categoría"));
-    	categoria.getItems().addAll(GestorCategoria.get().getDTOCategorias());
+    	categoria.getItems().addAll(GestorCategoria.get().getCategorias());
     	categoria.getSelectionModel().selectFirst();
     }
     
@@ -131,51 +142,45 @@ public class CU02Controller {
     	String nombreProducto = null;
     	Boolean vende = null;    	
     	
-    	if(categoria.getValue() != null) {
-    		idCategoria = categoria.getValue().getId();
-    	}
+    	if(categoria.getValue() != null) idCategoria = categoria.getValue().getId();
 
-    	if(!nombre.getText().isBlank()) {
-    		nombreProducto = nombre.getText();
-    	}
+    	if(!nombre.getText().isBlank()) nombreProducto = nombre.getText();
     	
-    	if(siVende.isSelected()) {
-    		vende = true;
-    	}
+    	if(siVende.isSelected()) vende = true;
 
-    	if(noVende.isSelected()) {
-    		vende = false;
-    	}
+    	if(noVende.isSelected()) vende = false;
     	
     	cargarTabla(GestorProductos.get().buscarTiposProductos(idCategoria, nombreProducto, vende));    	 
 	}
     
     @FXML
     private void btnAgregar() {
-    	new CU01Controller();
-    	CU01Controller.get().setView();
+    	CU01Controller.get();
 	}
     
     @FXML
     private void btnEditar(){
-    	App.setObjectScene(productosSeleccionado.getIdProducto());
-    	new CU05Controller();
-    	CU05Controller.get().setView(productosSeleccionado.getIdProducto());
-    	//CU05Controller.get().setProducto();
+    	CU05Controller.get().setProducto(productoSeleccionado.getIdProducto());
 	}
-
+    
+    public void actualizarProductoEditado(Integer id) {
+    	DTOTipoProductoCU02 dto =  GestorProductos.get().getTipoProductoCU02(id);
+    	tabla.getItems().set(tabla.getItems().indexOf(productoSeleccionado), dto);
+    }
+    
+    @FXML
+    private void seleccionarProducto() {
+    	productoSeleccionado = tabla.getSelectionModel().getSelectedItem();
+		if(productoSeleccionado != null) {
+			btnEditar.setDisable(false);
+		}
+    }
+    
     @FXML
     private void volver() {
     	App.setRoot(sceneAnterior, tituloAnterior); 
     	instance = null;
+    	tituloAnterior = null;
+    	sceneAnterior = null;
 	}
-    
-    @FXML
-    private void seleccionarProducto() {
-    	productosSeleccionado = tabla.getSelectionModel().getSelectedItem();
-		if(productosSeleccionado != null) {
-			btnEditar.setDisable(false);
-		}
-    	//TODO CU02 proseguir de aquí AGREGAR accion para cuando se clickea un cliente y un boton para seleccionar o doble click
-    }
 }

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import app.ExceptionPane;
+import app.PanelAlerta;
 import database.DAOEntity;
 import dto.DTOTipoProductoCU02;
 import dto.DTOTipoProductoCU05;
@@ -61,7 +61,7 @@ public class GestorProductos {
 					
 					t.setDirectorioImagen(pathFinal.toUri().toString());
 				} catch (IOException e) {				
-					new ExceptionPane(e, "Error al copiar la imágen.");				
+					PanelAlerta.getExcepcion(e, "Error al copiar la imágen.");				
 				}
 			}
 			else {
@@ -80,7 +80,7 @@ public class GestorProductos {
 			
 			return DAOEntity.get().save(t);		
 		}catch(Exception e) {
-			new ExceptionPane(e, "Ocurrió un error inesperado.");      	
+			PanelAlerta.getExcepcion(e, "Ocurrió un error inesperado.");      	
 			return false;
 		}
 	}
@@ -110,7 +110,7 @@ public class GestorProductos {
 					
 					t.setDirectorioImagen(pathFinal.toUri().toString());
 				} catch (IOException e) {				
-					new ExceptionPane(e, "Error al copiar la imágen.");				
+					PanelAlerta.getExcepcion(e, "Error al copiar la imágen.");				
 				}
 			}
 			else {
@@ -122,7 +122,7 @@ public class GestorProductos {
 			
 			return DAOEntity.get().update(t);
 		}catch(Exception e) {
-			new ExceptionPane(e, "Ocurrió un error inesperado.");      	
+			PanelAlerta.getExcepcion(e, "Ocurrió un error inesperado.");      	
 			return false;
 		}
 	}
@@ -133,6 +133,100 @@ public class GestorProductos {
     			+ "WHERE c.id=t.categoria and t.id="+idTipoProducto;
 		
 		return  (DTOTipoProductoCU05) DAOEntity.get().getSingleResult(consulta, new DTOTipoProductoCU05());
+	}
+	
+	public DTOTipoProductoCU02 getTipoProductoCU02(Integer idTipoProducto) {
+		String consulta = "SELECT new dto.DTOTipoProductoCU02(c.nombre, t.id, t.nombre, t.enVenta)"
+				+ "FROM Categoria c, TipoProducto t WHERE c.id=t.categoria AND t.id="+idTipoProducto; 
+		
+		DTOTipoProductoCU02 tipoProduco = (DTOTipoProductoCU02) DAOEntity.get().getSingleResult(consulta, new DTOTipoProductoCU02());
+		TipoProducto t = (TipoProducto) DAOEntity.get().get(tipoProduco.getIdProducto(), new TipoProducto());
+			
+		List<Precio> precios = t.getPrecios();
+		Iterator<Precio> preciosIterator = precios.iterator();
+			
+		while(preciosIterator.hasNext()) {
+			Precio p = preciosIterator.next();
+			TipoPaquete tipoVenta = p.getTipoVenta();
+			switch(tipoVenta) {
+				case G100:
+					tipoProduco.setPrecio100(p.getValor());
+				break;
+					
+				case G250:
+					tipoProduco.setPrecio250(p.getValor());
+				break;
+					
+				case G500:
+					tipoProduco.setPrecio500(p.getValor());
+				break;
+					
+				case G1000:
+					tipoProduco.setPrecio1000(p.getValor());
+				break;
+					
+				case G2000:
+						tipoProduco.setPrecio2000(p.getValor());
+				break;
+					
+				case UNIDAD:
+					tipoProduco.setPrecioUnidad(p.getValor());
+				break;
+			}
+		}		
+		
+		return tipoProduco;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DTOTipoProductoCU02> getTiposProductosCu02() {
+		String consulta = "SELECT new dto.DTOTipoProductoCU02(t.id, t.nombre, t.enVenta) "
+				+ "FROM TipoProducto t ORDER BY t.nombre ASC"; 
+		
+		List<DTOTipoProductoCU02> lista = (List<DTOTipoProductoCU02>) DAOEntity.get().getResultList(consulta, new DTOTipoProductoCU02());
+		
+		Iterator<DTOTipoProductoCU02> listaIterator = lista.iterator();
+		
+		while(listaIterator.hasNext()) {
+			DTOTipoProductoCU02 dto = listaIterator.next();
+			
+			TipoProducto t = (TipoProducto) DAOEntity.get().get(dto.getIdProducto(), new TipoProducto());
+			
+			List<Precio> precios = t.getPrecios();
+			Iterator<Precio> preciosIterator = precios.iterator();
+			
+			while(preciosIterator.hasNext()) {
+				Precio p = preciosIterator.next();
+				TipoPaquete tipoVenta = p.getTipoVenta();
+				switch(tipoVenta) {
+					case G100:
+						dto.setPrecio100(p.getValor());
+					break;
+					
+					case G250:
+						dto.setPrecio250(p.getValor());
+					break;
+					
+					case G500:
+						dto.setPrecio500(p.getValor());
+					break;
+					
+					case G1000:
+						dto.setPrecio1000(p.getValor());
+					break;
+					
+					case G2000:
+						dto.setPrecio2000(p.getValor());
+					break;
+					
+					case UNIDAD:
+						dto.setPrecioUnidad(p.getValor());
+					break;
+				}
+			}		
+		}
+		
+		return lista;
 	}
 
 	@SuppressWarnings("unchecked")

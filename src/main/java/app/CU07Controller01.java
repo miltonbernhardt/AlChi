@@ -3,7 +3,7 @@ package app;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import dto.DTOProveedorCU07;
+import dto.DTOProveedor;
 import gestor.GestorProveedor;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -23,25 +23,22 @@ import javafx.stage.Stage;
 /**
  * Controller para la view de "Manejar proveedores"
  */
-public class CU07Controller {
-	private static CU07Controller instance = null;
+public class CU07Controller01 {
+	
+	private static CU07Controller01 instance = null;
 	private static Parent sceneAnterior = null;
 	private static String tituloAnterior = null;
-	
-    public CU07Controller() { }
 
-    public static CU07Controller get() {
-        if (instance == null){ instance = new CU07Controller(); }    
+    public static CU07Controller01 get() {
+        if (instance == null){ 
+        	sceneAnterior = App.getSceneAnterior();
+    		tituloAnterior = App.getTituloAnterior();
+        	instance = (CU07Controller01) App.setRoot("CU07View01", "AlChi: Administrar proveedores");
+        }    
         return instance;
     }
 	
-	public void setView() {
-		sceneAnterior = App.getSceneAnterior();
-		tituloAnterior = App.getTituloAnterior();
-		App.setRoot("CU07View", "AlChi: Administrar proveedores");
-	}
-	
-	private DTOProveedorCU07 proveedorSeleccionado = null;
+	private DTOProveedor proveedorSeleccionado = null;
 	
 	@FXML
 	private HBox botoneraPrincipal; 
@@ -62,14 +59,16 @@ public class CU07Controller {
 	private TextField telefono;
 	
 	@FXML
-	private TableView<DTOProveedorCU07> tabla;
+	private TableView<DTOProveedor> tabla;
 	
 	@FXML
-	private TableColumn<DTOProveedorCU07, String> columnaProveedor;
+	private TableColumn<DTOProveedor, String> columnaProveedor;
 	
 	@FXML
-	private TableColumn<DTOProveedorCU07, String> columnaTelefono;
+	private TableColumn<DTOProveedor, String> columnaTelefono;
     
+    public CU07Controller01() { }
+	
     @FXML
     private void initialize(){
     	iniciarTabla();
@@ -83,9 +82,9 @@ public class CU07Controller {
     }
       
     private void cargarTabla() {	
-    	List<DTOProveedorCU07> lista = GestorProveedor.get().getProveedores();
+    	List<DTOProveedor> lista = GestorProveedor.get().getProveedores();
     	tabla.getItems().clear();    	
-    	Iterator<DTOProveedorCU07> iteratorProveedores = lista.iterator();    	
+    	Iterator<DTOProveedor> iteratorProveedores = lista.iterator();    	
     	while(iteratorProveedores.hasNext()) {
     		tabla.getItems().add(iteratorProveedores.next());	
     	}
@@ -96,14 +95,14 @@ public class CU07Controller {
 		if(proveedorSeleccionado != null) {
 			nombre.setText(proveedorSeleccionado.getNombre());
 			telefono.setText(proveedorSeleccionado.getNumeroTelefono());
-		}	
-		
-		nombre.setDisable(false);
-		telefono.setDisable(false);
-		botoneraPrincipal.setDisable(true);
-		botoneraPrincipal.setVisible(false);
-		botoneraEditar.setDisable(false);
-		botoneraEditar.setVisible(true);		
+			tabla.setDisable(true);
+			nombre.setDisable(false);
+			telefono.setDisable(false);
+			botoneraPrincipal.setDisable(true);
+			botoneraPrincipal.setVisible(false);
+			botoneraEditar.setDisable(false);
+			botoneraEditar.setVisible(true);	
+		}		
 	}
 	
 	@FXML
@@ -121,30 +120,29 @@ public class CU07Controller {
     		alert.setHeaderText("¿Desea confirmar los siguientes datos?");
     		
     		if(telefonoP.isBlank()) {
-    			alert.setContentText("Nombre proveedor: "+nombreP+"\n"
-        				+ "Sin número teléfonico\n");
+    			alert.setContentText("Nombre proveedor: "+nombreP+".\n"
+        				+ "Sin número teléfonico.\n");
     		}
     		else {
-    			alert.setContentText("Nombre proveedor: "+nombreP+"\n"
-        				+ "Teléfono del proveedor: "+telefonoP+"\n");
+    			alert.setContentText("Nombre proveedor: "+nombreP+".\n"
+        				+ "Teléfono del proveedor: "+telefonoP+".\n");
     		}
     		
     		Optional<ButtonType> result = alert.showAndWait();
     		if (result.get() == ButtonType.OK){   
-    			proveedorSeleccionado.setNombre(nombreP);
-    			proveedorSeleccionado.setNumeroTelefono(telefonoP);
-    			
     			if(GestorProveedor.get().editarProveedor(proveedorSeleccionado)) {
+    				proveedorSeleccionado.setNombre(nombreP);
+        			proveedorSeleccionado.setNumeroTelefono(telefonoP);
     				alert = new Alert(AlertType.INFORMATION);    				
     				stage = (Stage) alert.getDialogPane().getScene().getWindow();
     	        	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
                     alert.setTitle("Confirmación");
                     alert.setHeaderText(null);
-                    alert.setContentText("El proveedor '"+nombreP+"' correctamente actualizado.");
+                    alert.setContentText("El proveedor '"+nombreP+"' fue correctamente actualizado.");
                     alert.showAndWait();  
                     
                     tabla.getItems().set(tabla.getSelectionModel().getSelectedIndex(), proveedorSeleccionado);
-                                        
+                    tabla.setDisable(false);     
             		nombre.setDisable(true);
             		telefono.setDisable(true);
             		botoneraPrincipal.setDisable(false);
@@ -173,16 +171,6 @@ public class CU07Controller {
     		alert.setContentText(cadena);
     		alert.showAndWait();
 		}
-	}
-	
-	@FXML
-	private void btnCancelarEdicion() {
-		nombre.setDisable(true);
-		telefono.setDisable(true);
-		botoneraPrincipal.setDisable(false);
-		botoneraPrincipal.setVisible(true);
-		botoneraEditar.setDisable(true);
-		botoneraEditar.setVisible(false);	
 	}
 	
 	@FXML
@@ -223,7 +211,7 @@ public class CU07Controller {
     		
     		Optional<ButtonType> result = alert.showAndWait();
     		if (result.get() == ButtonType.OK){   
-    			DTOProveedorCU07 dto = new DTOProveedorCU07();
+    			DTOProveedor dto = new DTOProveedor();
     			dto.setNombre(nombreP);
     			dto.setNumeroTelefono(telefonoP);
     			
@@ -233,7 +221,7 @@ public class CU07Controller {
     	        	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
                     alert.setTitle("Confirmación");
                     alert.setHeaderText(null);
-                    alert.setContentText("El proveedor '"+nombreP+"' correctamente añadido.");
+                    alert.setContentText("El proveedor '"+nombreP+"' fue correctamente añadido.");
                     alert.showAndWait();  
                     
                     tabla.getItems().add(dto);
@@ -249,7 +237,7 @@ public class CU07Controller {
     		} 
 		}
 		else {
-			//TODO CU07 cambiar color al equivocarse
+			//TODO CU cambiar color al equivocarse
 			Alert alert = new Alert(AlertType.ERROR);
 			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
@@ -261,7 +249,7 @@ public class CU07Controller {
 	}
 	
 	@FXML
-	private void btnCancelarAdicion() {
+	private void btnCancelar() {
 		nombre.setDisable(true);
 		telefono.setDisable(true);
 		tabla.setDisable(false);
@@ -272,7 +260,7 @@ public class CU07Controller {
 	}	
 	
 	@FXML
-	private void seleccionarCliente() {
+	private void seleccionarProveedor() {
 		proveedorSeleccionado = tabla.getSelectionModel().getSelectedItem();
 		if(proveedorSeleccionado != null) {
 			btnEditar.setDisable(false);
@@ -290,5 +278,7 @@ public class CU07Controller {
     private void volver() {
     	App.setRoot(sceneAnterior, tituloAnterior); 
     	instance = null;
+    	tituloAnterior = null;
+    	sceneAnterior = null;
 	}
 }

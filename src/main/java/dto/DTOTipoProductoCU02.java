@@ -14,6 +14,24 @@ public class DTOTipoProductoCU02 {
 	
 	public DTOTipoProductoCU02() {}
 	
+	public DTOTipoProductoCU02(String nombre) {
+		super();
+		this.nombreTipoProducto = nombre;
+	}
+	
+	public DTOTipoProductoCU02(Integer idProducto, String nombreTipoProducto) {
+		super();
+		this.idProducto = idProducto;
+		this.nombreTipoProducto = nombreTipoProducto;
+	}
+	
+	public DTOTipoProductoCU02(Integer idProducto, String nombreTipoProducto, Boolean enVenta) {
+		super();
+		this.idProducto = idProducto;
+		this.nombreTipoProducto = nombreTipoProducto;
+		this.enVenta = enVenta;
+	}
+
 	public DTOTipoProductoCU02(String nombreCategoria, Integer idProducto, String nombreTipoProducto, Boolean enVenta) {
 		super();
 		this.nombreCategoria = nombreCategoria;
@@ -63,5 +81,10 @@ public class DTOTipoProductoCU02 {
 	public String getPrecioUnidad() { 
 		return precioUnidad.toString()+" $"; 
 	}
+
+	@Override
+	public String toString() {
+		return nombreTipoProducto;
+	}	
 	
 }

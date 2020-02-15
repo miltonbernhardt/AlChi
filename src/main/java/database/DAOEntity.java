@@ -3,7 +3,7 @@ package database;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import app.ExceptionPane;
+import app.PanelAlerta;
 
 public class DAOEntity {
 	
@@ -28,7 +28,7 @@ public class DAOEntity {
         }
         catch (HibernateException e) {
         	valido = false;        	
-        	new ExceptionPane(e, "No se pudo guardar en la base de datos.");        	
+        	PanelAlerta.getExcepcion(e, "No se pudo guardar en la base de datos.");        	
             session.getTransaction().rollback();	
 		}
         session.close();
@@ -45,7 +45,7 @@ public class DAOEntity {
         }
         catch (HibernateException e) {
         	valido = false;
-        	new ExceptionPane(e, "No se pudo actualizar en la base de datos.");        	
+        	PanelAlerta.getExcepcion(e, "No se pudo actualizar en la base de datos.");        	
             session.getTransaction().rollback();	
 		}
         session.close();
@@ -60,7 +60,7 @@ public class DAOEntity {
         	tipo = session.get(o.getClass(), id);
         }
         catch (HibernateException e) {
-        	new ExceptionPane(e, "No se pudo obtener el objeto desde la base de datos.");        	
+        	PanelAlerta.getExcepcion(e, "No se pudo obtener el objeto desde la base de datos.");        	
             session.getTransaction().rollback();	
 		}
         session.close();
@@ -75,7 +75,7 @@ public class DAOEntity {
         	objeto = session.createQuery(consulta, o.getClass()).getSingleResult(); 
         }
         catch (HibernateException e) {
-        	new ExceptionPane(e, "No se pudo obtener el objeto desde la base de datos.");        	
+        	PanelAlerta.getExcepcion(e, "No se pudo obtener el objeto desde la base de datos.");        	
 		}
         session.close();
 		return objeto;
@@ -89,7 +89,7 @@ public class DAOEntity {
         	lista = session.createQuery(consulta, o.getClass()).getResultList();
         }
         catch (HibernateException e) {
-        	new ExceptionPane(e, "No se pudo obtener la lista de objetos desde la base de datos.");        	
+        	PanelAlerta.getExcepcion(e, "No se pudo obtener la lista de objetos desde la base de datos.");        	
 		}
         session.close();
 		return lista;

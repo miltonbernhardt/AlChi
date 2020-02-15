@@ -6,92 +6,72 @@ public class MenuController  {
 	
     @FXML
     private void setCU01View() {
-        new CU01Controller();
-		CU01Controller.get().setView();
+        CU01Controller.get();
     }
 	
     @FXML
     private void setCU02View() {
-        new CU02Controller();
-		CU02Controller.get().setView();
+		CU02Controller.get();
     }
 
     @FXML
     private void setCU03View01() {
-        new CU03Controller01();
-		CU03Controller01.get().setView();
+        CU03Controller01.get();
     } 
     
     @FXML
     private void setCU04View() {
-        new CU04Controller();
-		CU04Controller.get().setView();
-    }  
-    
-    @FXML
-    private void setCU05View() {
-        new CU05Controller();
-		CU05Controller.get().setView(null);
-    }
+		CU04Controller.get();
+    } 
     
     @FXML
     private void setCU06View() {
-        new CU06Controller();
-		CU06Controller.get().setView();
+		CU06Controller.get();
     } 
         
     @FXML
     private void setCU07View() {
-        new CU07Controller();
-		CU07Controller.get().setView();
+		CU07Controller01.get();
     }  
     
     @FXML
     private void setCU08View() {
-        new CU08Controller();
-		CU08Controller.get().setView();
+		CU08Controller.get();
     }   
     
     @FXML
     private void setCU09View() {
-        new CU09Controller();
-		CU09Controller.get().setView();
+		CU09Controller.get();
     }
 
     @FXML
     private void setCU10View() {
-        new CU10Controller();
-		CU10Controller.get().setView();
+		CU10Controller.get();
     }
     
     @FXML
     private void setCU11View() {
-        new CU11Controller();
-		CU11Controller.get().setView();
+		CU11Controller.get();
     }  
     
     @FXML
     private void setCU12View() {
-        new CU12Controller();
-		CU12Controller.get().setView();
+		CU12Controller.get();
     }  
     
     @FXML
     private void setCU13View() {
-        new CU13Controller();
-		CU13Controller.get().setView();
+		CU13Controller.get();
     }
     
     @FXML
     private void setCU14View() {
-        new CU14Controller();
-		CU14Controller.get().setView();
+		CU14Controller.get();
     } 
         
     @FXML
     private void setCU15View() {
-        new CU15Controller();
-		CU15Controller.get().setView();
+		CU15Controller.get();
     }  
 	
 }

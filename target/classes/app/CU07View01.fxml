@@ -13,13 +13,13 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.CU07Controller">
+<ScrollPane fitToHeight="true" fitToWidth="true" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.CU07Controller01">
    <content>
       <BorderPane>
          <center>
             <HBox alignment="CENTER" spacing="30.0" BorderPane.alignment="CENTER_LEFT">
                <children>
-                  <TableView fx:id="tabla" minWidth="400.0" onMouseClicked="#seleccionarCliente" HBox.hgrow="SOMETIMES">
+                  <TableView fx:id="tabla" minWidth="400.0" onMouseClicked="#seleccionarProveedor" HBox.hgrow="SOMETIMES">
                      <columns>
                         <TableColumn fx:id="columnaProveedor" minWidth="100.0" prefWidth="500.0" text="PROVEEDOR" />
                         <TableColumn fx:id="columnaTelefono" maxWidth="1000.0" minWidth="100.0" prefWidth="100.0" text="TELÉFONO" />
@@ -53,12 +53,12 @@
                      <children>
                         <HBox fx:id="botoneraEditar" alignment="CENTER" disable="true" maxHeight="70.0" spacing="25.0" visible="false">
                            <children>
-                              <Button fx:id="btnConfirmarEdicion" maxHeight="70.0" mnemonicParsing="false" onAction="#btnConfirmarEdicion" text="Confirmar edición">
+                              <Button maxHeight="70.0" mnemonicParsing="false" onAction="#btnConfirmarEdicion" text="Confirmar edición">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button fx:id="btnCancelarEdicion" cancelButton="true" maxHeight="70.0" mnemonicParsing="false" onAction="#btnCancelarEdicion" text="Cancelar edición">
+                              <Button maxHeight="70.0" mnemonicParsing="false" onAction="#btnCancelar" text="Cancelar edición">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -70,12 +70,12 @@
                         </HBox>
                         <HBox fx:id="botoneraAnadir" alignment="CENTER" disable="true" maxHeight="70.0" spacing="25.0" visible="false">
                            <children>
-                              <Button fx:id="btnConfirmarAdicion" maxHeight="70.0" mnemonicParsing="false" onAction="#btnConfirmarAdicion" text="Confirmar adición">
+                              <Button maxHeight="70.0" mnemonicParsing="false" onAction="#btnConfirmarAdicion" text="Confirmar adición">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button fx:id="btnCancelarAdicion" cancelButton="true" maxHeight="70.0" mnemonicParsing="false" onAction="#btnCancelarAdicion" text="Cancelar adición">
+                              <Button maxHeight="70.0" mnemonicParsing="false" onAction="#btnCancelar" text="Cancelar adición">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -87,7 +87,7 @@
                         </HBox>
                         <HBox fx:id="botoneraPrincipal" alignment="CENTER" maxHeight="70.0" spacing="25.0">
                            <children>
-                              <Button fx:id="btnAnadir" defaultButton="true" maxHeight="70.0" mnemonicParsing="false" onAction="#btnAnadir" text="Añadir proveedor">
+                              <Button maxHeight="70.0" mnemonicParsing="false" onAction="#btnAnadir" text="Añadir proveedor">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>

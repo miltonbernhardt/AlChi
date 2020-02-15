@@ -12,9 +12,7 @@ import gestor.GestorProductos;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
@@ -28,23 +26,24 @@ import javafx.stage.Stage;
  * Controller para la view de "Registro de un nuevo tipo de producto"
  */
 public class CU01Controller {
+	
+	private CU03Controller01 controllerCu03 = null;
+	public CU03Controller01 getControllerCu03() { return controllerCu03; }
+	public void setControllerCu03(CU03Controller01 controllerCu03) { this.controllerCu03 = controllerCu03; }
+	
 	private static CU01Controller instance = null;
 	private static Parent sceneAnterior = null;
 	private static String tituloAnterior = null;
 	
-    public CU01Controller() { }
-
-    public static CU01Controller get() {
-        if (instance == null){ instance = new CU01Controller(); }    
+	public static CU01Controller get() {
+        if (instance == null){
+        	sceneAnterior = App.getSceneAnterior();
+    		tituloAnterior = App.getTituloAnterior();
+        	instance = (CU01Controller) App.setRoot("CU01View", "AlChi: Registrar nuevo producto"); 
+        }    
         return instance;
     }
-	
-	public void setView() {
-		sceneAnterior = App.getSceneAnterior();
-		tituloAnterior = App.getTituloAnterior();
-		App.setRoot("CU01View", "AlChi: Registrar nuevo producto");
-	}
-	
+		
 	@FXML
 	private Button btnQuitarImagen;
 	
@@ -62,6 +61,8 @@ public class CU01Controller {
 	
 	private URI imagenPath;	
      
+    public CU01Controller() {}
+	
     @FXML
     private void initialize(){
     	setCombo();
@@ -70,7 +71,7 @@ public class CU01Controller {
     private void setCombo(){
     	categoria.getItems().clear();
     	categoria.getItems().add(new DTOCategoria(null, "Seleccionar categoría"));
-    	categoria.getItems().addAll(GestorCategoria.get().getDTOCategorias());
+    	categoria.getItems().addAll(GestorCategoria.get().getCategorias());
     	categoria.getSelectionModel().selectFirst();
     }
     
@@ -109,51 +110,31 @@ public class CU01Controller {
         		descripcionProducto = descripcionProducto.substring(0, 1).toUpperCase() + descripcionProducto.substring(1);
     		}
     		
-    		Alert alert = new Alert(AlertType.CONFIRMATION);    
-        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
-    		alert.setTitle("Confirmar producto nuevo");
-    		alert.setHeaderText("¿Desea confirmar los siguientes datos ingresados?");
-    		alert.setContentText("Categoría: "+categoria.getValue().toString()+"\n"
-    				+ "Nombre del producto: "+nombreProducto+"\n"
-    				+ "Descripción: "+descripcionProducto);
-
-    		
-    		Optional<ButtonType> result = alert.showAndWait();
+    		Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar producto nuevo", "¿Desea confirmar los siguientes datos ingresados?",
+    				"Categoría: "+categoria.getValue().toString()+"\nNombre del producto: "+nombreProducto+"\nDescripción: "+descripcionProducto); 
+    				
     		if (result.get() == ButtonType.OK){
     			DTOTipoProductoCU05 dto = new DTOTipoProductoCU05();
     			dto.setIdCategoria(categoria.getValue().getId());
     			dto.setNombreTipoProducto(nombreProducto);
     			dto.setDescripcion(descripcionProducto);
     			
-    			if(imagenPath == null) {
+    			if(imagenPath == null)
     				dto.setDirectorioImagen("");
-    			}
-    			else {
+    			else
     				dto.setDirectorioImagen(imagenPath.toString());
-    			}
     			
     			if(GestorProductos.get().agregarTipoProducto(dto)) {
-        			alert = new Alert(AlertType.INFORMATION);
-        			stage = (Stage) alert.getDialogPane().getScene().getWindow();
-                	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
-                    alert.setTitle("Confirmación");
-                    alert.setHeaderText(null);
-                    alert.setContentText("El producto '"+nombreProducto+"' fue correctamente guardado.");
-                    alert.showAndWait();  
-                    
+    				PanelAlerta.getInformation("Confirmación", null, "El producto '"+nombreProducto+"' fue correctamente guardado.");
+    				if(controllerCu03 != null) {
+    					controllerCu03.setearTipoProducto(dto.getIdProducto(), dto.getNombreTipoProducto());
+    				}
                     volver();
     			}
     		}    		
     	}
     	else {
-    		Alert alert = new Alert(AlertType.ERROR);
-    		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
-    		alert.setTitle("Aviso");
-    		alert.setHeaderText(null);
-    		alert.setContentText(cadenaError);
-    		alert.showAndWait();
+    		PanelAlerta.getError("Aviso", null, cadenaError);
     	}
     }
     
@@ -183,6 +164,8 @@ public class CU01Controller {
     @FXML
     private void volver() {
     	App.setRoot(sceneAnterior, tituloAnterior); 
+    	sceneAnterior = null;
+    	tituloAnterior = null;
     	instance = null;
 	}
 }

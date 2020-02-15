@@ -13,12 +13,10 @@ import gestor.GestorProductos;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,22 +34,15 @@ public class CU05Controller {
     public CU05Controller() { }
 
     public static CU05Controller get() {
-        if (instance == null){ instance = new CU05Controller(); }    
+        if (instance == null){ 
+        	sceneAnterior = App.getSceneAnterior();
+    		tituloAnterior = App.getTituloAnterior();
+        	instance = (CU05Controller) App.setRoot("CU05View", "AlChi: Actualización de características de productos");
+        }    
         return instance;
     }
 	
-	public void setView(Integer idTipoProducto) {
-		sceneAnterior = App.getSceneAnterior();
-		tituloAnterior = App.getTituloAnterior();
-
-		
-		App.setRoot("CU05View", "AlChi: Actualización de características de productos");
-		
-		if(idTipoProducto != null) {
-			//setProducto(idTipoProducto);
-			//TODO CU05 solucionar esto
-		}
-	}
+	public Integer idTipoProducto = null;
 	
 	private DTOTipoProductoCU05 dto = null;
 	
@@ -80,29 +71,16 @@ public class CU05Controller {
      
     @FXML
     private void initialize(){    	
-    	setCombo();
-    	
-    	categoria.getSelectionModel().clearSelection();
-    	
-    	Object o = App.getObjectScene();
-    	
-    	Integer i = 0;
-    	
-    	if(o.getClass().isInstance(i)) {
-    		//TODO CU05 tratar de cambiar
-    		setProducto((Integer)App.getObjectScene());
-    	}
-    	
+    	setCombo();    	
     }
 
     private void setCombo(){
     	categoria.getItems().clear();
     	categoria.getItems().add(new DTOCategoria(null, "Seleccionar categoría"));
-    	categoria.getItems().addAll(GestorCategoria.get().getDTOCategorias());    	
+    	categoria.getItems().addAll(GestorCategoria.get().getCategorias());    	
     }    
 
-
-	private void setProducto(Integer idTipoProducto) {
+	public void setProducto(Integer idTipoProducto) {
 		dto = GestorProductos.get().getTipoProducto(idTipoProducto);		
 		
 		categoria.getSelectionModel().clearSelection();
@@ -142,8 +120,7 @@ public class CU05Controller {
     		cadenaError += nroCampo.toString()+") Nombre.\n";
     		nroCampo++;
     		completoNombre = false;
-    	}  
-    	
+    	}      	
     	
     	if(descripcion.getText().isBlank()) {
     		completoDescripcion = false;
@@ -158,49 +135,29 @@ public class CU05Controller {
         		descripcionProducto = descripcionProducto.substring(0, 1).toUpperCase() + descripcionProducto.substring(1);    			
     		}
     		
-    		Alert alert = new Alert(AlertType.CONFIRMATION);   
-    		alert.setTitle("Confirmar producto nuevo");
-    		alert.setHeaderText("¿Desea confirmar los siguientes datos ingresados?");
-    		alert.setContentText("Categoría: "+categoria.getValue().toString()+"\n"
+    		Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar producto nuevo", "¿Desea confirmar los siguientes datos ingresados?",
+    				  "Categoría: "+categoria.getValue().toString()+"\n"
     				+ "Nombre del producto: "+nombreProducto+"\n"
     				+ "Descripción: "+descripcionProducto);
-    		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
     		
-    		Optional<ButtonType> result = alert.showAndWait();
     		if (result.get() == ButtonType.OK){ 
     			dto.setIdCategoria(categoria.getValue().getId());
     			dto.setNombreTipoProducto(nombreProducto);
     			dto.setDescripcion(descripcionProducto);
-    			if(imagenPath == null) {
+    			if(imagenPath == null) 
     				dto.setDirectorioImagen("");
-    			}
-    			else {
-    				dto.setDirectorioImagen(imagenPath.toString());
-    			}
-    			
+    			else
+    				dto.setDirectorioImagen(imagenPath.toString());    			 			
     			
     			if(GestorProductos.get().updateTipoProducto(dto)) {
-        			alert = new Alert(AlertType.INFORMATION);
-        			stage = (Stage) alert.getDialogPane().getScene().getWindow();
-                	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
-                    alert.setTitle("Confirmación");
-                    alert.setHeaderText(null);
-                    alert.setContentText("El producto '"+nombreProducto+"' fue correctamente actualizado.");
-                    alert.showAndWait();  
-                    
+    				PanelAlerta.getInformation("Confirmación", null, "El producto '"+nombreProducto+"' fue correctamente actualizado.");
+    				CU02Controller.get().actualizarProductoEditado(dto.getIdProducto());
                     volver();
     			}
     		}    		
     	}
     	else {
-    		Alert alert = new Alert(AlertType.ERROR);
-    		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
-    		alert.setTitle("Aviso");
-    		alert.setHeaderText(null);
-    		alert.setContentText(cadenaError);
-    		alert.showAndWait();
+    		PanelAlerta.getError("Aviso", null, cadenaError);
     	}
     }
     
@@ -231,5 +188,7 @@ public class CU05Controller {
     private void volver() {
     	App.setRoot(sceneAnterior, tituloAnterior); 
     	instance = null;
+    	tituloAnterior = null;
+    	sceneAnterior = null;
 	}
 }

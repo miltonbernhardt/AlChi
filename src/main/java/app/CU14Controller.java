@@ -11,22 +11,19 @@ import javafx.scene.control.TextField;
  * Controller para la view de "Buscar combos"
  */
 public class CU14Controller {
+	
 	private static CU14Controller instance = null;
 	private static Parent sceneAnterior = null;
 	private static String tituloAnterior = null;
-	
-    public CU14Controller() { }
 
     public static CU14Controller get() {
-        if (instance == null){ instance = new CU14Controller(); }    
+        if (instance == null){ 
+        	sceneAnterior = App.getSceneAnterior();
+    		tituloAnterior = App.getTituloAnterior();	
+        	instance = (CU14Controller) App.setRoot("CU14View", "AlChi: Buscar combos");
+        }    
         return instance;
     }
-	
-	public void setView() {
-		sceneAnterior = App.getSceneAnterior();
-		tituloAnterior = App.getTituloAnterior();	
-		App.setRoot("CU14View", "AlChi: Buscar combos");
-	}
 	
 	@FXML
 	private DatePicker fechaAntes;
@@ -43,6 +40,8 @@ public class CU14Controller {
 	@FXML
 	private TableView<TipoProducto> tabla;
     
+    public CU14Controller() { }
+	
     @FXML
     private void initialize(){
     	
@@ -57,5 +56,7 @@ public class CU14Controller {
     private void volver() {
     	App.setRoot(sceneAnterior, tituloAnterior); 
     	instance = null;
+    	tituloAnterior = null;
+    	sceneAnterior = null;
 	}
 }

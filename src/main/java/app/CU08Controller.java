@@ -1,8 +1,10 @@
 package app;
 
-import entity.Categoria;
+import dto.DTOCategoria;
+import dto.DTOProveedor;
 import entity.ProductoInicial;
-import entity.Proveedor;
+import gestor.GestorCategoria;
+import gestor.GestorProveedor;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
@@ -16,25 +18,22 @@ import javafx.scene.control.TextField;
  * Controller para la view de "Búsqueda de productos en stock"
  */
 public class CU08Controller {
+	
 	private static CU08Controller instance = null;
 	private static Parent sceneAnterior = null;
 	private static String tituloAnterior = null;
-	
-    public CU08Controller() { }
 
     public static CU08Controller get() {
-        if (instance == null){ instance = new CU08Controller(); }    
+        if (instance == null){ 
+    		sceneAnterior = App.getSceneAnterior();
+    		tituloAnterior = App.getTituloAnterior();
+        	instance = (CU08Controller) App.setRoot("CU08View", "AlChi: Búsqueda de productos en stock");
+        }    
         return instance;
     }
 	
-	public void setView() {
-		sceneAnterior = App.getSceneAnterior();
-		tituloAnterior = App.getTituloAnterior();
-		App.setRoot("CU08View", "AlChi: Búsqueda de productos en stock");
-	}
-	
 	@FXML
-	private ComboBox<Categoria> categoria;
+	private ComboBox<DTOCategoria> categoria;
 		
 	@FXML
 	private TextField codigoBarra;
@@ -43,7 +42,7 @@ public class CU08Controller {
 	private TextField nombre;
 	
 	@FXML
-	private ComboBox<Proveedor> proveedores;
+	private ComboBox<DTOProveedor> proveedores;
 	
 	@FXML
 	private DatePicker fechaAntes;
@@ -60,11 +59,25 @@ public class CU08Controller {
 	@FXML
 	private TableColumn<?, ?> categoria2;
     
+    public CU08Controller() { }
+	
     @FXML
     private void initialize(){
-    	
-    }
+    	setCombos();
+    }    
 	 
+	private void setCombos() {
+    	categoria.getItems().clear();
+    	categoria.getItems().add(new DTOCategoria(null, "Seleccionar categoría"));
+    	categoria.getItems().addAll(GestorCategoria.get().getCategorias());
+    	categoria.getSelectionModel().selectFirst();
+    	
+    	proveedores.getItems().clear();
+    	proveedores.getItems().add(new DTOProveedor("Seleccionar proveedor"));
+    	proveedores.getItems().addAll(GestorProveedor.get().getProveedores());
+    	proveedores.getSelectionModel().selectFirst();
+	}
+
 	@FXML
 	private void btnBuscar() {
 		
@@ -73,6 +86,8 @@ public class CU08Controller {
     @FXML
     private void volver() {
     	App.setRoot(sceneAnterior, tituloAnterior); 
+    	instance = null;
+    	tituloAnterior = null;
     	instance = null;
 	}
 }

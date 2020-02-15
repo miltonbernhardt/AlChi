@@ -53,7 +53,7 @@
                         <Label text="Precio de venta sugerido ($):" />
                         <TextField fx:id="precioVenta" alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minWidth="60.0" prefHeight="30.0" prefWidth="40.0" promptText="0,00" />
                         <Pane HBox.hgrow="SOMETIMES" />
-                        <Button defaultButton="true" mnemonicParsing="false" onAction="#btnConfirmarCombo" text="Confirmar combo">
+                        <Button mnemonicParsing="false" onAction="#btnConfirmarCombo" text="Confirmar combo">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

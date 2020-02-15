@@ -21,15 +21,13 @@ public class CU04Controller {
     public CU04Controller() { }
 
     public static CU04Controller get() {
-        if (instance == null){ instance = new CU04Controller(); }    
+        if (instance == null){
+        	sceneAnterior = App.getSceneAnterior();
+    		tituloAnterior = App.getTituloAnterior();
+    		instance = (CU04Controller) App.setRoot("CU04View", "AlChi: Registro de salida de productos");
+    	}    
         return instance;
     }
-	
-	public void setView() {
-		sceneAnterior = App.getSceneAnterior();
-		tituloAnterior = App.getTituloAnterior();
-		App.setRoot("CU04View", "AlChi: Registro de salida de productos");
-	}
 	
 	@FXML
 	private ComboBox<TipoProducto> producto;
@@ -66,10 +64,8 @@ public class CU04Controller {
 	
     @FXML
     private void btnAnadirCombo() {
-        new CU06Controller();
-        CU06Controller.get().setView();
+        CU06Controller.get();
 	}
-	
 	
     @FXML
     private void btnEliminarVenta() {
@@ -95,5 +91,7 @@ public class CU04Controller {
     private void volver() {
     	App.setRoot(sceneAnterior, tituloAnterior); 
     	instance = null;
+    	tituloAnterior = null;
+    	sceneAnterior = null;
 	}
 }

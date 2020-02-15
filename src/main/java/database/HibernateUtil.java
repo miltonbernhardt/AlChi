@@ -37,6 +37,11 @@ public class HibernateUtil {
 		}
 	}	
 	
+	public static void closeBaseDatos() {
+		registry.close();
+		sessionFactory.close();
+	}	
+	
 	public static void apagarLog(Boolean apagamos) {	
 		if(apagamos) {
 	    	Logger log = Logger.getLogger("org.hibernate");

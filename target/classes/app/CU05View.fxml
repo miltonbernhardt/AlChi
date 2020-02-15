@@ -23,7 +23,7 @@
          <bottom>
             <HBox alignment="CENTER" maxHeight="70.0" spacing="25.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="btnActualizar" defaultButton="true" disable="true" maxHeight="70.0" mnemonicParsing="false" onAction="#btnActualizar" text="Actualizar">
+                  <Button fx:id="btnActualizar" maxHeight="70.0" mnemonicParsing="false" onAction="#btnActualizar" text="Actualizar">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
