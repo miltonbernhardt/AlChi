@@ -48,6 +48,4 @@ public class HibernateUtil {
 			log.setLevel(Level.OFF); 
 		}
 	}
-	
-	//TODO hibernate: cerrar la conexion una vez cerrado el programa
 }

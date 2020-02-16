@@ -40,32 +40,19 @@ public class CU07Controller01 {
 	
 	private DTOProveedor proveedorSeleccionado = null;
 	
-	@FXML
-	private HBox botoneraPrincipal; 
+	@FXML private HBox botoneraPrincipal; 	
+	@FXML private HBox botoneraAnadir; 	
+	@FXML private HBox botoneraEditar; 
 	
-	@FXML
-	private HBox botoneraAnadir; 
+	@FXML private Button btnEditar;
 	
-	@FXML
-	private HBox botoneraEditar; 
+	@FXML private TextField nombre;	
+	@FXML private TextField telefono;
 	
-	@FXML
-	private Button btnEditar;
+	@FXML private TableView<DTOProveedor> tabla;
 	
-	@FXML
-	private TextField nombre;
-	
-	@FXML
-	private TextField telefono;
-	
-	@FXML
-	private TableView<DTOProveedor> tabla;
-	
-	@FXML
-	private TableColumn<DTOProveedor, String> columnaProveedor;
-	
-	@FXML
-	private TableColumn<DTOProveedor, String> columnaTelefono;
+	@FXML private TableColumn<DTOProveedor, String> columnaProveedor;	
+	@FXML private TableColumn<DTOProveedor, String> columnaTelefono;
     
     public CU07Controller01() { }
 	
@@ -90,8 +77,7 @@ public class CU07Controller01 {
     	}
     }
     
-	@FXML
-	private void btnEditar() {
+	@FXML private void btnEditar() {
 		if(proveedorSeleccionado != null) {
 			nombre.setText(proveedorSeleccionado.getNombre());
 			telefono.setText(proveedorSeleccionado.getNumeroTelefono());
@@ -105,8 +91,7 @@ public class CU07Controller01 {
 		}		
 	}
 	
-	@FXML
-	private void btnConfirmarEdicion() {
+	@FXML private void btnConfirmarEdicion() {
 		String nombreP = nombre.getText(), telefonoP = telefono.getText();
 		if(!nombreP.isBlank()) {
 			
@@ -155,7 +140,7 @@ public class CU07Controller01 {
 		}
 		else {
 			String cadena = "";
-			//TODO CU07 cambiar color al equivocarse
+			//TODO ZZZ cambiar color al equivocarse       
 			if(proveedorSeleccionado == null) {
 				cadena = "Debe seleccionar un proveedor a editar.";
 			}
@@ -173,8 +158,7 @@ public class CU07Controller01 {
 		}
 	}
 	
-	@FXML
-	private void btnAnadir() {
+	@FXML private void btnAnadir() {
 		nombre.setDisable(false);
 		telefono.setDisable(false);
 		nombre.clear();
@@ -186,8 +170,7 @@ public class CU07Controller01 {
 		botoneraAnadir.setVisible(true);	
 	}
 	
-	@FXML
-	private void btnConfirmarAdicion() {
+	@FXML private void btnConfirmarAdicion() {
 		String nombreP = nombre.getText(), telefonoP = telefono.getText();
 		if(!nombreP.isBlank()) {
 			
@@ -237,7 +220,7 @@ public class CU07Controller01 {
     		} 
 		}
 		else {
-			//TODO CU cambiar color al equivocarse
+			//TODO ZZZ cambiar color al equivocarse       
 			Alert alert = new Alert(AlertType.ERROR);
 			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
@@ -248,8 +231,7 @@ public class CU07Controller01 {
 		}
 	}
 	
-	@FXML
-	private void btnCancelar() {
+	@FXML private void btnCancelar() {
 		nombre.setDisable(true);
 		telefono.setDisable(true);
 		tabla.setDisable(false);
@@ -259,8 +241,7 @@ public class CU07Controller01 {
 		botoneraAnadir.setVisible(false);	
 	}	
 	
-	@FXML
-	private void seleccionarProveedor() {
+	@FXML private void seleccionarProveedor() {
 		proveedorSeleccionado = tabla.getSelectionModel().getSelectedItem();
 		if(proveedorSeleccionado != null) {
 			btnEditar.setDisable(false);
@@ -269,13 +250,11 @@ public class CU07Controller01 {
 		}		
 	}
 	
-	@FXML
-	private void listenerTelefono() {
+	@FXML private void listenerTelefono() {
 		//TODO CU07 implementar
 	}
 	
-    @FXML
-    private void volver() {
+    @FXML private void volver() {
     	App.setRoot(sceneAnterior, tituloAnterior); 
     	instance = null;
     	tituloAnterior = null;

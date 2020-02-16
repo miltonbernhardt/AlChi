@@ -108,7 +108,7 @@ public class CU05Controller {
     	Integer nroCampo = 1;
     	
     	/**
-    	 * TODO CU05 cambiar color al equivocarse
+    	 * TODO ZZZ cambiar color al equivocarse       
     	 */
     	if(categoria.getValue().getId() == null) {
     		cadenaError += nroCampo.toString()+") Categoría.\n";

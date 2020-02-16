@@ -99,8 +99,6 @@ public class CU02Controller {
     	        if (event.getClickCount() == 2 && (! fila.isEmpty()) && productoSeleccionado != null ) {
     	        	@SuppressWarnings("unused")
 					DTOTipoProductoCU02 dto = fila.getItem();    
-    	        	//TODO CU02 si lo tengo que retornar al producto buscado
-    	        	//Agregar que cuando se pase el mouse encima se avise de la posible accion
     	        }
     	    });
     	    return fila ;

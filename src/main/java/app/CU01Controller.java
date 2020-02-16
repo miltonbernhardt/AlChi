@@ -82,7 +82,7 @@ public class CU01Controller {
     	Integer nroCampo = 1;
     	
     	/**
-    	 * TODO CU01 cambiar color al equivocarse
+    	 * TODO ZZZ cambiar color al equivocarse       
     	 */
     	if(categoria.getValue().getId() == null) {
     		cadenaError += nroCampo.toString()+") Categoría.\n";

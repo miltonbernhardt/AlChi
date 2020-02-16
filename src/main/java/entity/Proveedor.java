@@ -21,7 +21,7 @@ public class Proveedor {
 	@Column(nullable = false)
 	private String nombre;
 	
-	@Column //TODO Entity ver
+	@Column
 	private String numeroTelefono;
 	
 	public Proveedor() { }

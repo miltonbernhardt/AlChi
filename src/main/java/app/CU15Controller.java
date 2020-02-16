@@ -138,7 +138,7 @@ public class CU15Controller {
 		}
 		else {
 			String cadena = "";
-			//TODO CU07 cambiar color al equivocarse
+			//TODO ZZZ cambiar color al equivocarse       
 			if(categoriaSeleccionada == null) {
 				cadena = "Debe seleccionar una categoría a editar.";
 			}
@@ -208,7 +208,7 @@ public class CU15Controller {
     		} 
 		}
 		else {
-			//TODO CU07 cambiar color al equivocarse
+			//TODO ZZZ cambiar color al equivocarse       
 			Alert alert = new Alert(AlertType.ERROR);
 			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
