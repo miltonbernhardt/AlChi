@@ -21,6 +21,10 @@ public class DTOTipoProductoCU05 {
 		this.directorioImagen = directorioImagen;
 	}
 
+	public DTOTipoProductoCU05(String string) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Integer getIdCategoria() { return idCategoria; }
 	public String getNombreCategoria() { return nombreCategoria; }
 	public Integer getIdProducto() { return idProducto; }

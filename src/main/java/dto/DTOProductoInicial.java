@@ -3,13 +3,11 @@ package dto;
 import java.time.LocalDate;
 
 public class DTOProductoInicial {
-
-	private Integer idTipoProducto;	
-	private String nombreTipoProducto;	
-	private Integer idProveedor;
-	private String nombreProveedor;
 	private Integer idProductoInicial;
-	private Integer nombreProductoInicial;
+	private String nombreCategoria;
+
+	private String nombreTipoProducto;	
+	private String nombreProveedor;
 	private Float precioComprado;	
 	private Float cantidadNoVendida;
 	private LocalDate vencimiento;
@@ -20,7 +18,10 @@ public class DTOProductoInicial {
 	private Float precio500;	
 	private Float precio1000;	
 	private Float precio2000;	
-	private Float precioUnidad;		
+	private Float precioUnidad;	
+
+	private DTOProveedor proveedor;
+	private DTOTipoProductoCU02 tipoProducto;
 
 	public DTOProductoInicial() {
 		precio100 = 0f;	
@@ -30,13 +31,28 @@ public class DTOProductoInicial {
 		precio2000 = 0f;	
 		precioUnidad = 0f;	
 	}
+	
+	public DTOProductoInicial(DTOProductoInicial dto) {
+		nombreTipoProducto = dto.getNombreTipoProducto();
+		nombreProveedor = dto.getNombreProveedor();	
+		precioComprado = dto.getPrecioCompradoF();	
+		cantidadNoVendida = dto.getCantidadNoVendidaF();	
+		vencimiento = dto.getVencimiento();	
+		codigoBarra = dto.getCodigoBarra();	
+		precio100 = dto.getPrecio100F();	
+		precio250 = dto.getPrecio250F();	
+		precio500 = dto.getPrecio500F();	
+		precio1000 = dto.getPrecio1000F();	
+		precio2000 = dto.getPrecio2000F();		
+		precioUnidad = dto.getPrecioUnidadF();	
+		proveedor = dto.getProveedor();
+		tipoProducto = dto.getTipoProducto();
+	}
 
-	public Integer getIdTipoProducto() { return idTipoProducto; }
+	public String getNombreCategoria() { return nombreCategoria; }
 	public String getNombreTipoProducto() { return nombreTipoProducto; }
-	public Integer getIdProveedor() { return idProveedor; }
 	public String getNombreProveedor() { return nombreProveedor; }
 	public Integer getIdProductoInicial() { return idProductoInicial; }
-	public Integer getNombreProductoInicial() { return nombreProductoInicial; }
 	public LocalDate getVencimiento() { return vencimiento; }
 	public String getCodigoBarra() { return codigoBarra; }
 	public Float getPrecioCompradoF() { return precioComprado; }
@@ -47,6 +63,8 @@ public class DTOProductoInicial {
 	public Float getPrecio1000F() { return precio1000; }
 	public Float getPrecio2000F() { 	return precio2000; }
 	public Float getPrecioUnidadF() { return precioUnidad; }
+	public DTOProveedor getProveedor() { return proveedor; }
+	public DTOTipoProductoCU02 getTipoProducto() { return tipoProducto; }
 	
 	public String getPrecioComprado() { return precioComprado.toString()+" $"; }
 	public String getCantidadNoVendida() { return cantidadNoVendida.toString()+" $"; }
@@ -56,13 +74,9 @@ public class DTOProductoInicial {
 	public String getPrecio1000() { return precio1000.toString()+" $"; }
 	public String getPrecio2000() { 	return precio2000.toString()+" $"; }
 	public String getPrecioUnidad() { return precioUnidad.toString()+" $"; }
-	
-	public void setIdTipoProducto(Integer idTipoProducto) { this.idTipoProducto = idTipoProducto; }
-	public void setNombreTipoProducto(String nombreTipoProducto) { this.nombreTipoProducto = nombreTipoProducto; }
-	public void setIdProveedor(Integer idProveedor) { this.idProveedor = idProveedor; }
-	public void setNombreProveedor(String nombreProveedor) { this.nombreProveedor = nombreProveedor; }
+
+	public void setNombreCategoria(String nombreCategoria) { this.nombreCategoria = nombreCategoria; }
 	public void setIdProductoInicial(Integer idProductoInicial) { this.idProductoInicial = idProductoInicial; }
-	public void setNombreProductoInicial(Integer nombreProductoInicial) { this.nombreProductoInicial = nombreProductoInicial; }
 	public void setPrecioComprado(Float precioComprado) { this.precioComprado = precioComprado; }
 	public void setCantidadNoVendida(Float cantidadNoVendida) { this.cantidadNoVendida = cantidadNoVendida; }
 	public void setVencimiento(LocalDate vencimiento) { this.vencimiento = vencimiento; }
@@ -73,4 +87,43 @@ public class DTOProductoInicial {
 	public void setPrecio1000(Float precio1000) { this.precio1000 = precio1000; }
 	public void setPrecio2000(Float precio2000) { this.precio2000 = precio2000; }
 	public void setPrecioUnidad(Float precioUnidad) { this.precioUnidad = precioUnidad; }	
+	
+	public void setProveedor(DTOProveedor proveedor) {
+		this.proveedor = proveedor;
+		this.nombreProveedor = proveedor.getNombre();
+	}
+
+	public void setTipoProducto(DTOTipoProductoCU02 tipoProducto) {
+		this.tipoProducto = tipoProducto;
+		this.nombreTipoProducto = tipoProducto.getNombreTipoProducto();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((tipoProducto == null) ? 0 : tipoProducto.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		if (this == obj)
+			return true;		
+		
+		DTOProductoInicial other = (DTOProductoInicial) obj;
+		if (tipoProducto.getIdProducto() == null) {
+			if (other.tipoProducto.getIdProducto() != null)
+				return false;
+		} 
+		else 
+			if (!tipoProducto.getIdProducto().equals(other.tipoProducto.getIdProducto()))
+				return false;
+		return true;
+	}	
+	
 }

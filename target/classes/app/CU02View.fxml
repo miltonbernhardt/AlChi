@@ -111,6 +111,7 @@
                   <TableColumn fx:id="columnaCategoria" maxWidth="1000.0" minWidth="100.0" prefWidth="150.0" text="Categoría" />
                   <TableColumn fx:id="columnaNombre" minWidth="100.0" prefWidth="185.0" text="Nombre" />
                   <TableColumn fx:id="columnaEnVenta" maxWidth="300.0" minWidth="80.0" prefWidth="100.0" text="En venta" />
+                  <TableColumn fx:id="columnaTieneImagen" maxWidth="300.0" minWidth="80.0" prefWidth="100.0" text="Tiene imágen" />
                   <TableColumn fx:id="columnaPrecio100" maxWidth="500.0" minWidth="100.0" prefWidth="120.0" text="Precio 100g" />
                   <TableColumn fx:id="columnaPrecio250" maxWidth="500.0" minWidth="100.0" prefWidth="120.0" text="Precio 250g" />
                   <TableColumn fx:id="columnaPrecio500" maxWidth="500.0" minWidth="100.0" prefWidth="120.0" text="Precio 500g" />

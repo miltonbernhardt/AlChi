@@ -10,8 +10,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -45,21 +45,8 @@ public class CU03Controller01 {
 	@FXML private DatePicker vencimiento;
 	
 	@FXML private TextField precioCompra;	
-	@FXML private TextField cantidad;	
-	@FXML private TextField precio100;	
-	@FXML private TextField precio250;	
-	@FXML private TextField precio500;	
-	@FXML private TextField precio1000;	
-	@FXML private TextField precio2000;	
-	@FXML private TextField precioUnidad;
-	@FXML private TextField codigoBarra;	
-	
-	@FXML private CheckBox checkPrecio100;	
-	@FXML private CheckBox checkPrecio250;	
-	@FXML private CheckBox checkPrecio500;	
-	@FXML private CheckBox checkPrecio1000;	
-	@FXML private CheckBox checkPrecio2000;	
-	@FXML private CheckBox checkPrecioUnidad;	
+	@FXML private TextField cantidad;
+	@FXML private TextField codigoBarra;
 	
 	@FXML private Button btnEliminarFila;	
 	@FXML private Button btnDuplicarFila;	
@@ -73,12 +60,9 @@ public class CU03Controller01 {
 	@FXML private TableColumn<DTOProductoInicial, LocalDate> columnaVencimiento;
 	@FXML private TableColumn<DTOProductoInicial, String> columnaCantidad;	
 	@FXML private TableColumn<DTOProductoInicial, Float> columnaPCompra;
-	@FXML private TableColumn<DTOProductoInicial, Float> columnaP100;	
-	@FXML private TableColumn<DTOProductoInicial, Float> columnaP250;
-	@FXML private TableColumn<DTOProductoInicial, Float> columnaP500;	
-	@FXML private TableColumn<DTOProductoInicial, Float> columnaP1000;
-	@FXML private TableColumn<DTOProductoInicial, Float> columnaP2000;	
-	@FXML private TableColumn<DTOProductoInicial, Float> columnaPUnidad;
+
+	
+	private DTOProductoInicial productoSeleccionado = null;
     
 	public CU03Controller01() {	}
 	
@@ -87,12 +71,22 @@ public class CU03Controller01 {
     	iniciarTabla();
     	iniciarCalendario();  
     	inicializarListenerCampos();
+    	
+    	//PRUEBA
+    	productos.getSelectionModel().select(1);
+    	proveedores.getSelectionModel().select(1);
+    	
+		vencimiento.setValue(LocalDate.now());;
+		precioCompra.setText("2000");	
+		cantidad.setText("2");	
+		codigoBarra.setText("9827378962834");
+    	
     }
     
     private void setCombos() {
     	productos.getItems().clear();
     	productos.getItems().add(new DTOTipoProductoCU02("Seleccionar producto"));
-    	productos.getItems().addAll(GestorProductos.get().getTiposProductosCu02());
+    	productos.getItems().addAll(GestorProductos.get().buscarTiposProductos(null, null, null));
     	productos.getSelectionModel().selectFirst();
     	
     	proveedores.getItems().clear();
@@ -109,27 +103,20 @@ public class CU03Controller01 {
     	columnaVencimiento.setCellValueFactory(new PropertyValueFactory<>("vencimiento"));
     	columnaCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidadNoVendida"));
     	columnaPCompra.setCellValueFactory(new PropertyValueFactory<>("precioComprado"));
-    	columnaP100.setCellValueFactory(new PropertyValueFactory<>("precio100"));
-    	columnaP250.setCellValueFactory(new PropertyValueFactory<>("precio250"));
-    	columnaP500.setCellValueFactory(new PropertyValueFactory<>("precio500"));
-    	columnaP1000.setCellValueFactory(new PropertyValueFactory<>("precio1000"));
-    	columnaP2000.setCellValueFactory(new PropertyValueFactory<>("precio2000"));
-    	columnaPUnidad.setCellValueFactory(new PropertyValueFactory<>("precioUnidad"));
     }
     
     private void inicializarListenerCampos() {
     	precioCompra.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-            if (!newValue) { //when focus lost
-                if(!precioCompra.getText().matches("\\d*?[[.]\\d*]")){
-                	
-                    //when it not matches the pattern (1.0 - 6.0)
-                    //set the textField empty
-                	precioCompra.setText("");
-                }
+            if (!newValue) { 
+            	precioCompra.setText(precioCompra.getText().replace(',', '.'));
             }
-
-        }); 	
+        }); 
     	
+    	cantidad.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { 
+            	cantidad.setText(cantidad.getText().replace(',', '.'));
+            }
+        });  
     	
     	precioCompra.addEventHandler(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
 			@Override public void handle(KeyEvent e) { validarCampos(e); }
@@ -138,34 +125,25 @@ public class CU03Controller01 {
     	cantidad.addEventHandler(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
 			@Override public void handle(KeyEvent e) { validarCampos(e); }
     	});
-    	
-    	precio100.addEventHandler(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
-			@Override public void handle(KeyEvent e) { validarCampos(e); }
-    	});
-    	
-    	precio250.addEventHandler(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
-			@Override public void handle(KeyEvent e) { validarCampos(e); }
-    	});
-    	
-    	precio500.addEventHandler(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
-			@Override public void handle(KeyEvent e) { validarCampos(e); }
-    	});
-    	
-    	precio1000.addEventHandler(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
-			@Override public void handle(KeyEvent e) { validarCampos(e); }
-    	});
-    	
-    	precio2000.addEventHandler(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
-			@Override public void handle(KeyEvent e) { validarCampos(e); }
-    	});
-    	
-    	precioUnidad.addEventHandler(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
-			@Override public void handle(KeyEvent e) { validarCampos(e); }
-    	});
     }
     
-    private void iniciarCalendario() {
-    	//TODO CU03-1 inicializar calendario en fecha actual
+    private void iniciarCalendario() {   	
+    	LocalDate minDate = LocalDate.now();    	
+    	vencimiento.setDayCellFactory(d -> new DateCell() {
+    		@Override
+    		public void updateItem(LocalDate item, boolean empty) {
+    			super.updateItem(item, empty);
+    	        setDisable(item.isBefore(minDate));
+    	}});
+    }
+    
+    private void setearCamposNull() {
+    	productos.getSelectionModel().selectFirst();
+    	proveedores.getSelectionModel().selectFirst();
+		vencimiento.setValue(null);
+		precioCompra.setText("");	
+		cantidad.setText("");	
+		codigoBarra.setText("");	
     }
     
     @FXML private void btnAgregarTipoProducto() {
@@ -176,9 +154,9 @@ public class CU03Controller01 {
     	CU07Controller02.get();
     }
     
-    @FXML private void btnAnadirProducto() {    	
+    @FXML private void btnAnadirProducto() {
     	Boolean seleccionProveedor = true, seleccionProducto = true, completoPrecio = true, completoCantidad = true, completoCodigoBarra= true, seleccionoVencimiento = true;
-    	String cadenaError = "Debe determinar los siguientes campos para registrar la entrada de productos:\n";
+    	String cadenaError = "Debe determinar los siguientes campos para poder registrar la entrada de productos:\n";
     	Integer nroCampo = 1;
     	
     	if(proveedores.getValue().getId() == null) {
@@ -186,7 +164,7 @@ public class CU03Controller01 {
     		nroCampo++;
     		seleccionProveedor = false;
     	}
-    	
+
     	if(productos.getValue().getIdProducto() == null) {
     		cadenaError += nroCampo.toString()+") Producto.\n";
     		nroCampo++;
@@ -211,32 +189,26 @@ public class CU03Controller01 {
     		completoCodigoBarra = false;
     	} 
     	
-    	/*if(vencimiento.getConverter().LocalDate.now()) {
+    	if(vencimiento.getValue() == null) {
     		cadenaError += nroCampo.toString()+") Vencimiento.\n";
     		seleccionoVencimiento = false;
-    	} TODO CU03-1 hacer condición de fecha para el vencimiento 
-    	*/ 
-    	
+    	}  
     	
     	if(seleccionProveedor && seleccionProducto && completoPrecio && completoCantidad && completoCodigoBarra && seleccionoVencimiento) {
-    		DTOProductoInicial dto = new DTOProductoInicial();
-    		
-    		dto.setIdTipoProducto(proveedores.getValue().getId());
-    		dto.setNombreTipoProducto(proveedores.getValue().getNombre());
-    		
-    		dto.setIdTipoProducto(productos.getValue().getIdProducto());
-    		dto.setNombreTipoProducto(productos.getValue().getNombreTipoProducto());
+    		DTOProductoInicial dto = new DTOProductoInicial();    		
+    		dto.setProveedor(proveedores.getValue());
+    		dto.setTipoProducto(productos.getValue());
+    		dto.setNombreCategoria(productos.getValue().getNombreCategoria());
     		
     		dto.setPrecioComprado(Float.valueOf(precioCompra.getText()));
-    		dto.setCantidadNoVendida(Float.valueOf(cantidad.getText()));
+    		dto.setCantidadNoVendida(Float.valueOf(cantidad.getText()));    
     		
     		dto.setCodigoBarra(codigoBarra.getText());
+    		dto.setVencimiento(vencimiento.getValue());
     		
-    		//TODO CU03-1 cambiar
-    		dto.setVencimiento(LocalDate.now());
+    		tabla.getItems().add(dto);
     		
-    		tabla.getItems().add(dto);	
-    		  		
+    		//setearCamposNull(); TODO CU03.1 descomentar
     	}
     	else {
         	// TODO ZZZ cambiar color al equivocarse              	
@@ -245,19 +217,56 @@ public class CU03Controller01 {
     }
     
     @FXML private void btnEliminarFila() {
-
+    	if(productoSeleccionado != null) {
+    		tabla.getItems().remove(productoSeleccionado);
+    		productoSeleccionado = null;    		
+    		btnEliminarFila.setDisable(true);
+    		btnDuplicarFila.setDisable(true);
+    		btnEditarFila.setDisable(true);
+    		tabla.getSelectionModel().clearSelection();
+		}
+    	else {
+    		PanelAlerta.getError("Aviso", null, "Se debe elegir un producto de la tabla para poder eliminarlo.");
+    	}    	
     }
     
     @FXML private void btnEditarFila() {
-
+    	if(productoSeleccionado != null) {    		
+        	productos.getSelectionModel().select(productoSeleccionado.getTipoProducto());
+        	proveedores.getSelectionModel().select(productoSeleccionado.getProveedor());
+        	
+    		vencimiento.setValue(productoSeleccionado.getVencimiento());
+    		precioCompra.setText(productoSeleccionado.getPrecioCompradoF().toString());	
+    		cantidad.setText(productoSeleccionado.getCantidadNoVendidaF().toString());	
+    		codigoBarra.setText(productoSeleccionado.getCodigoBarra());
+    		
+    		tabla.getItems().remove(productoSeleccionado);
+    		productoSeleccionado = null;    		
+    		btnEliminarFila.setDisable(true);
+    		btnDuplicarFila.setDisable(true);
+    		btnEditarFila.setDisable(true);
+    		tabla.getSelectionModel().clearSelection();
+		}
+    	else {
+    		PanelAlerta.getError("Aviso", null, "Se debe elegir un producto de la tabla para poder editarlo.");
+    	}
     }
     
     @FXML private void btnDuplicarFila() {
-    	
+    	if(productoSeleccionado != null) {
+    		tabla.getItems().add(new DTOProductoInicial(productoSeleccionado));
+		}
+    	else {
+    		PanelAlerta.getError("Aviso", null, "Se debe elegir un producto de la tabla para poder duplicarlo.");
+    	}    	
     }  
     
     @FXML private void btnConfirmarProductos() {
-        CU03Controller02.get();
+    	if(tabla.getItems().size() > 0)
+    		CU03Controller02.get().setListaProductos(tabla.getItems());
+    	else
+    		PanelAlerta.getError("Aviso", null, "Se debe registrar al menos la entrada de 1 producto.");
+        
     }    
 
     @FXML private void volver() {
@@ -266,19 +275,15 @@ public class CU03Controller01 {
     	tituloAnterior = null;
     	instance = null;
 	}
-    
-    
-    //---------------------------------------------------
-	public void setearTipoProducto(Integer id, String nombre) { 
-		DTOTipoProductoCU02 dto = new DTOTipoProductoCU02(id, nombre);
+
+    public void setearTipoProducto(@SuppressWarnings("exports") DTOTipoProductoCU02 dto) { 
 		productos.getItems().add(dto);
     	productos.getSelectionModel().clearSelection();
     	productos.getSelectionModel().select(dto);
     	
     }
     
-    @SuppressWarnings("exports")
-	public void setearProveedor(DTOProveedor dto) {   	
+	public void setearProveedor(@SuppressWarnings("exports") DTOProveedor dto) {
     	if(dto != null) {
     		proveedores.getItems().add(dto);
     		proveedores.getSelectionModel().clearSelection();
@@ -286,50 +291,14 @@ public class CU03Controller01 {
     	}
     }
     
-    @FXML
-    private void actualizarCampos() {
-    	if(checkPrecio100.isSelected())
-    		precio100.setDisable(false);
-    	else
-    		precio100.setDisable(true);    	
-
-    	if(checkPrecio250.isSelected())
-    		precio250.setDisable(false);
-    	else
-    		precio250.setDisable(true);    	
-
-    	if(checkPrecio500.isSelected())
-    		precio500.setDisable(false);
-    	else
-    		precio500.setDisable(true);
-    	
-    	if(checkPrecio1000.isSelected())
-    		precio1000.setDisable(false);
-    	else
-    		precio1000.setDisable(true);
-    	
-    	if(checkPrecio2000.isSelected())
-    		precio2000.setDisable(false);
-    	else
-    		precio2000.setDisable(true);
-    	
-    	if(checkPrecioUnidad.isSelected())
-    		precioUnidad.setDisable(false);
-    	else
-    		precioUnidad.setDisable(true);
-    }
-    
-    @FXML private void validarCampos(KeyEvent e) {
+    private void validarCampos(KeyEvent e) {
 		TextField campo = (TextField) e.getSource();
     	Character caracter = e.getCharacter().charAt(0);
     	String temporal = "";
-    	
-    	//System.out.print(caracter);
 		if(Character.isDigit(caracter) ||  caracter == '.' || caracter == ','){
 			temporal = campo.getText();			
 			if(( temporal.contains(".") || temporal.contains(",")) && ( caracter == '.' || caracter == ',' )) {
 				e.consume();
-				//TODO CU03-1 reemplazar coma con punto
 			}	
 		}
 		else{
@@ -337,5 +306,18 @@ public class CU03Controller01 {
 		}
     }
     
-    //TODO CU03-1 listener para campos precio
+    @FXML private void seleccionarProducto() {
+    	productoSeleccionado = tabla.getSelectionModel().getSelectedItem();
+    	if(productoSeleccionado != null) {
+    		btnEliminarFila.setDisable(false);
+    		btnDuplicarFila.setDisable(false);
+    		btnEditarFila.setDisable(false); 
+    	}
+    	else {
+    		btnEliminarFila.setDisable(true);
+    		btnDuplicarFila.setDisable(true);
+    		btnEditarFila.setDisable(true); 
+    	}
+    	
+    }
 }

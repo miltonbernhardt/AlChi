@@ -48,7 +48,7 @@
                         <Insets bottom="-5.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="telefono" disable="true" maxWidth="300.0" onKeyPressed="#listenerTelefono" VBox.vgrow="ALWAYS" />
+                  <TextField fx:id="telefono" disable="true" maxWidth="300.0" VBox.vgrow="ALWAYS" />
                   <StackPane>
                      <children>
                         <HBox fx:id="botoneraEditar" alignment="CENTER" disable="true" maxHeight="70.0" spacing="25.0" visible="false">

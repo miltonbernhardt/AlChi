@@ -78,7 +78,9 @@ public class GestorProductos {
 			}
 			t.setPrecios(precios);
 			
-			return DAOEntity.get().save(t);		
+			Boolean bool = DAOEntity.get().save(t);
+			dto.setIdProducto(t.getId());
+			return bool;
 		}catch(Exception e) {
 			PanelAlerta.getExcepcion(e, "Ocurrió un error inesperado.");      	
 			return false;
@@ -177,65 +179,12 @@ public class GestorProductos {
 		
 		return tipoProduco;
 	}
-	
-	@SuppressWarnings("unchecked")
-	public List<DTOTipoProductoCU02> getTiposProductosCu02() {
-		String consulta = "SELECT new dto.DTOTipoProductoCU02(t.id, t.nombre, t.enVenta) "
-				+ "FROM TipoProducto t ORDER BY t.nombre ASC"; 
-		
-		List<DTOTipoProductoCU02> lista = (List<DTOTipoProductoCU02>) DAOEntity.get().getResultList(consulta, new DTOTipoProductoCU02());
-		
-		Iterator<DTOTipoProductoCU02> listaIterator = lista.iterator();
-		
-		while(listaIterator.hasNext()) {
-			DTOTipoProductoCU02 dto = listaIterator.next();
-			
-			TipoProducto t = (TipoProducto) DAOEntity.get().get(dto.getIdProducto(), new TipoProducto());
-			
-			List<Precio> precios = t.getPrecios();
-			Iterator<Precio> preciosIterator = precios.iterator();
-			
-			while(preciosIterator.hasNext()) {
-				Precio p = preciosIterator.next();
-				TipoPaquete tipoVenta = p.getTipoVenta();
-				switch(tipoVenta) {
-					case G100:
-						dto.setPrecio100(p.getValor());
-					break;
-					
-					case G250:
-						dto.setPrecio250(p.getValor());
-					break;
-					
-					case G500:
-						dto.setPrecio500(p.getValor());
-					break;
-					
-					case G1000:
-						dto.setPrecio1000(p.getValor());
-					break;
-					
-					case G2000:
-						dto.setPrecio2000(p.getValor());
-					break;
-					
-					case UNIDAD:
-						dto.setPrecioUnidad(p.getValor());
-					break;
-				}
-			}		
-		}
-		
-		return lista;
-	}
 
 	@SuppressWarnings("unchecked")
 	public List<DTOTipoProductoCU02> buscarTiposProductos(Integer idCategoria, String nombreProducto, Boolean vende) {
-		String consulta = "SELECT new dto.DTOTipoProductoCU02(c.nombre, t.id, t.nombre, t.enVenta) "
+		String consulta = "SELECT new dto.DTOTipoProductoCU02(c.nombre, t.id, t.nombre, t.enVenta, t.directorioImagen) "
 				+ "FROM Categoria c, TipoProducto t WHERE c.id=t.categoria ";
 
-		
-		// Float precio100,	Float precio250, Float precio500, Float precio1000, Float precio2000, Float precioUnidad
 		if(idCategoria != null) {
 			consulta = consulta + " AND c.id="+idCategoria;
 		}
@@ -245,12 +194,10 @@ public class GestorProductos {
 		}
 		
 		if(vende != null) {
-			if(vende) {
+			if(vende)
 				consulta = consulta + " AND t.enVenta=true";
-			}
-			else {
-				consulta = consulta + " AND t.enVenta=false";
-			}			
+			else 
+				consulta = consulta + " AND t.enVenta=false";	
 		}
 
 		consulta = consulta + " ORDER BY t.nombre ASC"; 

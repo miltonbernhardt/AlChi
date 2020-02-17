@@ -127,7 +127,7 @@ public class CU01Controller {
     			if(GestorProductos.get().agregarTipoProducto(dto)) {
     				PanelAlerta.getInformation("Confirmación", null, "El producto '"+nombreProducto+"' fue correctamente guardado.");
     				if(controllerCu03 != null) {
-    					controllerCu03.setearTipoProducto(dto.getIdProducto(), dto.getNombreTipoProducto());
+    					controllerCu03.setearTipoProducto(GestorProductos.get().getTipoProductoCU02(dto.getIdProducto()));
     				}
                     volver();
     			}

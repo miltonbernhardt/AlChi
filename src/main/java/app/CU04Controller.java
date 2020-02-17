@@ -50,6 +50,7 @@ public class CU04Controller {
     @FXML
     private void initialize(){
     	setCombo();
+    	//TODO CU04 incluir a los combos
     }
      
     @FXML

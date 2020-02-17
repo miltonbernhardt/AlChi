@@ -13,7 +13,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -70,6 +69,9 @@ public class CU02Controller {
 	private TableColumn<DTOTipoProductoCU02, String> columnaEnVenta;
 	
 	@FXML
+	private TableColumn<DTOTipoProductoCU02, String> columnaTieneImagen;
+	
+	@FXML
 	private TableColumn<DTOTipoProductoCU02, String> columnaPrecio100;
 	
 	@FXML
@@ -92,7 +94,7 @@ public class CU02Controller {
     	setCombo();
     	iniciarTabla();
     	
-    	tabla.setRowFactory( tv -> {
+    	/*tabla.setRowFactory( tv -> {
     	    TableRow<DTOTipoProductoCU02> fila = new TableRow<>();
     	    fila.setOnMouseClicked(event -> {
     	    	productoSeleccionado = tabla.getSelectionModel().getSelectedItem();
@@ -103,6 +105,8 @@ public class CU02Controller {
     	    });
     	    return fila ;
     	});
+    	//TODO CU02 ver que onda
+    	*/
     }
      
     private void setCombo(){
@@ -117,6 +121,7 @@ public class CU02Controller {
     	columnaCategoria.setCellValueFactory(new PropertyValueFactory<>("nombreCategoria"));
     	columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombreTipoProducto"));
     	columnaEnVenta.setCellValueFactory(new PropertyValueFactory<>("enVenta"));
+    	columnaTieneImagen.setCellValueFactory(new PropertyValueFactory<>("directorioImagen"));
     	columnaPrecio100.setCellValueFactory(new PropertyValueFactory<>("precio100"));
     	columnaPrecio250.setCellValueFactory(new PropertyValueFactory<>("precio250"));
     	columnaPrecio500.setCellValueFactory(new PropertyValueFactory<>("precio500"));
@@ -159,6 +164,9 @@ public class CU02Controller {
     @FXML
     private void btnEditar(){
     	CU05Controller.get().setProducto(productoSeleccionado.getIdProducto());
+    	tabla.getSelectionModel().clearSelection();
+    	btnEditar.setDisable(true);
+    	
 	}
     
     public void actualizarProductoEditado(Integer id) {
