@@ -13,12 +13,12 @@ import java.util.Iterator;
 import java.util.List;
 import app.PanelAlerta;
 import database.DAOEntity;
+import dto.DTOCU03;
 import dto.DTOTipoProductoCU02;
 import dto.DTOTipoProductoCU05;
 import entity.Categoria;
 import entity.Precio;
 import entity.TipoProducto;
-
 import enums.TipoPaquete;
 
 public class GestorProductos {
@@ -101,7 +101,7 @@ public class GestorProductos {
 				Path imagenOriginal = Paths.get(imagenPath);
 				Path directorioImagenes = Paths.get("D:/AlChi/Imágenes");
 				Path pathFinal = null;
-				//TODO GESTOR-PRODUCTOS reemplzar user.home por el de la imagenes en todos
+
 				String extension = "";
 				
 				try {				
@@ -246,5 +246,11 @@ public class GestorProductos {
 		}
 		
 		return lista;
+	}
+
+	public Boolean updateTiposProductos(List<DTOCU03> items) {
+		Iterator itemsIterator = items.iterator();
+		//TODO GESTOR-PRODUCTOS implementar
+		return true;
 	}
 }

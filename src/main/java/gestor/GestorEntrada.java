@@ -28,7 +28,7 @@ public class GestorEntrada {
     	while(iterator1.hasNext()) {
     		DTOProductoInicial dtoProdInicial = iterator1.next();
     		
-    		DTOCU03 dtoCu03 = new DTOCU03(dtoProdInicial.getTipoProducto().getIdProducto(), dtoProdInicial.getNombreCategoria(), dtoProdInicial.getNombreTipoProducto());
+    		DTOCU03 dtoCu03 = new DTOCU03(dtoProdInicial);
     		
         	Iterator<DTOProductoInicial> iterator2 = listaInicial.iterator();
         	while(iterator2.hasNext()) {

@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 /**
  * Controller para la view de "Actualización de características de tipos de productos"
  */
+//TODO CU05 modificar para brindar la posiblidad de elegir si está a la venta o no
 public class CU05Controller {
 	private static CU05Controller instance = null;
 	private static Parent sceneAnterior = null;

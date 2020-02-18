@@ -26,7 +26,7 @@ import javafx.stage.Stage;
  * Controller para la view de "Registro de un nuevo tipo de producto"
  */
 public class CU01Controller {
-	
+	//TODO CU01 agregar poner en venta o no
 	private CU03Controller01 controllerCu03 = null;
 	public CU03Controller01 getControllerCu03() { return controllerCu03; }
 	public void setControllerCu03(CU03Controller01 controllerCu03) { this.controllerCu03 = controllerCu03; }

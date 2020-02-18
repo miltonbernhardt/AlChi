@@ -1,9 +1,8 @@
 package enums;
 
 public enum Porcentaje {
-	//TODO ENUM fijarse si no conviene calcular directamente los precios con estos porcentajes en vez de usar precios fijados
-	NORMAL(33f),
-	COMBO(20f);
+	NORMAL(1.33f),
+	COMBO(1.20f);
 
 	private Float value;
 

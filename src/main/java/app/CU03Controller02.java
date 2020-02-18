@@ -1,13 +1,17 @@
 package app;
 
 import java.util.List;
+import java.util.Optional;
 import dto.DTOCU03;
 import dto.DTOProductoInicial;
+import enums.Porcentaje;
 import gestor.GestorEntrada;
+import gestor.GestorProductos;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -19,7 +23,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 
 /*
- * Controller para la view de "Actualizació del registro de entrada"
+ * Controller para la view de "Actualización del registro de entrada"
  */
 public class CU03Controller02 {
 	private static CU03Controller02 instance = null;
@@ -35,7 +39,8 @@ public class CU03Controller02 {
         return instance;
     }
 	
-    private DTOCU03 tipoProducto = null;
+    private DTOCU03 tipoProductoCombo = null;
+    private DTOCU03 tipoProductoTabla = null;
     
 	@FXML private ComboBox<DTOCU03> productos;
 	
@@ -46,12 +51,12 @@ public class CU03Controller02 {
 	@FXML private TextField p2000;	
 	@FXML private TextField pUnidad;
 	
-	@FXML private TextField p100Actual;	
-	@FXML private TextField p250Actual;		
-	@FXML private TextField p500Actual;		
-	@FXML private TextField p1000Actual;
-	@FXML private TextField p2000Actual;
-	@FXML private TextField pUnidadActual;
+	@FXML private TextField p100Nuevo;	
+	@FXML private TextField p250Nuevo;		
+	@FXML private TextField p500Nuevo;		
+	@FXML private TextField p1000Nuevo;
+	@FXML private TextField p2000Nuevo;
+	@FXML private TextField pUnidadNuevo;
 	
 	@FXML private TextField p100Anterior;	
 	@FXML private TextField p250Anterior;	
@@ -82,63 +87,182 @@ public class CU03Controller02 {
 	@FXML private CheckBox checkPUnidad;	
 	
 	@FXML private Button btnEditarPrecios;
+	@FXML private Button btnConfirmarPrecios;
 	
 	@FXML private TableView<DTOCU03> tabla;
 	
-	@FXML private TableColumn<DTOCU03, Float> columnaProducto;	
-	@FXML private TableColumn<DTOCU03, Float> columnaP100;	
-	@FXML private TableColumn<DTOCU03, Float> columnaP250;
-	@FXML private TableColumn<DTOCU03, Float> columnaP500;	
-	@FXML private TableColumn<DTOCU03, Float> columnaP1000;
-	@FXML private TableColumn<DTOCU03, Float> columnaP2000;	
-	@FXML private TableColumn<DTOCU03, Float> columnaPUnidad;
+	@FXML private TableColumn<DTOCU03, String> columnaProducto;	
+	@FXML private TableColumn<DTOCU03, String> columnaP100;	
+	@FXML private TableColumn<DTOCU03, String> columnaP250;
+	@FXML private TableColumn<DTOCU03, String> columnaP500;	
+	@FXML private TableColumn<DTOCU03, String> columnaP1000;
+	@FXML private TableColumn<DTOCU03, String> columnaP2000;	
+	@FXML private TableColumn<DTOCU03, String> columnaPUnidad;
     
 	public CU03Controller02() { }
 	
     @FXML private void initialize(){
-    	setCombo();
     	iniciarTabla();
     	addListenerCampos();
     }
     
-    private void setCombo() {
-		// TODO CU03.2 crear lista unica de tipos productos	
-	}
-
 	private void iniciarTabla() {
     	tabla.setPlaceholder(new Label("No hay productos que mostrar."));
     	columnaProducto.setCellValueFactory(new PropertyValueFactory<>("nombreTipoProducto"));
-    	columnaP100.setCellValueFactory(new PropertyValueFactory<>("precio100"));
-    	columnaP250.setCellValueFactory(new PropertyValueFactory<>("precio250"));
-    	columnaP500.setCellValueFactory(new PropertyValueFactory<>("precio500"));
-    	columnaP1000.setCellValueFactory(new PropertyValueFactory<>("precio1000"));
-    	columnaP2000.setCellValueFactory(new PropertyValueFactory<>("precio2000"));
-    	columnaPUnidad.setCellValueFactory(new PropertyValueFactory<>("precioUnidad"));
+    	columnaP100.setCellValueFactory(new PropertyValueFactory<>("p100Final"));
+    	columnaP250.setCellValueFactory(new PropertyValueFactory<>("p250Final"));
+    	columnaP500.setCellValueFactory(new PropertyValueFactory<>("p500Final"));
+    	columnaP1000.setCellValueFactory(new PropertyValueFactory<>("p1000Final"));
+    	columnaP2000.setCellValueFactory(new PropertyValueFactory<>("p1000Final"));
+    	columnaPUnidad.setCellValueFactory(new PropertyValueFactory<>("pUnidadFinal"));
     }
 	
 	@FXML private void btnConfirmarPrecios() {
-		//TODO CU03.2 validar que si se clickeo en un check tenga un numero valido
+		DTOCU03 dto = productos.getValue();
+		String cadena = "", header = "Confirmación de precios para el producto: '"+productos.getValue().getNombreTipoProducto()+"' no válida.";
+		Integer numError = 1;
+		Boolean valido = true, 
+				ck100=checkP100.isSelected(), ck250=checkP250.isSelected(), ck500=checkP500.isSelected(),
+				ck1000=checkP1000.isSelected(), ck2000=checkP2000.isSelected(), ckUnidad=checkPUnidad.isSelected(),
+				sel100=rd100.isSelected(), sel250=rd250.isSelected(), sel500=rd500.isSelected(), sel1000=rd1000.isSelected(),
+				sel2000=rd2000.isSelected(), selUnidad=rdUnidad.isSelected();
+		
+		if(!ck100 && !ck250 && !ck500 && !ck1000 && !ck2000 && !ckUnidad) {
+			cadena = cadena + "Se debe elegir al menos una forma de venta para el producto.";
+			valido = false;
+		}
+		
+		if(ck100 && sel100 && p100.getText().isBlank()) {
+    		cadena = cadena + numError+ ") Se debe ingresar un valor de precio sugerido para actualizar la forma de venta de 100 gramos.\n";
+			numError++;
+			valido = false;
+    	}
+		
+		if(ck250 && sel250 && p250.getText().isBlank()) {
+			cadena = cadena + numError+ ") Se debe ingresar un valor de precio sugerido para actualizar la forma de venta de 250 gramos.\n";
+			numError++;
+			valido = false;
+    	}
+		
+		if(ck500 && sel500 && p500.getText().isBlank()) {
+			cadena = cadena + numError+ ") Se debe ingresar un valor de precio sugerido para actualizar la forma de venta de 500 gramos.\n";
+			numError++;
+			valido = false;
+    	}
+		
+		if(ck1000 && sel1000 && p1000.getText().isBlank()) {
+			cadena = cadena + numError+ ") Se debe ingresar un valor de precio sugerido para actualizar la forma de venta de 1000 gramos.\n";
+			numError++;
+			valido = false;
+    	}
+		
+		if(ck2000 && sel2000 && p2000.getText().isBlank()) {
+			cadena = cadena + numError+ ") Se debe ingresar un valor de precio sugerido para actualizar la forma de venta de 2000 gramos.\n";
+			numError++;
+			valido = false;
+    	}
+		
+		if(ckUnidad && selUnidad && pUnidad.getText().isBlank()) {
+			cadena = cadena + numError+ ") Se debe ingresar un valor de precio sugerido para actualizar la forma de venta de 1 unidad.\n";
+			numError++;
+    		valido = false;
+    	}
+		
+		if(valido) {
+			if(ck100) {
+				if(sel100)
+					dto.setP100Final(Float.parseFloat(p100Nuevo.getText()));
+				else
+					dto.setP100Final(Float.parseFloat(p100Anterior.getText()));
+			}
+			else {
+				dto.setP100Final(0f);
+			}
+			
+			if(ck250) {
+				if(sel250)
+					dto.setP250Final(Float.parseFloat(p250Nuevo.getText()));
+				
+				else
+					dto.setP250Final(Float.parseFloat(p250Anterior.getText()));
+			}
+			else {
+				dto.setP250Final(0f);
+			}
+			
+			if(ck500) {
+				if(sel500)
+					dto.setP500Final(Float.parseFloat(p500Nuevo.getText()));
+				
+				else
+					dto.setP500Final(Float.parseFloat(p500Anterior.getText()));
+			}
+			else {
+				dto.setP500Final(0f);
+			}
+			
+			if(ck1000) {
+				if(sel1000)
+					dto.setP1000Final(Float.parseFloat(p1000Nuevo.getText()));
+				
+				else
+					dto.setP1000Final(Float.parseFloat(p1000Anterior.getText()));
+			}
+			else {
+				dto.setP1000Final(0f);
+			}
+			
+			if(ck2000) {
+				if(sel2000)
+					dto.setP2000Final(Float.parseFloat(p2000Nuevo.getText()));
+				
+				else
+					dto.setP2000Final(Float.parseFloat(p2000Anterior.getText()));
+			}
+			else {
+				dto.setP2000Final(0f);
+			}
+			
+			if(ckUnidad) {
+				if(selUnidad)
+					dto.setPUnidadFinal(Float.parseFloat(pUnidadNuevo.getText()));
+				
+				else
+					dto.setPUnidadFinal(Float.parseFloat(pUnidadAnterior.getText()));
+			}
+			else {
+				dto.setPUnidadFinal(0f);
+			}
+			
+			agregarATabla(dto);
+		}
+		else {
+			//TODO ZZZ cambiar color al equivocarse  
+			PanelAlerta.getError("Error", header, cadena);
+		}		
 	}
 	
 	@FXML private void btnEditarPrecios() {
-		
+		productos.getItems().add(tipoProductoTabla);
+		tabla.getItems().remove(tipoProductoTabla);
+		productos.getSelectionModel().select(tipoProductoTabla);
+		editarProducto(tipoProductoTabla);
+		btnEditarPrecios.setDisable(true);
+		tabla.getSelectionModel().clearSelection();
+		tipoProductoTabla = null;
 	}
     
 	@FXML private void btnFinalizar() {
-    	//VEr que se hayan editado todos los precios
-		
-		if(! p100.getText().isBlank())
-			//dto.setPrecio100(Float.valueOf(p100.getText()));
-		if(! p250.getText().isBlank())
-			//dto.setPrecio250(Float.valueOf(p250.getText()));		
-		if(! p500.getText().isBlank())
-			//dto.setPrecio500(Float.valueOf(p500.getText()));		
-		if(! p1000.getText().isBlank())
-			//dto.setPrecio1000(Float.valueOf(p1000.getText()));	
-		if(! p2000.getText().isBlank())    		
-			//dto.setPrecio2000(Float.valueOf(p2000.getText()));		
-		if(! pUnidad.getText().isBlank());
-			//dto.setPrecioUnidad(Float.valueOf(pUnidad.getText()));
+		Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar ingreso de productos", null, "¿Desea confirmar el ingeso de los productos y la actualización de los precios?");
+				
+		if (result.get() == ButtonType.OK){
+			if(GestorProductos.get().updateTiposProductos(tabla.getItems())) {
+				PanelAlerta.getInformation("Confirmación", null, "La transacción ocurrió de manera efectiva.");
+                volver();
+                CU03Controller01.get().volver();
+			}
+		}    
+	
     }
 
     @FXML private void volver() {
@@ -148,125 +272,306 @@ public class CU03Controller02 {
     	sceneAnterior = null;
 	}
     
-    //TODO CU03.2 si el viejo es cero solo se toma el nuevo
 	@FXML private void checkP100() {
-		if(checkP100.isSelected()) {
+		if(checkP100.isSelected() && !checkP100.isDisable()) {
+			
     		p100.setDisable(false);
     		rd100.setDisable(false);
-    		rd100Ant.setDisable(false);
+    		p100Nuevo.setDisable(false);
+    		
+			if(!(tipoProductoCombo.getP100Anterior() == 0f)) {
+				rd100Ant.setDisable(false);
+				rd100Ant.setSelected(true);
+				
+				p100Anterior.setDisable(false);
+				p100Anterior.setText(tipoProductoCombo.getP100Anterior().toString());
+			}			
     	}
     	else {
+    		checkP100.setSelected(false);
+    		
+    		p100Anterior.setText("");
+    		
+    		p100Nuevo.setDisable(true);   
+    		p100Anterior.setDisable(true); 
     		p100.setDisable(true);
+    		
     		rd100.setDisable(true);
     		rd100Ant.setDisable(true);
     		rd100.setSelected(true);
     	}
+		
+		p100Nuevo.setText("");
+		p100.setText("");
 	}
 	
 	@FXML private void checkP250() {
-		if(checkP250.isSelected()) {
-    		p250.setDisable(false);
+		if(checkP250.isSelected() && !checkP250.isDisable()) {
+			p250.setDisable(false);
     		rd250.setDisable(false);
-    		rd250Ant.setDisable(false);
+    		p250Nuevo.setDisable(false);   
+    		
+    		if(!(tipoProductoCombo.getP250Anterior() == 0f)) {
+				rd250Ant.setDisable(false);
+				rd250Ant.setSelected(true);
+				
+				p250Anterior.setDisable(false); 
+				p250Anterior.setText(tipoProductoCombo.getP250Anterior().toString());
+			}
     	}
     	else {
+    		checkP250.setSelected(false);
+    		
+    		p250Anterior.setText("");
+    		
+    		p250Nuevo.setDisable(true);   
+    		p250Anterior.setDisable(true); 
     		p250.setDisable(true);
+    		
     		rd250.setDisable(true);
     		rd250Ant.setDisable(true);
     		rd250.setSelected(true);
     	}
+		p250Nuevo.setText("");
+		p250.setText("");
 	}
 	
 	@FXML private void checkP500() {
-		if(checkP500.isSelected()) {
-    		p500.setDisable(false);
-    		rd500.setDisable(false);
-    		rd500Ant.setDisable(false);
+		if(checkP500.isSelected() && !checkP500.isDisable()) {
+			p500.setDisable(false);
+    		rd500.setDisable(false);  
+    		p500Nuevo.setDisable(false); 
+    		
+    		if(!(tipoProductoCombo.getP500Anterior() == 0f)) {
+    			rd500Ant.setDisable(false);
+    			rd500Ant.setSelected(true);
+    			
+    			p500Anterior.setDisable(false); 
+    			p500Anterior.setText(tipoProductoCombo.getP500Anterior().toString());
+			}
     	}
     	else {
+    		checkP500.setSelected(false);
+    		
+    		p500Anterior.setText("");
+    		
+    		p500Nuevo.setDisable(true);   
+    		p500Anterior.setDisable(true); 
     		p500.setDisable(true);
+    		
     		rd500.setDisable(true);
     		rd500Ant.setDisable(true);
     		rd500.setSelected(true);
     	}
+		p500Nuevo.setText("");
+		p500.setText("");
 	}
 	
 	@FXML private void checkP1000() {
-		if(checkP1000.isSelected()) {
-    		p1000.setDisable(false);
+		if(checkP1000.isSelected() && !checkP1000.isDisable()) {
+			p1000.setDisable(false);
     		rd1000.setDisable(false);
-    		rd1000Ant.setDisable(false);
+    		p1000Nuevo.setDisable(false);   		
+    		
+    		if(!(tipoProductoCombo.getP1000Anterior() == 0f)) {
+    			rd1000Ant.setDisable(false);
+    			rd1000Ant.setSelected(true);
+    			
+    			p1000Anterior.setDisable(false);   
+    			p1000Anterior.setText(tipoProductoCombo.getP1000Anterior().toString());
+			}
     	}
     	else {
+    		checkP1000.setSelected(false);
+    		
+    		p1000Anterior.setText("");
+    		
+    		p1000Nuevo.setDisable(true);   
+    		p1000Anterior.setDisable(true); 
     		p1000.setDisable(true);
+    		
     		rd1000.setDisable(true);
     		rd1000Ant.setDisable(true);
     		rd1000.setSelected(true);
     	}
+		p1000Nuevo.setText("");  
+		p1000.setText("");
 	}
 	
 	@FXML private void checkP2000() {
-		if(checkP2000.isSelected()) {
+		if(checkP2000.isSelected() && !checkP2000.isDisable()) {
     		p2000.setDisable(false);
     		rd2000.setDisable(false);
-    		rd2000Ant.setDisable(false);
+    		p2000Nuevo.setDisable(false);
+    		
+    		if(!(tipoProductoCombo.getP2000Anterior() == 0f)) {
+    			rd2000Ant.setDisable(false);
+    			rd2000Ant.setSelected(true);
+    			
+    			p2000Anterior.setDisable(false);
+    			p2000Anterior.setText(tipoProductoCombo.getP2000Anterior().toString());
+			}
     	}
     	else {
+    		checkP2000.setSelected(false);
+    		
+    		p2000Anterior.setText("");
+    		
+    		p2000Nuevo.setDisable(true); 
+    		p2000Anterior.setDisable(true);
     		p2000.setDisable(true);
+    		
     		rd2000.setDisable(true);
     		rd2000Ant.setDisable(true);
     		rd2000.setSelected(true);
     	}
+		p2000Nuevo.setText("");
+		p2000.setText("");
 	}
 	
 	@FXML private void checkPUnidad() {
-		if(checkPUnidad.isSelected()) {
+		if(checkPUnidad.isSelected() && !checkPUnidad.isDisable()) {
     		pUnidad.setDisable(false);
-    		rdUnidad.setDisable(false);
-    		rdUnidadAnt.setDisable(false);
+    		rdUnidad.setDisable(false);    		
+    		pUnidadNuevo.setDisable(false);
+    		
+    		if(!(tipoProductoCombo.getPUnidadAnterior() == 0f)) {
+    			rdUnidadAnt.setDisable(false);
+    			rdUnidadAnt.setSelected(true);
+    			
+				pUnidadAnterior.setDisable(false);
+				pUnidadAnterior.setText(tipoProductoCombo.getPUnidadAnterior().toString());
+			}
     	}
     	else {
+    		checkPUnidad.setSelected(false);
+    		
+    		pUnidadAnterior.setText("");
+    		
+    		pUnidadNuevo.setDisable(true);
+    		pUnidadAnterior.setDisable(true);
     		pUnidad.setDisable(true);
+    		
     		rdUnidad.setDisable(true);
     		rdUnidadAnt.setDisable(true);
     		rdUnidad.setSelected(true);
     	}
+		
+		pUnidadNuevo.setText("");
+		pUnidad.setText("");
 	}
 	
+	@FXML private void setearCampos() {
+		DTOCU03 dto = productos.getValue();
+		if(dto != null) {
+			if(! (dto.equals(tipoProductoCombo))) {
+				
+				tipoProductoCombo = dto;			
+				if( !(tipoProductoCombo.getP100Anterior() == 0f) ) 
+					checkP100.setSelected(true);
+				else 
+					checkP100.setSelected(false);
+				if( !(tipoProductoCombo.getP250Anterior() == 0f) )
+					checkP250.setSelected(true);
+				else
+					checkP250.setSelected(false);
+				if( !(tipoProductoCombo.getP500Anterior() == 0f) )
+					checkP500.setSelected(true);	
+				else
+					checkP500.setSelected(false);	
+				if( !(tipoProductoCombo.getP2000Anterior() == 0f) )
+					checkP1000.setSelected(true);
+				else
+					checkP1000.setSelected(false);
+				if( !(tipoProductoCombo.getP1000Anterior() == 0f) )
+					checkP2000.setSelected(true);
+				else
+					checkP2000.setSelected(false);
+				if( !(tipoProductoCombo.getPUnidadAnterior() == 0f) )
+					checkPUnidad.setSelected(true);	
+				else
+					checkPUnidad.setSelected(false);	
+					
+				checkP100();
+				checkP250();
+				checkP500();
+				checkP1000();				
+				checkP2000();
+				checkPUnidad();
+			}	
+		}
+	}
+	
+	@FXML private void seleccionarProducto() {
+		DTOCU03 dto = tabla.getSelectionModel().getSelectedItem();		
+		if(dto != null) {
+			tipoProductoTabla = dto;
+			btnEditarPrecios.setDisable(false);
+		}
+	}
+	 
     private void addListenerCampos() {
     	p100.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
-            	p100.setText(p100.getText().replace(',', '.'));
+            	p100.setText(p100.getText().replace(',', '.'));   
+            	if(! p100.getText().isBlank())
+            		p100Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p100.getText())).toString());
+            	else
+            		p100Nuevo.setText("");
             }
         }); 
     	
     	p250.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
             	p250.setText(p250.getText().replace(',', '.'));
+            	if(! p250.getText().isBlank())
+            		p250Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p250.getText())).toString());
+            	else
+            		p250Nuevo.setText("");
             }
         }); 
     	
     	p500.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
             	p500.setText(p500.getText().replace(',', '.'));
+            	
+            	if(! p500.getText().isBlank())
+            		p500Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p500.getText())).toString());
+            	else
+            		p500Nuevo.setText("");
             }
         }); 
     	
     	p1000.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
             	p1000.setText(p1000.getText().replace(',', '.'));
+            	
+            	if(! p1000.getText().isBlank())
+            		p1000Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p1000.getText())).toString());
+            	else
+            		p1000Nuevo.setText("");
             }
         }); 
     	
     	p2000.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
             	p2000.setText(p2000.getText().replace(',', '.'));
+            	
+            	if(! p2000.getText().isBlank())
+            		p2000Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p2000.getText())).toString());
+            	else
+            		p2000Nuevo.setText("");
             }
         }); 
     	
     	pUnidad.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
             	pUnidad.setText(pUnidad.getText().replace(',', '.'));
+            	
+            	if(! pUnidad.getText().isBlank())
+            		pUnidadNuevo.setText(calcularPrecioNuevo(Float.parseFloat(pUnidad.getText())).toString());
+            	else
+            		pUnidadNuevo.setText("");
             }
         }); 
     	
@@ -295,49 +600,7 @@ public class CU03Controller02 {
 			@Override public void handle(KeyEvent e) { validarCampos(e); }
     	});
     }
-
-	@SuppressWarnings("exports")
-	public void setListaProductos( List<DTOProductoInicial> listaProductos) {
-		productos.getItems().clear();
-		productos.getItems().addAll(GestorEntrada.get().getProductosActualizar(listaProductos));
-		productos.getSelectionModel().selectFirst();
-		tipoProducto = productos.getValue();;
-		setearCampos();
-	}
-	
-	@FXML private void setearCampos() {
-		DTOCU03 dto = productos.getValue();
-		if(dto != null) {
-			if(! (tipoProducto.equals(dto))) {
-				tipoProducto = dto;
-				
-				p100Anterior.setText(tipoProducto.getP100().toString());
-				checkP100.setSelected(false);
-				checkP100();
-				
-				p250Anterior.setText(tipoProducto.getP250().toString());
-				checkP250.setSelected(false);
-				checkP250();
-				
-				p500Anterior.setText(tipoProducto.getP500().toString());
-				checkP500.setSelected(false);
-				checkP500();
-				
-				p1000Anterior.setText(tipoProducto.getP1000().toString());
-				checkP1000.setSelected(false);
-				checkP1000();
-				
-				p2000Anterior.setText(tipoProducto.getP2000().toString());
-				checkP2000.setSelected(false);
-				checkP2000();
-				
-				pUnidadAnterior.setText(tipoProducto.getPUnidad().toString());
-				checkPUnidad.setSelected(false);
-				checkPUnidad();
-			}	
-		}
-	}
-	
+    
     private void validarCampos(KeyEvent e) {
 		TextField campo = (TextField) e.getSource();
     	Character caracter = e.getCharacter().charAt(0);
@@ -351,5 +614,191 @@ public class CU03Controller02 {
 		else{
 			e.consume();			
 		}
+    }
+    
+	private Float calcularPrecioNuevo(Float valorSugerido) {
+    	Float valor = valorSugerido*Porcentaje.NORMAL.getValue();
+    	
+    	Float modulo5 = valor%10;
+    	if(modulo5 >= 2.5) {
+    		valor = valor - modulo5 + 5;
+    	}
+    	else {
+    		valor = valor - modulo5;
+    	}   	
+    	
+    	return valor;
+    }
+    
+	@SuppressWarnings("exports")
+	public void setListaProductos( List<DTOProductoInicial> listaProductos) {
+		productos.getItems().clear();
+		productos.getItems().addAll(GestorEntrada.get().getProductosActualizar(listaProductos));
+		productos.getSelectionModel().selectFirst();
+		setearCampos();
+	}
+	
+    private void agregarATabla(DTOCU03 dto) {
+    	String sug100=p100.getText(), sug250=p250.getText(), sug500=p500.getText(), sug1000=p1000.getText(), sug2000=p2000.getText(), sugUnidad=pUnidad.getText();
+    	
+    	if(!sug100.isBlank())
+    		dto.setP100(Float.parseFloat(sug100));
+    	if(!sug250.isBlank())
+    		dto.setP250(Float.parseFloat(sug250));
+    	if(!sug500.isBlank())
+    		dto.setP500(Float.parseFloat(sug500));
+    	if(!sug1000.isBlank())
+    		dto.setP1000(Float.parseFloat(sug1000));
+    	if(!sug2000.isBlank())
+    		dto.setP2000(Float.parseFloat(sug2000));
+    	if(!sugUnidad.isBlank())
+    		dto.setPUnidad(Float.parseFloat(sugUnidad));
+    	
+    	String nue100=p100Nuevo.getText(), nue250=p250Nuevo.getText(), nue500=p500Nuevo.getText(), nue1000=p1000Nuevo.getText(), nue2000=p2000Nuevo.getText(), nueUnidad=pUnidadNuevo.getText();
+    	
+    	if(!nue100.isBlank())
+    		dto.setP100Nuevo(Float.parseFloat(nue100));
+    	if(!nue250.isBlank())
+    		dto.setP250Nuevo(Float.parseFloat(nue250));
+    	if(!nue500.isBlank())
+    		dto.setP500Nuevo(Float.parseFloat(nue500));
+    	if(!nue1000.isBlank())
+    		dto.setP1000Nuevo(Float.parseFloat(nue1000));
+    	if(!nue2000.isBlank())
+    		dto.setP2000Nuevo(Float.parseFloat(nue2000));
+    	if(!nueUnidad.isBlank())
+    		dto.setPUnidadNuevo(Float.parseFloat(nueUnidad));
+    	
+    	dto.setRd100(rd100.isSelected());
+    	dto.setRd250(rd250.isSelected());
+    	dto.setRd500(rd500.isSelected());
+    	dto.setRd1000(rd1000.isSelected());
+    	dto.setRd2000(rd2000.isSelected());
+    	dto.setRdUnidad(rdUnidad.isSelected());
+    	
+    	dto.setCheckP100(checkP100.isSelected());
+    	dto.setCheckP250(checkP250.isSelected());
+    	dto.setCheckP500(checkP500.isSelected());
+    	dto.setCheckP1000(checkP1000.isSelected());
+    	dto.setCheckP2000(checkP2000.isSelected());
+    	dto.setCheckPUnidad(checkPUnidad.isSelected()); 
+
+		tabla.getItems().add(dto);
+		
+		productos.getItems().remove(dto);
+		
+		if(productos.getItems().size() == 0)
+			productoTablaCombo(true);
+		else {
+			productos.getSelectionModel().selectFirst();
+			//setearCampos();
+		}
+    }
+    
+    private void editarProducto(DTOCU03 dto) {
+    	Float sug100=dto.getP100(), sug250=dto.getP250(), sug500=dto.getP500(), sug1000=dto.getP1000(), sug2000=dto.getP2000(), sugUnidad=dto.getPUnidad();
+    	
+    	Boolean ch100=dto.getCheckP100(), ch250=dto.getCheckP250(), ch500=dto.getCheckP500(), ch1000=dto.getCheckP1000(), ch2000=dto.getCheckP2000(), chUnidad=dto.getCheckPUnidad();
+    	
+    	checkP100.setSelected(ch100);
+    	checkP250.setSelected(ch250);
+    	checkP500.setSelected(ch500);
+    	checkP1000.setSelected(ch1000);
+    	checkP2000.setSelected(ch2000);
+    	checkPUnidad.setSelected(chUnidad);
+    	
+    	productoTablaCombo(false);
+    	
+    	if(ch100) {
+    		if(! (sug100 == 0f)) {
+    			p100.setText(sug100.toString());
+    			p100Nuevo.setText(dto.getP100Nuevo().toString());
+    		}
+    		
+    		if(dto.getRd100())
+    			rd100.setSelected(true);
+    		else
+    			rd100Ant.setSelected(true);
+    	}
+    	
+    	if(ch250) {
+    		if(! (sug250 == 0f)) {
+    			p250.setText(sug250.toString());
+    			p250Nuevo.setText(dto.getP250Nuevo().toString());
+    		}
+    		
+    		if(dto.getRd250())
+    			rd250.setSelected(true);
+    		else
+    			rd250Ant.setSelected(true);
+    	}
+    	
+    	if(ch500) {
+    		if(! (sug500 == 0f)) {
+    			p500.setText(sug500.toString());
+    			p500Nuevo.setText(dto.getP500Nuevo().toString());
+    		}
+    		
+    		if(dto.getRd500())
+    			rd500.setSelected(true);
+    		else
+    			rd500Ant.setSelected(true);
+    	}
+    	
+    	if(ch1000) {
+    		if(! (sug1000 == 0f)) {
+    			p1000.setText(sug1000.toString());
+    			p1000Nuevo.setText(dto.getP1000Nuevo().toString());
+    		}
+    		
+    		if(dto.getRd1000())
+    			rd1000.setSelected(true);
+    		else
+    			rd1000Ant.setSelected(true);
+    	}
+    	
+    	if(ch2000) {
+    		if(! (sug2000 == 0f)) {
+    			p2000.setText(sug2000.toString());
+    			p2000Nuevo.setText(dto.getP2000Nuevo().toString());
+    		}
+    		
+    		if(dto.getRd2000())
+    			rd2000.setSelected(true);
+    		else
+    			rd2000Ant.setSelected(true);
+    	}
+
+    	if(chUnidad) {
+    		if(! (sugUnidad == 0f)) {
+    			pUnidad.setText(sugUnidad.toString());
+    			pUnidadNuevo.setText(dto.getPUnidadNuevo().toString());
+    		}
+    		
+    		if(dto.getRdUnidad())
+    			rdUnidad.setSelected(true);
+    		else
+    			rdUnidadAnt.setSelected(true);
+    	}
+    }
+    
+    private void productoTablaCombo(Boolean valor) {
+    	productos.setDisable(valor);
+
+		checkP100.setDisable(valor);
+		checkP250.setDisable(valor);
+		checkP500.setDisable(valor);
+		checkP1000.setDisable(valor);
+		checkP2000.setDisable(valor);		
+		checkPUnidad.setDisable(valor);
+		
+		btnConfirmarPrecios.setDisable(valor);		
+		
+		checkP100();
+		checkP250();
+		checkP500();
+		checkP1000();				
+		checkP2000();
+		checkPUnidad();			
     }
 }

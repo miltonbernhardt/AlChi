@@ -38,62 +38,33 @@ public class CU02Controller {
 	
 	private DTOTipoProductoCU02 productoSeleccionado = null;
 	
-	@FXML
-	private ComboBox<DTOCategoria> categoria;
+	@FXML private ComboBox<DTOCategoria> categoria;
 	
-	@FXML
-	private TextField nombre;
+	@FXML private TextField nombre;
 	
-	@FXML
-	private RadioButton noImporta;
+	@FXML private RadioButton noImporta;	
+	@FXML private RadioButton siVende;	
+	@FXML private RadioButton noVende;	
+	@FXML private Button btnEditar;
 	
-	@FXML
-	private RadioButton siVende;
+	@FXML private TableView<DTOTipoProductoCU02> tabla;
 	
-	@FXML
-	private RadioButton noVende;
-	
-	@FXML
-	private Button btnEditar;
-	
-	@FXML
-	private TableView<DTOTipoProductoCU02> tabla;
-	
-	@FXML
-	private TableColumn<DTOTipoProductoCU02, String> columnaCategoria;
-	
-	@FXML
-	private TableColumn<DTOTipoProductoCU02, String> columnaNombre;
-	
-	@FXML
-	private TableColumn<DTOTipoProductoCU02, String> columnaEnVenta;
-	
-	@FXML
-	private TableColumn<DTOTipoProductoCU02, String> columnaTieneImagen;
-	
-	@FXML
-	private TableColumn<DTOTipoProductoCU02, String> columnaPrecio100;
-	
-	@FXML
-	private TableColumn<DTOTipoProductoCU02, String> columnaPrecio250;
-	
-	@FXML
-	private TableColumn<DTOTipoProductoCU02, String> columnaPrecio500;
-	
-	@FXML
-	private TableColumn<DTOTipoProductoCU02, String> columnaPrecio1000;
-	
-	@FXML
-	private TableColumn<DTOTipoProductoCU02, String> columnaPrecio2000;
-	
-	@FXML
-	private TableColumn<DTOTipoProductoCU02, String> columnaPrecioUnidad;
+	@FXML private TableColumn<DTOTipoProductoCU02, String> columnaCategoria;	
+	@FXML private TableColumn<DTOTipoProductoCU02, String> columnaNombre;	
+	@FXML private TableColumn<DTOTipoProductoCU02, String> columnaEnVenta;	
+	@FXML private TableColumn<DTOTipoProductoCU02, String> columnaTieneImagen;	
+	@FXML private TableColumn<DTOTipoProductoCU02, String> columnaPrecio100;	
+	@FXML private TableColumn<DTOTipoProductoCU02, String> columnaPrecio250;	
+	@FXML private TableColumn<DTOTipoProductoCU02, String> columnaPrecio500;	
+	@FXML private TableColumn<DTOTipoProductoCU02, String> columnaPrecio1000;	
+	@FXML private TableColumn<DTOTipoProductoCU02, String> columnaPrecio2000;	
+	@FXML private TableColumn<DTOTipoProductoCU02, String> columnaPrecioUnidad;
     
-    @FXML
-    private void initialize(){
+    @FXML private void initialize(){
     	setCombo();
     	iniciarTabla();
     	
+    	//TODO CU02 implementar vista de producto y dar la posibilidad de editarlo
     	/*tabla.setRowFactory( tv -> {
     	    TableRow<DTOTipoProductoCU02> fila = new TableRow<>();
     	    fila.setOnMouseClicked(event -> {
@@ -139,8 +110,7 @@ public class CU02Controller {
     	}
     }
 	
-    @FXML
-    private void btnBuscar() {
+    @FXML private void btnBuscar() {
     	Integer idCategoria = null;
     	String nombreProducto = null;
     	Boolean vende = null;    	
@@ -156,13 +126,11 @@ public class CU02Controller {
     	cargarTabla(GestorProductos.get().buscarTiposProductos(idCategoria, nombreProducto, vende));    	 
 	}
     
-    @FXML
-    private void btnAgregar() {
+    @FXML private void btnAgregar() {
     	CU01Controller.get();
 	}
     
-    @FXML
-    private void btnEditar(){
+    @FXML private void btnEditar(){
     	CU05Controller.get().setProducto(productoSeleccionado.getIdProducto());
     	tabla.getSelectionModel().clearSelection();
     	btnEditar.setDisable(true);
@@ -174,16 +142,14 @@ public class CU02Controller {
     	tabla.getItems().set(tabla.getItems().indexOf(productoSeleccionado), dto);
     }
     
-    @FXML
-    private void seleccionarProducto() {
+    @FXML private void seleccionarProducto() {
     	productoSeleccionado = tabla.getSelectionModel().getSelectedItem();
 		if(productoSeleccionado != null) {
 			btnEditar.setDisable(false);
 		}
     }
     
-    @FXML
-    private void volver() {
+    @FXML private void volver() {
     	App.setRoot(sceneAnterior, tituloAnterior); 
     	instance = null;
     	tituloAnterior = null;

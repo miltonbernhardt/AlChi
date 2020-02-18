@@ -23,8 +23,7 @@ import javafx.scene.input.KeyEvent;
 /*
  * Controller para la view "Registro de entrada de productos"
  */
-public class CU03Controller01 {	
-	//TODO CU03 CAMBIAR DISPOSICION DEL PANEL
+public class CU03Controller01 {
 	
 	private static CU03Controller01 instance = null;
 	private static Parent sceneAnterior = null;
@@ -86,7 +85,7 @@ public class CU03Controller01 {
     private void setCombos() {
     	productos.getItems().clear();
     	productos.getItems().add(new DTOTipoProductoCU02("Seleccionar producto"));
-    	productos.getItems().addAll(GestorProductos.get().buscarTiposProductos(null, null, null));
+    	productos.getItems().addAll(GestorProductos.get().buscarTiposProductos(null, null, true));
     	productos.getSelectionModel().selectFirst();
     	
     	proveedores.getItems().clear();
@@ -269,7 +268,7 @@ public class CU03Controller01 {
         
     }    
 
-    @FXML private void volver() {
+    @FXML public void volver() {
     	App.setRoot(sceneAnterior, tituloAnterior); 
     	sceneAnterior = null;
     	tituloAnterior = null;

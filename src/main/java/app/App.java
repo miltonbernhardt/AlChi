@@ -30,7 +30,7 @@ public class App extends Application {
     public void start(Stage primaryStage) throws IOException {
     	HibernateUtil.apagarLog(true);
     	HibernateUtil.getSessionFactory();    	    	
-    	scene = new Scene(loadFXML("menu"));
+    	scene = new Scene(loadFXML("CU03View01"));
     	primaryStage.setOnCloseRequest(e->{
         	Platform.exit();
         	System.exit(0);    
@@ -95,9 +95,4 @@ public class App extends Application {
             }
         }
     }
-    
-    //TODO APP keypresee para solo aceptar numeros y una coma
-    
-    ///-------------------------------------------------
-
 }
