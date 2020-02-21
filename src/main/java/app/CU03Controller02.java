@@ -113,7 +113,7 @@ public class CU03Controller02 {
     	columnaP250.setCellValueFactory(new PropertyValueFactory<>("p250Final"));
     	columnaP500.setCellValueFactory(new PropertyValueFactory<>("p500Final"));
     	columnaP1000.setCellValueFactory(new PropertyValueFactory<>("p1000Final"));
-    	columnaP2000.setCellValueFactory(new PropertyValueFactory<>("p1000Final"));
+    	columnaP2000.setCellValueFactory(new PropertyValueFactory<>("p2000Final"));
     	columnaPUnidad.setCellValueFactory(new PropertyValueFactory<>("pUnidadFinal"));
     }
 	
@@ -132,37 +132,37 @@ public class CU03Controller02 {
 			valido = false;
 		}
 		
-		if(ck100 && sel100 && p100.getText().isBlank()) {
+		if(ck100 && sel100 && (p100.getText().isBlank() || (Float.parseFloat(p100.getText())==0f) )) {
     		cadena = cadena + numError+ ") Se debe ingresar un valor de precio sugerido para actualizar la forma de venta de 100 gramos.\n";
 			numError++;
 			valido = false;
     	}
 		
-		if(ck250 && sel250 && p250.getText().isBlank()) {
+		if(ck250 && sel250 && (p250.getText().isBlank() || (Float.parseFloat(p250.getText())==0f) )) {
 			cadena = cadena + numError+ ") Se debe ingresar un valor de precio sugerido para actualizar la forma de venta de 250 gramos.\n";
 			numError++;
 			valido = false;
     	}
 		
-		if(ck500 && sel500 && p500.getText().isBlank()) {
+		if(ck500 && sel500 && (p500.getText().isBlank() || (Float.parseFloat(p500.getText())==0f) )) {
 			cadena = cadena + numError+ ") Se debe ingresar un valor de precio sugerido para actualizar la forma de venta de 500 gramos.\n";
 			numError++;
 			valido = false;
     	}
 		
-		if(ck1000 && sel1000 && p1000.getText().isBlank()) {
+		if(ck1000 && sel1000 && (p1000.getText().isBlank() || (Float.parseFloat(p1000.getText())==0f) )) {
 			cadena = cadena + numError+ ") Se debe ingresar un valor de precio sugerido para actualizar la forma de venta de 1000 gramos.\n";
 			numError++;
 			valido = false;
     	}
 		
-		if(ck2000 && sel2000 && p2000.getText().isBlank()) {
+		if(ck2000 && sel2000 && (p2000.getText().isBlank() || (Float.parseFloat(p2000.getText())==0f) )) {
 			cadena = cadena + numError+ ") Se debe ingresar un valor de precio sugerido para actualizar la forma de venta de 2000 gramos.\n";
 			numError++;
 			valido = false;
     	}
 		
-		if(ckUnidad && selUnidad && pUnidad.getText().isBlank()) {
+		if(ckUnidad && selUnidad && (pUnidad.getText().isBlank() || (Float.parseFloat(pUnidad.getText())==0f) )) {
 			cadena = cadena + numError+ ") Se debe ingresar un valor de precio sugerido para actualizar la forma de venta de 1 unidad.\n";
 			numError++;
     		valido = false;
@@ -253,16 +253,20 @@ public class CU03Controller02 {
 	}
     
 	@FXML private void btnFinalizar() {
-		Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar ingreso de productos", null, "¿Desea confirmar el ingeso de los productos y la actualización de los precios?");
-				
-		if (result.get() == ButtonType.OK){
-			if(GestorProductos.get().updateTiposProductos(tabla.getItems())) {
-				PanelAlerta.getInformation("Confirmación", null, "La transacción ocurrió de manera efectiva.");
-                volver();
-                CU03Controller01.get().volver();
-			}
-		}    
-	
+		if(tabla.getItems().size()>0) {			
+			Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar ingreso de productos", null, "¿Desea confirmar el ingeso de los productos y la actualización de los precios?");
+			
+			if (result.get() == ButtonType.OK){
+				if(GestorProductos.get().registrarIngreso(tabla.getItems())) {
+					PanelAlerta.getInformation("Confirmación", null, "La transacción ocurrió de manera efectiva.");
+	                volver();
+	                CU03Controller01.get().volver();
+				}
+			}    
+		}
+		else{
+			PanelAlerta.getError("Aviso", null, "Se debe confirmar los precios de los productos a los cuales se le está registrando la entrada.");
+		}
     }
 
     @FXML private void volver() {

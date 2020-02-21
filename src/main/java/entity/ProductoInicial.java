@@ -2,7 +2,6 @@ package entity;
 
 import java.time.LocalDate;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,14 +13,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.IndexColumn;
-
-@SuppressWarnings("deprecation")
 @Entity
-@Table(name = "producto_total")
+@Table(name = "producto_inicial")
 public class ProductoInicial {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -34,7 +31,7 @@ public class ProductoInicial {
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_producto_empaquetado", foreignKey=@ForeignKey(name = "fk_producto_empaquetado"))
-	@IndexColumn(name = "idx")
+	@OrderBy("id asc")
 	private List<ProductoEmpaquetado> productoEmpaquetado;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

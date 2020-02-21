@@ -89,7 +89,7 @@ public class CU03Controller01 {
     	productos.getSelectionModel().selectFirst();
     	
     	proveedores.getItems().clear();
-    	proveedores.getItems().add(new DTOProveedor("Seleccionar proveedor"));
+    	proveedores.getItems().add(new DTOProveedor(null, "Seleccionar proveedor"));
     	proveedores.getItems().addAll(GestorProveedor.get().getProveedores());
     	proveedores.getSelectionModel().selectFirst();
     }
@@ -136,7 +136,8 @@ public class CU03Controller01 {
     	}});
     }
     
-    private void setearCamposNull() {
+    @SuppressWarnings("unused")
+	private void setearCamposNull() {
     	productos.getSelectionModel().selectFirst();
     	proveedores.getSelectionModel().selectFirst();
 		vencimiento.setValue(null);
@@ -194,7 +195,7 @@ public class CU03Controller01 {
     	}  
     	
     	if(seleccionProveedor && seleccionProducto && completoPrecio && completoCantidad && completoCodigoBarra && seleccionoVencimiento) {
-    		DTOProductoInicial dto = new DTOProductoInicial();    		
+    		DTOProductoInicial dto = new DTOProductoInicial();   
     		dto.setProveedor(proveedores.getValue());
     		dto.setTipoProducto(productos.getValue());
     		dto.setNombreCategoria(productos.getValue().getNombreCategoria());
@@ -204,10 +205,9 @@ public class CU03Controller01 {
     		
     		dto.setCodigoBarra(codigoBarra.getText());
     		dto.setVencimiento(vencimiento.getValue());
-    		
+    		    		
     		tabla.getItems().add(dto);
-    		
-    		//setearCamposNull(); TODO CU03.1 descomentar
+    		//setearCamposNull(); //TODO CU03.1 descomentar
     	}
     	else {
         	// TODO ZZZ cambiar color al equivocarse              	

@@ -3,7 +3,6 @@ package dto;
 import java.time.LocalDate;
 
 public class DTOProductoInicial {
-	private Integer idProductoInicial;
 	private String nombreCategoria;
 
 	private String nombreTipoProducto;	
@@ -52,7 +51,6 @@ public class DTOProductoInicial {
 	public String getNombreCategoria() { return nombreCategoria; }
 	public String getNombreTipoProducto() { return nombreTipoProducto; }
 	public String getNombreProveedor() { return nombreProveedor; }
-	public Integer getIdProductoInicial() { return idProductoInicial; }
 	public LocalDate getVencimiento() { return vencimiento; }
 	public String getCodigoBarra() { return codigoBarra; }
 	public Float getPrecioCompradoF() { return precioComprado; }
@@ -69,7 +67,6 @@ public class DTOProductoInicial {
 	public String getCantidadNoVendida() { return cantidadNoVendida.toString()+" $"; }
 
 	public void setNombreCategoria(String nombreCategoria) { this.nombreCategoria = nombreCategoria; }
-	public void setIdProductoInicial(Integer idProductoInicial) { this.idProductoInicial = idProductoInicial; }
 	public void setPrecioComprado(Float precioComprado) { this.precioComprado = precioComprado; }
 	public void setCantidadNoVendida(Float cantidadNoVendida) { this.cantidadNoVendida = cantidadNoVendida; }
 	public void setVencimiento(LocalDate vencimiento) { this.vencimiento = vencimiento; }
@@ -89,6 +86,12 @@ public class DTOProductoInicial {
 	public void setTipoProducto(DTOTipoProductoCU02 tipoProducto) {
 		this.tipoProducto = tipoProducto;
 		this.nombreTipoProducto = tipoProducto.getNombreTipoProducto();
+		this.precio100 = tipoProducto.getPrecio100F();
+		this.precio250 = tipoProducto.getPrecio250F();
+		this.precio500 = tipoProducto.getPrecio500F();
+		this.precio1000 = tipoProducto.getPrecio1000F();
+		this.precio2000 = tipoProducto.getPrecio2000F();
+		this.precioUnidad = tipoProducto.getPrecioUnidadF();
 	}
 
 	@Override

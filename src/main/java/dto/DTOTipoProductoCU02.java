@@ -90,6 +90,13 @@ public class DTOTipoProductoCU02 {
 	public String getPrecio1000() {  return precio1000.toString()+" $";  }
 	public String getPrecio2000() {  return precio2000.toString()+" $";  }
 	public String getPrecioUnidad() {  return precioUnidad.toString()+" $";  }
+	
+	public Float getPrecio100F() { return precio100;  }
+	public Float getPrecio250F() { return precio250;  }
+	public Float getPrecio500F() {  return precio500;  }
+	public Float getPrecio1000F() {  return precio1000;  }
+	public Float getPrecio2000F() {  return precio2000;  }
+	public Float getPrecioUnidadF() {  return precioUnidad;  }
 
 	@Override
 	public String toString() {

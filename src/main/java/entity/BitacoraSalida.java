@@ -13,24 +13,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.IndexColumn;
-
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "bitacora_salida")
 public class BitacoraSalida {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_bitacora_salida", foreignKey=@ForeignKey(name = "fk_bitacora_salida"))
-	@IndexColumn(name = "idx")
+	@OrderBy("id asc")
 	private List<ProductoEmpaquetado> productos;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_bitacora_salida", foreignKey=@ForeignKey(name = "fk_bitacora_salida"))
-	@IndexColumn(name = "idx")
+	@OrderBy("id asc")
 	private List<Combo> combos;
 	
 	@Id

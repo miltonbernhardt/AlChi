@@ -19,28 +19,22 @@ public class GestorEntrada {
     }
     
     public List<DTOCU03> getProductosActualizar(List<DTOProductoInicial> productosInicial){
-    	List<DTOCU03> listaFinal = new ArrayList<DTOCU03> ();
-    	
-    	List<DTOProductoInicial> listaInicial = new ArrayList<DTOProductoInicial> ();
-    	
+    	List<DTOCU03> listaFinal = new ArrayList<DTOCU03> ();    
     	Iterator<DTOProductoInicial> iterator1 = new HashSet<DTOProductoInicial>(productosInicial).iterator();
     	
     	while(iterator1.hasNext()) {
     		DTOProductoInicial dtoProdInicial = iterator1.next();
     		
     		DTOCU03 dtoCu03 = new DTOCU03(dtoProdInicial);
-    		
-        	Iterator<DTOProductoInicial> iterator2 = listaInicial.iterator();
+        	Iterator<DTOProductoInicial> iterator2 = productosInicial.iterator();
         	while(iterator2.hasNext()) {
         		DTOProductoInicial dtoProdInicial2 = iterator2.next();
-        		if(dtoProdInicial2.getIdProductoInicial().equals(dtoProdInicial.getIdProductoInicial())) {
+        		if(dtoProdInicial.getTipoProducto().getIdProducto().equals(dtoProdInicial2.getTipoProducto().getIdProducto())) {
         			dtoCu03.getLista().add(dtoProdInicial2);
-        			listaInicial.remove(dtoProdInicial2);
         		}
         	}
         	listaFinal.add(dtoCu03);
-    	}
-    	
+    	}    	
     	return listaFinal;
     }
 

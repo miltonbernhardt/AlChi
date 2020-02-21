@@ -108,7 +108,7 @@
                            </cursor>
                         </Button>
                         <Region minWidth="20.0" prefWidth="50.0" />
-                        <Button defaultButton="true" mnemonicParsing="false" onAction="#btnConfirmarVenta" text="Confirmar ventas">
+                        <Button mnemonicParsing="false" onAction="#btnConfirmarVenta" text="Confirmar ventas">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

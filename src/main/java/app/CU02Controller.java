@@ -45,6 +45,7 @@ public class CU02Controller {
 	@FXML private RadioButton noImporta;	
 	@FXML private RadioButton siVende;	
 	@FXML private RadioButton noVende;	
+	
 	@FXML private Button btnEditar;
 	
 	@FXML private TableView<DTOTipoProductoCU02> tabla;
@@ -76,7 +77,6 @@ public class CU02Controller {
     	    });
     	    return fila ;
     	});
-    	//TODO CU02 ver que onda
     	*/
     }
      

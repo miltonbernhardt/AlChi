@@ -25,7 +25,7 @@ public class GestorProveedor {
 		String consulta = "SELECT new dto.DTOProveedor(p.id, p.nombre, p.numeroTelefono) "
 				+ "FROM Proveedor p ORDER BY p.nombre ASC"; 		
 	
-		return (List<DTOProveedor>) DAOEntity.get().getResultList(consulta, new DTOProveedor());
+		return (List<DTOProveedor>) DAOEntity.get().getResultList(consulta, DTOProveedor.class);
 	}
 
 	public Boolean agregarProveedor(DTOProveedor dto) {
@@ -46,7 +46,7 @@ public class GestorProveedor {
 	}
   
 	public Boolean editarProveedor(DTOProveedor dto) {
-		Proveedor p = (Proveedor) DAOEntity.get().get(dto.getId(), new Proveedor());
+		Proveedor p = (Proveedor) DAOEntity.get().get(Proveedor.class, dto.getId());
 		p.setNombre(dto.getNombre());
 		p.setNumeroTelefono(dto.getNumeroTelefono());			
 		return DAOEntity.get().update(p);

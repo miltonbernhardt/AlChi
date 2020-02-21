@@ -30,7 +30,7 @@ public class App extends Application {
     public void start(Stage primaryStage) throws IOException {
     	HibernateUtil.apagarLog(true);
     	HibernateUtil.getSessionFactory();    	    	
-    	scene = new Scene(loadFXML("CU03View01"));
+    	scene = new Scene(loadFXML("menu"));
     	primaryStage.setOnCloseRequest(e->{
         	Platform.exit();
         	System.exit(0);    
@@ -85,7 +85,7 @@ public class App extends Application {
     }
 
 	static void onKeyPressed(KeyEvent event) {
-    	//TODO APP manejar bien esto
+    	//TODO APP ver lo de manejar los eventos causados por el enter y el esc
         if (event.getCode() == KeyCode.ESCAPE) {
         	
         } else if (event.getCode() == KeyCode.ENTER) {

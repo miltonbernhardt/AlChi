@@ -13,19 +13,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.IndexColumn;
-
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "combo")
 public class Combo {
 		
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_combo", foreignKey=@ForeignKey(name = "fk_combo"))
-	@IndexColumn(name = "idx")
+	@OrderBy("id asc")
 	private List<ProductoEmpaquetado> productos;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

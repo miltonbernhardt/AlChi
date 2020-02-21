@@ -11,25 +11,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import org.hibernate.annotations.IndexColumn;
 
-@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "tipo_producto")
-public class TipoProducto {
+@NamedEntityGraph(name = "graph.TipoProducto.productos", attributeNodes = @NamedAttributeNode("productos"))
+public class TipoProducto{
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL,  fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_tipo_producto", foreignKey=@ForeignKey(name = "fk_tipo_producto"))
-	@IndexColumn(name = "idx")
+	@OrderBy("id asc")
 	private List<ProductoInicial> productos;
 	
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_tipo_producto", foreignKey=@ForeignKey(name = "fk_tipo_producto"))
-	@IndexColumn(name = "idx")
+	@OrderBy("id asc")
 	private List<Precio> precios;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

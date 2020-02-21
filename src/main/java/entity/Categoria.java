@@ -12,19 +12,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.IndexColumn;
-
-@SuppressWarnings("deprecation")
 @Entity
 @Table
 public class Categoria {	
 	
 		@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 		@JoinColumn(name = "id_categoria", foreignKey=@ForeignKey(name = "fk_categoria"))
-		@IndexColumn(name = "idx")
+		@OrderColumn(name = "list_index")
 		private List<TipoProducto> productos;
 		
 		@Id

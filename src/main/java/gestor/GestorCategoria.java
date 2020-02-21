@@ -26,7 +26,7 @@ public class GestorCategoria {
 	public List<DTOCategoria> getCategorias() {	
 		String consulta = "SELECT new dto.DTOCategoria(c.id, c.nombre) FROM Categoria c ORDER BY c.nombre ASC";
 		
-		return (List<DTOCategoria>) DAOEntity.get().getResultList(consulta, new DTOCategoria());
+		return (List<DTOCategoria>) DAOEntity.get().getResultList(consulta, DTOCategoria.class);
 	}
 
 	public boolean agregarCategoría(DTOCategoria dto) {
@@ -46,7 +46,7 @@ public class GestorCategoria {
 	}
 
 	public boolean editarCategoria(DTOCategoria dto) {
-		Categoria c = (Categoria) DAOEntity.get().get(dto.getId(), new Categoria());
+		Categoria c = (Categoria) DAOEntity.get().get(Categoria.class, dto.getId());
 		c.setNombre(dto.getNombre());		
 		return DAOEntity.get().update(c);
 	}

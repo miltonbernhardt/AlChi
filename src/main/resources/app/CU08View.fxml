@@ -3,14 +3,15 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -26,7 +27,20 @@
                         <Insets right="-5.0" />
                      </padding>
                   </Label>
-                  <ComboBox fx:id="categoria" prefWidth="150.0">
+                  <ComboBox fx:id="categorias" minWidth="200.0" onAction="#seleccionarCategoria">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <VBox.margin>
+                        <Insets top="-10.0" />
+                     </VBox.margin>
+                  </ComboBox>
+                  <Label text="Nombre:">
+                     <padding>
+                        <Insets right="-5.0" />
+                     </padding>
+                  </Label>
+                  <ComboBox fx:id="productos" disable="true" minWidth="200.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -39,23 +53,16 @@
                         <Insets right="-5.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="codigoBarra" />
-                  <Label text="Nombre:">
-                     <padding>
-                        <Insets right="-5.0" />
-                     </padding>
-                  </Label>
-                  <TextField fx:id="nombre">
+                  <TextField fx:id="codigoBarra">
                      <VBox.margin>
                         <Insets top="-10.0" />
-                     </VBox.margin>
-                  </TextField>
+                     </VBox.margin></TextField>
                   <Label text="Proveedor:">
                      <padding>
                         <Insets right="-5.0" />
                      </padding>
                   </Label>
-                  <ComboBox fx:id="proveedores" prefWidth="150.0">
+                  <ComboBox fx:id="proveedores" minWidth="200.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -68,25 +75,36 @@
                         <Insets right="-5.0" />
                      </padding>
                   </Label>
-                  <DatePicker fx:id="fechaAntes" minWidth="100.0">
+                  <DatePicker fx:id="fechaIngresoAntes" minWidth="100.0" onKeyPressed="#vaciarFechaAntes" onKeyReleased="#vaciarFechaAntes" onKeyTyped="#vaciarFechaAntes">
                      <VBox.margin>
                         <Insets top="-10.0" />
                      </VBox.margin>
                   </DatePicker>
-                  <Label text="Fecha ingreso después:">
+                  <Label text="Fecha ingreso después de:">
                      <padding>
                         <Insets right="-5.0" />
                      </padding>
                   </Label>
-                  <DatePicker fx:id="fechaDespues" minWidth="100.0">
+                  <DatePicker fx:id="fechaIngresoDespues" minWidth="100.0" onKeyPressed="#vaciarFechaAntes" onKeyReleased="#vaciarFechaAntes" onKeyTyped="#vaciarFechaDespues">
                      <VBox.margin>
                         <Insets top="-10.0" />
                      </VBox.margin>
                   </DatePicker>
-                  <CheckBox fx:id="enVenta" mnemonicParsing="false" text="En venta">
+                  <Label text="¿Disponible?" />
+                  <HBox spacing="15.0">
+                     <children>
+                        <RadioButton fx:id="noImporta" mnemonicParsing="false" selected="true" text="No importa">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="enVenta" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="siDisponible" mnemonicParsing="false" text="Si" toggleGroup="$enVenta" />
+                        <RadioButton fx:id="noDisponible" mnemonicParsing="false" text="No" toggleGroup="$enVenta" />
+                     </children>
                      <VBox.margin>
-                        <Insets top="5.0" />
-                     </VBox.margin></CheckBox>
+                        <Insets top="-10.0" />
+                     </VBox.margin>
+                  </HBox>
                   <HBox alignment="CENTER" spacing="25.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#btnBuscar" text="Buscar">
@@ -113,12 +131,14 @@
          <center>
             <TableView fx:id="tabla" BorderPane.alignment="CENTER">
                <columns>
-                  <TableColumn prefWidth="75.0" text="Categoría" />
-                  <TableColumn prefWidth="185.0" text="Código de barra" />
-                  <TableColumn prefWidth="185.0" text="Nombre" />
-                  <TableColumn prefWidth="185.0" text="Proveedor" />
-                  <TableColumn prefWidth="185.0" text="Fecha ingreso" />
-                  <TableColumn prefWidth="171.0" text="En venta" />
+                  <TableColumn fx:id="columnaCategoria" prefWidth="75.0" text="Categoría" />
+                  <TableColumn fx:id="columnaCodigoBarra" prefWidth="185.0" text="Código de barra" />
+                  <TableColumn fx:id="columnaNombre" prefWidth="185.0" text="Nombre" />
+                  <TableColumn fx:id="columnaProveedor" prefWidth="185.0" text="Proveedor" />
+                  <TableColumn fx:id="columnaIngreso" prefWidth="185.0" text="Fecha ingreso" />
+                  <TableColumn fx:id="columnaPrecioCompra" prefWidth="185.0" text="Precio compra" />
+                  <TableColumn fx:id="columnaVencimiento" prefWidth="185.0" text="Fecha vencimiento" />
+                  <TableColumn fx:id="columnaDisponible" prefWidth="171.0" text="Disponible" />
                </columns>
                <BorderPane.margin>
                   <Insets left="15.0" />

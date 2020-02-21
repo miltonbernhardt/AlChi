@@ -15,13 +15,6 @@ public class DTOProveedor {
 		this.numeroTelefono = numeroTelefono;
 	}
 	
-	public DTOProveedor(String nombre) {
-		super();
-		this.id = null;
-		this.nombre = nombre;
-		this.numeroTelefono = null;
-	}
-	
 	public DTOProveedor(Integer id, String nombre) {
 		super();
 		this.id = id;

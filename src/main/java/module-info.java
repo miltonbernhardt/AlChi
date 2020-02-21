@@ -9,6 +9,7 @@ open module App {
 	requires java.logging;
 	requires java.sql;
 	requires java.desktop;
+	requires java.transaction;
 
     exports app;
 }

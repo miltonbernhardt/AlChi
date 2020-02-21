@@ -1,9 +1,15 @@
 package database;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import javax.persistence.EntityGraph;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import app.PanelAlerta;
+import entity.ProductoInicial;
+import entity.TipoProducto;
 
 public class DAOEntity {
 	
@@ -52,12 +58,13 @@ public class DAOEntity {
         return valido;
 	}
 	
-	public Object get(Integer id, Object o) {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Object get(Class clase, Integer id) {
 		Object tipo = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
         try {
         	session.beginTransaction();
-        	tipo = session.get(o.getClass(), id);
+        	tipo = session.get(clase, id);
         }
         catch (HibernateException e) {
         	PanelAlerta.getExcepcion(e, "No se pudo obtener el objeto desde la base de datos.");        	
@@ -67,12 +74,13 @@ public class DAOEntity {
 		return tipo;
 	}
 	
-	public Object getSingleResult(String consulta, Object o) {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Object getSingleResult(String consulta, Class clase) {
 		Object objeto = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
         try {
         	session.beginTransaction();
-        	objeto = session.createQuery(consulta, o.getClass()).getSingleResult(); 
+        	objeto = session.createQuery(consulta, clase).getSingleResult(); 
         }
         catch (HibernateException e) {
         	PanelAlerta.getExcepcion(e, "No se pudo obtener el objeto desde la base de datos.");        	
@@ -81,17 +89,40 @@ public class DAOEntity {
 		return objeto;
 	}
 	
-	public List<? extends Object> getResultList(String consulta, Object o) {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public List<? extends Object> getResultList(String consulta, Class clase) {
 		List<? extends Object> lista = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
         try {
         	session.beginTransaction();
-        	lista = session.createQuery(consulta, o.getClass()).getResultList();
+        	lista = session.createQuery(consulta, clase).getResultList();
         }
         catch (HibernateException e) {
         	PanelAlerta.getExcepcion(e, "No se pudo obtener la lista de objetos desde la base de datos.");        	
 		}
         session.close();
 		return lista;
-	}	
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void addProductoInicialToTipoProducto(Class clase, Integer id, String cadenaGraph, List<ProductoInicial> productos) {//ProductoInicial pro) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+				
+		EntityGraph graph = session.getEntityGraph(cadenaGraph);
+		  
+		Map hints = new HashMap();
+		hints.put("javax.persistence.fetchgraph", graph);
+		  
+		TipoProducto tipoProducto = (TipoProducto) session.find(clase, id, hints);
+		
+		Iterator<ProductoInicial> iterator = productos.iterator();
+		
+		while(iterator.hasNext()) {
+			ProductoInicial pro = iterator.next();
+			//pro.setTipoProducto(tipoProducto);
+			tipoProducto.getProductos().add(pro);
+		}
+		
+		session.close();
+	}
 }
