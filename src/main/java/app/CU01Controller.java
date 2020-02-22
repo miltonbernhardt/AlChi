@@ -26,7 +26,6 @@ import javafx.stage.Stage;
  * Controller para la view de "Registro de un nuevo tipo de producto"
  */
 public class CU01Controller {
-	//TODO CU01 agregar poner en venta o no
 	private CU03Controller01 controllerCu03 = null;
 	public CU03Controller01 getControllerCu03() { return controllerCu03; }
 	public void setControllerCu03(CU03Controller01 controllerCu03) { this.controllerCu03 = controllerCu03; }
@@ -44,27 +43,16 @@ public class CU01Controller {
         return instance;
     }
 		
-	@FXML
-	private Button btnQuitarImagen;
-	
-	@FXML
-	private ComboBox<DTOCategoria> categoria;
-	
-	@FXML
-	private TextField nombre;
-	
-	@FXML
-	private TextArea descripcion;
-	
-	@FXML
-	private ImageView imagen;
-	
+	@FXML private Button btnQuitarImagen;	
+	@FXML private ComboBox<DTOCategoria> categoria;	
+	@FXML private TextField nombre;	
+	@FXML private TextArea descripcion;	
+	@FXML private ImageView imagen;	
 	private URI imagenPath;	
      
     public CU01Controller() {}
 	
-    @FXML
-    private void initialize(){
+    @FXML private void initialize(){
     	setCombo();
     }
      
@@ -75,25 +63,23 @@ public class CU01Controller {
     	categoria.getSelectionModel().selectFirst();
     }
     
-    @FXML
-    private void btnConfirmar() {
+    @FXML private void btnConfirmar() {
     	Boolean seleccionCombo = true, completoNombre = true, completoDescripcion = true;
     	String cadenaError = "Debe determinar los siguientes campos del producto:\n";
     	Integer nroCampo = 1;
-    	
-    	/**
-    	 * TODO ZZZ cambiar color al equivocarse       
-    	 */
+
     	if(categoria.getValue().getId() == null) {
     		cadenaError += nroCampo.toString()+") Categoría.\n";
     		nroCampo++;
     		seleccionCombo = false;
+    		App.setError(categoria);
     	}
 
     	if(nombre.getText().isBlank()) {
     		cadenaError += nroCampo.toString()+") Nombre.\n";
     		nroCampo++;
     		completoNombre = false;
+    		App.setError(nombre);
     	}
     	
     	if(descripcion.getText().isBlank()) {
@@ -123,7 +109,7 @@ public class CU01Controller {
     				dto.setDirectorioImagen("");
     			else
     				dto.setDirectorioImagen(imagenPath.toString());
-    			
+    			//TODO CU01 desea agregar otro producto?
     			if(GestorProductos.get().agregarTipoProducto(dto)) {
     				PanelAlerta.getInformation("Confirmación", null, "El producto '"+nombreProducto+"' fue correctamente guardado.");
     				if(controllerCu03 != null) {
@@ -138,8 +124,7 @@ public class CU01Controller {
     	}
     }
     
-    @FXML
-    private void btnAgregarImagen(ActionEvent actionEvent) throws java.io.IOException {
+    @FXML private void btnAgregarImagen(ActionEvent actionEvent) throws java.io.IOException {
     	FileChooser chooser = new FileChooser();
         chooser.setTitle("Subir imágen");
         chooser.setInitialDirectory(new File(Directorio.get().getDirectorio()));
@@ -154,18 +139,26 @@ public class CU01Controller {
         }
     }
     
-    @FXML
-    private void btnQuitarImagen() {
+    @FXML private void btnQuitarImagen() {
     	imagen.setImage(null);
     	imagenPath = null;
     	btnQuitarImagen.setDisable(true);
     }
     
-    @FXML
-    private void volver() {
+    @FXML private void volver() {
     	App.setRoot(sceneAnterior, tituloAnterior); 
     	sceneAnterior = null;
     	tituloAnterior = null;
     	instance = null;
 	}
+    
+    @FXML private void setCategoriaValida() {
+    	if(categoria.getValue().getId() != null) {
+    		App.setValido(categoria);
+    	}
+    }
+    
+    @FXML private void setNombreValido() {
+    	App.setValido(nombre);
+    }
 }

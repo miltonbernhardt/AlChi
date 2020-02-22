@@ -13,6 +13,7 @@ import gestor.GestorProveedor;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -63,13 +64,13 @@ public class CU08Controller {
 	@FXML private TableColumn<LocalDate, DTOCU08> columnaVencimiento;
 	@FXML private TableColumn<String, DTOCU08> columnaDisponible;
     
-	//TODO CU08 agregar precioCompra
     public CU08Controller() { }
 	
     @FXML private void initialize(){
     	//TODO CU08 doble click abre opciones
     	setCombos();
     	iniciarTabla();
+    	iniciarCalendario();
     }    
 	 
 	private void setCombos() {
@@ -102,6 +103,23 @@ public class CU08Controller {
     	while(iteratorProductos.hasNext()) {
     		tabla.getItems().add(iteratorProductos.next());	
     	}
+    }
+    
+    private void iniciarCalendario() {   	
+    	LocalDate minDate = LocalDate.now();    	
+    	fechaIngresoAntes.setDayCellFactory(d -> new DateCell() {
+    		@Override
+    		public void updateItem(LocalDate item, boolean empty) {
+    			super.updateItem(item, empty);
+    	        setDisable(item.isAfter(minDate));
+    	}});
+    	
+    	fechaIngresoDespues.setDayCellFactory(d -> new DateCell() {
+    		@Override
+    		public void updateItem(LocalDate item, boolean empty) {
+    			super.updateItem(item, empty);
+    	        setDisable(item.isAfter(minDate));
+    	}});
     }
 
 	@FXML private void btnBuscar() {
@@ -152,5 +170,4 @@ public class CU08Controller {
     @FXML private void vaciarFechaDespues() {
     	fechaIngresoDespues.setValue(null);
     }
-    //TODO CU08 arreglar datepicker y establecer comportamientos
 }

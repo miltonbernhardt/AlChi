@@ -42,7 +42,7 @@
                         <Insets bottom="-5.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="nombre" disable="true" maxWidth="300.0" VBox.vgrow="ALWAYS" />
+                  <TextField fx:id="nombre" disable="true" maxWidth="300.0" onKeyTyped="#nombreValido" VBox.vgrow="ALWAYS" />
                   <Label text="Teléfono:">
                      <padding>
                         <Insets bottom="-5.0" />

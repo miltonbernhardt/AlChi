@@ -122,6 +122,8 @@ public class CU07Controller01 {
                     tabla.getItems().set(tabla.getSelectionModel().getSelectedIndex(), proveedorSeleccionado);
                     tabla.setDisable(false);     
             		nombre.setDisable(true);
+            		nombre.setText("");
+            		telefono.setText("");
             		telefono.setDisable(true);
             		botoneraPrincipal.setDisable(false);
             		botoneraPrincipal.setVisible(true);
@@ -132,12 +134,12 @@ public class CU07Controller01 {
     		}    
 		}
 		else {
-			String cadena = "";
-			//TODO ZZZ cambiar color al equivocarse       
+			String cadena = "";   
 			if(proveedorSeleccionado == null) {
 				cadena = "Debe seleccionar un proveedor a editar.";
 			}
 			else {
+				App.setError(nombre);
 				cadena = "El proveedor debe tener un nombre.";
 			}
 			PanelAlerta.getError("Aviso", null, cadena);
@@ -187,6 +189,8 @@ public class CU07Controller01 {
                     tabla.getItems().add(dto);
                     
             		nombre.setDisable(true);
+            		nombre.setText("");
+            		telefono.setText("");
             		telefono.setDisable(true);
             		tabla.setDisable(false);
             		botoneraPrincipal.setDisable(false);
@@ -197,7 +201,7 @@ public class CU07Controller01 {
     		} 
 		}
 		else {
-			//TODO ZZZ cambiar color al equivocarse  
+			App.setError(nombre);
 			PanelAlerta.getError("Aviso", null, "El proveedor debe tener un nombre.");
 		}
 	}
@@ -219,6 +223,10 @@ public class CU07Controller01 {
 			nombre.setText(proveedorSeleccionado.getNombre());
 			telefono.setText(proveedorSeleccionado.getNumeroTelefono());
 		}		
+	}
+	
+	@FXML private void nombreValido() {
+		App.setValido(nombre);
 	}
 	
     @FXML private void volver() {

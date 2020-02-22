@@ -41,13 +41,13 @@
                         <Insets bottom="-5.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="nombre" maxWidth="300.0" VBox.vgrow="ALWAYS" />
+                  <TextField fx:id="nombre" maxWidth="300.0" onKeyTyped="#nombreValido" VBox.vgrow="ALWAYS" />
                   <Label text="Teléfono:">
                      <padding>
                         <Insets bottom="-5.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="telefono" maxWidth="300.0" onKeyPressed="#listenerTelefono" VBox.vgrow="ALWAYS" />
+                  <TextField fx:id="telefono" maxWidth="300.0" VBox.vgrow="ALWAYS" />
                   <HBox alignment="CENTER" maxHeight="70.0" spacing="25.0">
                      <children>
                         <Button maxHeight="70.0" mnemonicParsing="false" onAction="#btnConfirmarAdicion" text="Confirmar adición">

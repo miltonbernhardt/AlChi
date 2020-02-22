@@ -26,7 +26,7 @@ import javafx.stage.Stage;
 /**
  * Controller para la view de "Actualización de características de tipos de productos"
  */
-//TODO CU05 modificar para brindar la posiblidad de elegir si está a la venta o no
+
 public class CU05Controller {
 	private static CU05Controller instance = null;
 	private static Parent sceneAnterior = null;
@@ -47,31 +47,17 @@ public class CU05Controller {
 	
 	private DTOTipoProductoCU05 dto = null;
 	
-	@FXML
-	private Button btnQuitarImagen;
-	
-	@FXML
-	private Button btnCambiarImagen;
-	
-	@FXML	
-	private Button btnActualizar;
-	
-	@FXML
-	private ComboBox<DTOCategoria> categoria;
-	
-	@FXML
-	private TextField nombre;
-	
-	@FXML
-	private TextArea descripcion;
-	
-	@FXML
-	private ImageView imagen;
+	@FXML private Button btnQuitarImagen;	
+	@FXML private Button btnCambiarImagen;	
+	@FXML private Button btnActualizar;	
+	@FXML private ComboBox<DTOCategoria> categoria;	
+	@FXML private TextField nombre;	
+	@FXML private TextArea descripcion;	
+	@FXML private ImageView imagen;
 	
 	private URI imagenPath = null;
      
-    @FXML
-    private void initialize(){    	
+    @FXML private void initialize(){    	
     	setCombo();    	
     }
 
@@ -102,25 +88,23 @@ public class CU05Controller {
     	}		
 	}
     
-    @FXML
-    private void btnActualizar() {
+    @FXML private void btnActualizar() {
     	Boolean seleccionCombo = true, completoNombre = true, completoDescripcion = true;
     	String cadenaError = "Debe determinar los siguientes campos del producto:\n";
     	Integer nroCampo = 1;
     	
-    	/**
-    	 * TODO ZZZ cambiar color al equivocarse       
-    	 */
     	if(categoria.getValue().getId() == null) {
     		cadenaError += nroCampo.toString()+") Categoría.\n";
     		nroCampo++;
     		seleccionCombo = false;
+    		App.setError(categoria);
     	}
 
     	if(nombre.getText().isBlank()) {
     		cadenaError += nroCampo.toString()+") Nombre.\n";
     		nroCampo++;
     		completoNombre = false;
+    		App.setError(nombre);
     	}      	
     	
     	if(descripcion.getText().isBlank()) {
@@ -162,8 +146,7 @@ public class CU05Controller {
     	}
     }
     
-    @FXML
-    private void btnCambiarImagen(ActionEvent actionEvent) throws MalformedURLException {
+    @FXML private void btnCambiarImagen(ActionEvent actionEvent) throws MalformedURLException {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Subir imágen");
         chooser.setInitialDirectory(new File(Directorio.get().getDirectorio()));
@@ -178,18 +161,26 @@ public class CU05Controller {
         }        
     }
     
-    @FXML
-    private void btnQuitarImagen() {
+    @FXML private void btnQuitarImagen() {
     	imagen.setImage(null);
     	imagenPath = null;
     	btnQuitarImagen.setDisable(true);
     }
     
-    @FXML
-    private void volver() {
+    @FXML private void volver() {
     	App.setRoot(sceneAnterior, tituloAnterior); 
     	instance = null;
     	tituloAnterior = null;
     	sceneAnterior = null;
 	}
+    
+    @FXML private void setCategoriaValida() {
+    	if(categoria.getValue().getId() != null) {
+    		App.setValido(categoria);
+    	}
+    }
+    
+    @FXML private void setNombreValido() {
+    	App.setValido(nombre);
+    }
 }

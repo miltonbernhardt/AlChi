@@ -15,6 +15,9 @@ import app.PanelAlerta;
 import database.DAOEntity;
 import dto.DTOCU03;
 import dto.DTOCU08;
+import dto.DTOCU10FormaVenta;
+import dto.DTOCU10ProductoInicial;
+import dto.DTOCU10TipoProducto;
 import dto.DTOProductoInicial;
 import dto.DTOTipoProducto;
 import dto.DTOTipoProductoCU02;
@@ -51,7 +54,6 @@ public class GestorProductos {
 			
 			t.setNombre(dto.getNombreTipoProducto());
 			t.setDescripcion(dto.getDescripcion());
-			t.setEnVenta(true);
 			
 			if(!dto.getDirectorioImagen().isEmpty()) {
 				URI imagenPath = URI.create(dto.getDirectorioImagen());
@@ -84,6 +86,7 @@ public class GestorProductos {
 				precios.add(p);
 			}
 			t.setPrecios(precios);
+			t.setEnVenta(false);
 			
 			Boolean bool = DAOEntity.get().save(t);
 			dto.setIdProducto(t.getId());
@@ -197,12 +200,8 @@ public class GestorProductos {
 		if(nombreProducto != null)
 			consulta = consulta + " AND t.nombre LIKE '%"+nombreProducto+"%'";
 		
-		if(vende != null) {
-			if(vende)
-				consulta = consulta + " AND t.enVenta=true";
-			else 
-				consulta = consulta + " AND t.enVenta=false";	
-		}
+		if(vende != null)
+			consulta = consulta + " AND t.enVenta="+vende;	
 
 		consulta = consulta + " ORDER BY t.nombre ASC"; 
 		
@@ -320,6 +319,9 @@ public class GestorProductos {
 					return false;
 			}		
 			
+			if(!tipoProducto.getEnVenta())
+				tipoProducto.setEnVenta(true);
+			
 			if( !DAOEntity.get().update(tipoProducto))
 				return false;
 		}		
@@ -345,19 +347,19 @@ public class GestorProductos {
 			consulta = consulta + " AND t.id="+idProducto;		
 		
 		if(fechaIngAntes != null) {
-			if(fechaIngDespues != null) {
-				consulta = consulta + " AND b.fecha BETWEEN "+fechaIngAntes+" AND "+fechaIngDespues+"";	
+			if(fechaIngDespues != null) {				
+				if(fechaIngAntes.isAfter(fechaIngDespues))
+					consulta = consulta + " AND b.fecha BETWEEN '"+fechaIngDespues+"' AND '"+fechaIngAntes+"'";
+				else
+					consulta = consulta + " AND b.fecha BETWEEN '"+fechaIngAntes+"' AND '"+fechaIngDespues+"'";
 			}
-			else {
-				consulta = consulta + " AND "+fechaIngAntes+">=b.fecha";	
-			}
+			else
+				consulta = consulta + " AND '"+fechaIngAntes+"'>=b.fecha";	
 		}
 		else {
 			if(fechaIngDespues != null)
-				consulta = consulta + " AND b.fecha>="+fechaIngDespues;	
+				consulta = consulta + " AND b.fecha>='"+fechaIngDespues+"'";	
 		}
-		System.out.println(consulta);
-		
 		
 		if(disponible != null)
 			consulta = consulta + " AND p.disponible="+disponible;
@@ -369,9 +371,74 @@ public class GestorProductos {
 
 	@SuppressWarnings("unchecked")
 	public List<DTOTipoProducto> getTiposProducto(Integer idCategoria) {
-		String consulta = "SELECT new dto.DTOTipoProducto(t.id, t.nombre) "
-				+ "FROM TipoProducto t WHERE t.categoria="+idCategoria+" ORDER BY t.nombre ASC"; 		
-	
+		String consulta = "SELECT new dto.DTOTipoProducto(t.id, t.nombre) FROM TipoProducto t WHERE t.categoria="+idCategoria+" ORDER BY t.nombre ASC"; 
+			
 		return (List<DTOTipoProducto>) DAOEntity.get().getResultList(consulta, DTOTipoProducto.class);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DTOCU10TipoProducto> getTiposProducto() {
+		String consulta = "SELECT new dto.DTOCU10TipoProducto(t.id, t.nombre ) FROM TipoProducto t WHERE t.enVenta=true ORDER BY t.nombre ASC"; 
+			
+		List<DTOCU10TipoProducto> listaProductos =  (List<DTOCU10TipoProducto>) DAOEntity.get().getResultList(consulta, DTOCU10TipoProducto.class);
+		
+		List<DTOCU10TipoProducto> listaProductosFinal = new ArrayList<DTOCU10TipoProducto>();
+		
+		Iterator<DTOCU10TipoProducto> iteratorProductos = listaProductos.iterator();
+
+		while(iteratorProductos.hasNext()) {
+			DTOCU10TipoProducto dto = iteratorProductos.next();
+			
+			Boolean ventaUnidad = false;
+			TipoProducto t = (TipoProducto) DAOEntity.get().get(TipoProducto.class, dto.getId());
+			List<Precio> precios = t.getPrecios();
+			Iterator<Precio> preciosIterator = precios.iterator();			
+			while(preciosIterator.hasNext()) {
+				Precio p = preciosIterator.next();
+				TipoPaquete tipoVenta = p.getTipoVenta();
+				Float valor = p.getValor();
+				switch(tipoVenta) {
+					case G100:
+						if(valor != 0)
+							dto.getFormasVenta().add(new DTOCU10FormaVenta(tipoVenta, valor));
+					break;
+					
+					case G250:
+						if(valor != 0)
+							dto.getFormasVenta().add(new DTOCU10FormaVenta(tipoVenta, valor));
+					break;
+					
+					case G500:
+						if(valor != 0)
+							dto.getFormasVenta().add(new DTOCU10FormaVenta(tipoVenta, valor));
+					break;
+					
+					case G1000:
+						if(valor != 0)
+							dto.getFormasVenta().add(new DTOCU10FormaVenta(tipoVenta, valor));
+					break;
+					
+					case G2000:
+						if(valor != 0)
+							dto.getFormasVenta().add(new DTOCU10FormaVenta(tipoVenta, valor));
+					break;
+					
+					case UNIDAD:
+						ventaUnidad = true;
+					break;
+				}
+			}		
+			
+			if( !(ventaUnidad && (dto.getFormasVenta().size() <= 1))) {
+				consulta = "SELECT new dto.DTOCU10ProductoInicial(p.id, p.cantidadNoVendida, p.codigoBarra, p.vencimiento, pro.nombre ) "
+						+ "FROM ProductoInicial p, Proveedor pro "
+						+ "WHERE pro.id=p.proveedor AND p.disponible=true AND p.tipoProducto="+dto.getId();
+				
+				dto.setProductosIniciales((List<DTOCU10ProductoInicial>) DAOEntity.get().getResultList(consulta, DTOCU10ProductoInicial.class));
+				listaProductosFinal.add(dto);
+			}		
+		}
+		
+		return listaProductosFinal;
 	}
 }

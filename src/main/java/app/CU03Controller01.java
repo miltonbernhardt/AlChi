@@ -78,14 +78,14 @@ public class CU03Controller01 {
 		vencimiento.setValue(LocalDate.now());;
 		precioCompra.setText("2000");	
 		cantidad.setText("2");	
-		codigoBarra.setText("9827378962834");
-    	
+		codigoBarra.setText("9827378962834");    	
     }
+
     
     private void setCombos() {
     	productos.getItems().clear();
     	productos.getItems().add(new DTOTipoProductoCU02("Seleccionar producto"));
-    	productos.getItems().addAll(GestorProductos.get().buscarTiposProductos(null, null, true));
+    	productos.getItems().addAll(GestorProductos.get().buscarTiposProductos(null, null, null));
     	productos.getSelectionModel().selectFirst();
     	
     	proveedores.getItems().clear();
@@ -163,30 +163,35 @@ public class CU03Controller01 {
     		cadenaError += nroCampo.toString()+") Proveedor.\n";
     		nroCampo++;
     		seleccionProveedor = false;
+    		App.setError(proveedores);
     	}
 
     	if(productos.getValue().getIdProducto() == null) {
     		cadenaError += nroCampo.toString()+") Producto.\n";
     		nroCampo++;
     		seleccionProducto = false;
+    		App.setError(productos);
     	}
 
     	if(precioCompra.getText().isBlank()) {
     		cadenaError += nroCampo.toString()+") Precio de compra.\n";
     		nroCampo++;
     		completoPrecio = false;
+    		App.setError(precioCompra);
     	}
     	
     	if(cantidad.getText().isBlank()) {
     		cadenaError += nroCampo.toString()+") Cantidad de producto.\n";
     		nroCampo++;
     		completoCantidad = false;
+    		App.setError(cantidad);
     	}
     	
     	if(codigoBarra.getText().isBlank()) {
     		cadenaError += nroCampo.toString()+") Código de barra.\n";
     		nroCampo++;
     		completoCodigoBarra = false;
+    		App.setError(codigoBarra);
     	} 
     	
     	if(vencimiento.getValue() == null) {
@@ -209,8 +214,7 @@ public class CU03Controller01 {
     		tabla.getItems().add(dto);
     		//setearCamposNull(); //TODO CU03.1 descomentar
     	}
-    	else {
-        	// TODO ZZZ cambiar color al equivocarse              	
+    	else {            	
     		PanelAlerta.getError("Aviso", null, cadenaError);
     	}
     }
@@ -230,6 +234,7 @@ public class CU03Controller01 {
     }
     
     @FXML private void btnEditarFila() {
+    	//TODO CU03.1 antes de editar si hay campos llenos no borrarlos
     	if(productoSeleccionado != null) {    		
         	productos.getSelectionModel().select(productoSeleccionado.getTipoProducto());
         	proveedores.getSelectionModel().select(productoSeleccionado.getProveedor());
@@ -292,6 +297,7 @@ public class CU03Controller01 {
     
     private void validarCampos(KeyEvent e) {
 		TextField campo = (TextField) e.getSource();
+		App.setValido(campo);
     	Character caracter = e.getCharacter().charAt(0);
     	String temporal = "";
 		if(Character.isDigit(caracter) ||  caracter == '.' || caracter == ','){
@@ -318,5 +324,17 @@ public class CU03Controller01 {
     		btnEditarFila.setDisable(true); 
     	}
     	
+    }
+    
+    @FXML private void validarSeleccionProveedores() {
+    	App.setValido(proveedores);
+    }
+    
+    @FXML private void validarSeleccionProductos() {
+    	App.setValido(productos);
+    }
+    
+    @FXML private void validarCodigoBarra() {
+    	App.setValido(codigoBarra);
     }
 }

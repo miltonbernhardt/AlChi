@@ -5,16 +5,12 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import javafx.scene.Node;
-
 import java.io.IOException;
 import database.HibernateUtil;
-
+//TODO ver cuando deja de ser estar diponible, si cuando no haya mas productos o cuando lo decida el administrador
 public class App extends Application {
 	
     private static Scene scene;
@@ -84,7 +80,7 @@ public class App extends Application {
     	return fxmlLoader.getController();
     }
 
-	static void onKeyPressed(KeyEvent event) {
+	/*static void onKeyPressed(KeyEvent event) {
     	//TODO APP ver lo de manejar los eventos causados por el enter y el esc
         if (event.getCode() == KeyCode.ESCAPE) {
         	
@@ -94,5 +90,17 @@ public class App extends Application {
                 ((Button) (focusOwner)).fire();
             }
         }
-    }
+    }*/
+	
+	static void setError(Control nodo) {
+		nodo.getStylesheets().clear();
+		nodo.getStylesheets().add("app/error.css");
+	}
+	
+	static void setValido(Control nodo) {
+		nodo.getStylesheets().clear();
+		nodo.getStylesheets().add("app/styles.css");
+	}
+	
+	//TODO APP setear letra bold en los combos al menos
 }

@@ -5,12 +5,8 @@ import dto.DTOProveedor;
 import gestor.GestorProveedor;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
 
 public class CU07Controller02 {
 	private static CU07Controller02 instance = null;
@@ -26,80 +22,56 @@ public class CU07Controller02 {
         return instance;
     }
 			
-	@FXML
-	private TextField nombre;
-	
-	@FXML
-	private TextField telefono;
+	@FXML private TextField nombre;	
+	@FXML private TextField telefono;
 	
     public CU07Controller02() { }
 	
-    @FXML
-    private void initialize(){ }
+    @FXML  private void initialize(){ }
 	
-	@FXML
-	private void btnConfirmarAdicion() {
+	@FXML private void btnConfirmarAdicion() {
 		String nombreP = nombre.getText(), telefonoP = telefono.getText();
 		if(!nombreP.isBlank()) {
 			
     		nombreP = nombreP.toLowerCase();
     		nombreP = nombreP.substring(0, 1).toUpperCase() + nombreP.substring(1);
 			
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
-    		alert.setTitle("Confirmar adición de proveedor");
-    		alert.setHeaderText("¿Desea confirmar los siguientes datos?");
     		
+
+    		String cadena = "";
     		if(telefonoP.isBlank()) {
-    			alert.setContentText("Nombre proveedor: "+nombreP+"\n"
-        				+ "Sin número teléfonico\n");
+    			cadena = "Nombre proveedor: "+nombreP+"\n"
+        				+ "Sin número teléfonico\n";
     		}
     		else {
-    			alert.setContentText("Nombre proveedor: "+nombreP+"\n"
-        				+ "Teléfono del proveedor: "+telefonoP+"\n");
+    			cadena = "Nombre proveedor: "+nombreP+"\n"
+        				+ "Teléfono del proveedor: "+telefonoP+"\n";
     		}    		
     		
-    		Optional<ButtonType> result = alert.showAndWait();
+    		Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar adición de proveedor", "¿Desea confirmar los siguientes datos?", cadena);
     		if (result.get() == ButtonType.OK){   
     			DTOProveedor dto = new DTOProveedor();
     			dto.setNombre(nombreP);
     			dto.setNumeroTelefono(telefonoP);
     			
     			if(GestorProveedor.get().agregarProveedor(dto)) {
-    				alert = new Alert(AlertType.INFORMATION);
-    				stage = (Stage) alert.getDialogPane().getScene().getWindow();
-    	        	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
-                    alert.setTitle("Confirmación");
-                    alert.setHeaderText(null);
-                    alert.setContentText("El proveedor '"+nombreP+"' fue correctamente añadido.");
-                    alert.showAndWait();  
-                    
+    				PanelAlerta.getInformation("Confirmación", null, "El proveedor '"+nombreP+"' fue correctamente añadido.");                    
                     CU03Controller01.get().setearProveedor(dto);
-                    volver();
-                    
+                    volver();                    
     			}
     		} 
 		}
 		else {
-			//TODO ZZZ cambiar color al equivocarse       
-			Alert alert = new Alert(AlertType.ERROR);
-			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
-    		alert.setTitle("Aviso");
-    		alert.setHeaderText(null);
-    		alert.setContentText("El proveedor debe tener un nombre.");
-    		alert.showAndWait();
+			App.setError(nombre);
+			PanelAlerta.getError("Aviso", null, "El proveedor debe tener un nombre.");
 		}
 	}
 	
-	@FXML
-	private void listenerTelefono() {
-		//TODO CU07 implementar
+	@FXML private void nombreValido() {
+		App.setValido(nombre);
 	}
 	
-    @FXML
-    private void volver() {
+    @FXML private void volver() {
     	App.setRoot(sceneAnterior, tituloAnterior); 
     	sceneAnterior = null;
     	tituloAnterior = null;

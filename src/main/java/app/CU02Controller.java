@@ -44,7 +44,7 @@ public class CU02Controller {
 	
 	@FXML private RadioButton noImporta;	
 	@FXML private RadioButton siVende;	
-	@FXML private RadioButton noVende;	
+	@FXML private RadioButton noVende;
 	
 	@FXML private Button btnEditar;
 	

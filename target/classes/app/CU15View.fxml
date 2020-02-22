@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" onKeyPressed="#onKeyPressed" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.CU15Controller">
+<ScrollPane fitToHeight="true" fitToWidth="true" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.CU15Controller">
    <content>
       <BorderPane>
          <center>
@@ -41,12 +41,12 @@
                         <Insets bottom="-5.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="nombre" disable="true" maxWidth="300.0" VBox.vgrow="ALWAYS" />
+                  <TextField fx:id="nombre" disable="true" maxWidth="300.0" onKeyPressed="#setValido" VBox.vgrow="ALWAYS" />
                   <StackPane>
                      <children>
                         <HBox fx:id="botoneraEditar" alignment="CENTER" disable="true" maxHeight="70.0" spacing="25.0" visible="false">
                            <children>
-                              <Button defaultButton="true" maxHeight="70.0" mnemonicParsing="false" onAction="#btnConfirmarEdicion" text="Confirmar edición">
+                              <Button maxHeight="70.0" mnemonicParsing="false" onAction="#btnConfirmarEdicion" text="Confirmar edición">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -63,7 +63,7 @@
                         </HBox>
                         <HBox fx:id="botoneraAnadir" alignment="CENTER" disable="true" maxHeight="70.0" spacing="25.0" visible="false">
                            <children>
-                              <Button defaultButton="true" maxHeight="70.0" mnemonicParsing="false" onAction="#btnConfirmarAdicion" text="Confirmar adición">
+                              <Button maxHeight="70.0" mnemonicParsing="false" onAction="#btnConfirmarAdicion" text="Confirmar adición">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>

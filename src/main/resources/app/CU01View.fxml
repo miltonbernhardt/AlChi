@@ -46,7 +46,7 @@
             <HBox alignment="CENTER_LEFT" maxHeight="70.0" spacing="15.0" BorderPane.alignment="CENTER_LEFT">
                <children>
                   <Label text="Categoría:" />
-                  <ComboBox fx:id="categoria">
+                  <ComboBox fx:id="categoria" onAction="#setCategoriaValida">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -70,7 +70,7 @@
                               <Insets bottom="-5.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="nombre" VBox.vgrow="SOMETIMES" />
+                        <TextField fx:id="nombre" onKeyPressed="#setNombreValido" VBox.vgrow="SOMETIMES" />
                         <Label text="Descripción:">
                            <padding>
                               <Insets bottom="-5.0" />

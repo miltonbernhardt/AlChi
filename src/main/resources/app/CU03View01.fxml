@@ -25,7 +25,7 @@
                   <HBox alignment="CENTER" spacing="5.0">
                      <children>
                         <Label text="Producto:" />
-                        <ComboBox fx:id="productos" minWidth="200.0" prefWidth="250.0">
+                        <ComboBox fx:id="productos" minWidth="200.0" onAction="#validarSeleccionProductos" prefWidth="250.0">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -41,7 +41,7 @@
                   <HBox alignment="CENTER" spacing="5.0">
                      <children>
                         <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Proveedor:" />
-                        <ComboBox fx:id="proveedores" minWidth="200.0" prefWidth="250.0">
+                        <ComboBox fx:id="proveedores" minWidth="200.0" onAction="#validarSeleccionProveedores" prefWidth="250.0">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -69,7 +69,7 @@
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="4.0">
                      <children>
                         <Label text="Código de barra:" />
-                        <TextField fx:id="codigoBarra" />
+                        <TextField fx:id="codigoBarra" onKeyTyped="#validarCodigoBarra" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER">

@@ -128,6 +128,12 @@ public class CU03Controller02 {
 				sel2000=rd2000.isSelected(), selUnidad=rdUnidad.isSelected();
 		
 		if(!ck100 && !ck250 && !ck500 && !ck1000 && !ck2000 && !ckUnidad) {
+			App.setError(checkP100);
+			App.setError(checkP250);
+			App.setError(checkP500);
+			App.setError(checkP1000);
+			App.setError(checkP2000);
+			App.setError(checkPUnidad);
 			cadena = cadena + "Se debe elegir al menos una forma de venta para el producto.";
 			valido = false;
 		}
@@ -136,36 +142,42 @@ public class CU03Controller02 {
     		cadena = cadena + numError+ ") Se debe ingresar un valor de precio sugerido para actualizar la forma de venta de 100 gramos.\n";
 			numError++;
 			valido = false;
+			App.setError(p100);
     	}
 		
 		if(ck250 && sel250 && (p250.getText().isBlank() || (Float.parseFloat(p250.getText())==0f) )) {
 			cadena = cadena + numError+ ") Se debe ingresar un valor de precio sugerido para actualizar la forma de venta de 250 gramos.\n";
 			numError++;
 			valido = false;
+			App.setError(p250);
     	}
 		
 		if(ck500 && sel500 && (p500.getText().isBlank() || (Float.parseFloat(p500.getText())==0f) )) {
 			cadena = cadena + numError+ ") Se debe ingresar un valor de precio sugerido para actualizar la forma de venta de 500 gramos.\n";
 			numError++;
 			valido = false;
+			App.setError(p500);
     	}
 		
 		if(ck1000 && sel1000 && (p1000.getText().isBlank() || (Float.parseFloat(p1000.getText())==0f) )) {
 			cadena = cadena + numError+ ") Se debe ingresar un valor de precio sugerido para actualizar la forma de venta de 1000 gramos.\n";
 			numError++;
 			valido = false;
+			App.setError(p1000);
     	}
 		
 		if(ck2000 && sel2000 && (p2000.getText().isBlank() || (Float.parseFloat(p2000.getText())==0f) )) {
 			cadena = cadena + numError+ ") Se debe ingresar un valor de precio sugerido para actualizar la forma de venta de 2000 gramos.\n";
 			numError++;
 			valido = false;
+			App.setError(p2000);
     	}
 		
 		if(ckUnidad && selUnidad && (pUnidad.getText().isBlank() || (Float.parseFloat(pUnidad.getText())==0f) )) {
 			cadena = cadena + numError+ ") Se debe ingresar un valor de precio sugerido para actualizar la forma de venta de 1 unidad.\n";
 			numError++;
     		valido = false;
+    		App.setError(pUnidad);
     	}
 		
 		if(valido) {
@@ -237,7 +249,6 @@ public class CU03Controller02 {
 			agregarATabla(dto);
 		}
 		else {
-			//TODO ZZZ cambiar color al equivocarse  
 			PanelAlerta.getError("Error", header, cadena);
 		}		
 	}
@@ -310,6 +321,7 @@ public class CU03Controller02 {
 	}
 	
 	@FXML private void checkP250() {
+		validarChecks();
 		if(checkP250.isSelected() && !checkP250.isDisable()) {
 			p250.setDisable(false);
     		rd250.setDisable(false);
@@ -341,6 +353,7 @@ public class CU03Controller02 {
 	}
 	
 	@FXML private void checkP500() {
+		validarChecks();
 		if(checkP500.isSelected() && !checkP500.isDisable()) {
 			p500.setDisable(false);
     		rd500.setDisable(false);  
@@ -372,6 +385,7 @@ public class CU03Controller02 {
 	}
 	
 	@FXML private void checkP1000() {
+		validarChecks();
 		if(checkP1000.isSelected() && !checkP1000.isDisable()) {
 			p1000.setDisable(false);
     		rd1000.setDisable(false);
@@ -403,6 +417,7 @@ public class CU03Controller02 {
 	}
 	
 	@FXML private void checkP2000() {
+		validarChecks();
 		if(checkP2000.isSelected() && !checkP2000.isDisable()) {
     		p2000.setDisable(false);
     		rd2000.setDisable(false);
@@ -434,6 +449,7 @@ public class CU03Controller02 {
 	}
 	
 	@FXML private void checkPUnidad() {
+		validarChecks();
 		if(checkPUnidad.isSelected() && !checkPUnidad.isDisable()) {
     		pUnidad.setDisable(false);
     		rdUnidad.setDisable(false);    		
@@ -483,11 +499,11 @@ public class CU03Controller02 {
 					checkP500.setSelected(true);	
 				else
 					checkP500.setSelected(false);	
-				if( !(tipoProductoCombo.getP2000Anterior() == 0f) )
+				if( !(tipoProductoCombo.getP1000Anterior() == 0f) )
 					checkP1000.setSelected(true);
 				else
 					checkP1000.setSelected(false);
-				if( !(tipoProductoCombo.getP1000Anterior() == 0f) )
+				if( !(tipoProductoCombo.getP2000Anterior() == 0f) )
 					checkP2000.setSelected(true);
 				else
 					checkP2000.setSelected(false);
@@ -607,6 +623,7 @@ public class CU03Controller02 {
     
     private void validarCampos(KeyEvent e) {
 		TextField campo = (TextField) e.getSource();
+		App.setValido(campo);
     	Character caracter = e.getCharacter().charAt(0);
     	String temporal = "";
 		if(Character.isDigit(caracter) ||  caracter == '.' || caracter == ','){
@@ -804,5 +821,14 @@ public class CU03Controller02 {
 		checkP1000();				
 		checkP2000();
 		checkPUnidad();			
+    }
+    
+    private void validarChecks() {
+    	App.setValido(checkP100);
+		App.setValido(checkP250);
+		App.setValido(checkP500);
+		App.setValido(checkP1000);
+		App.setValido(checkP2000);
+		App.setValido(checkPUnidad);
     }
 }

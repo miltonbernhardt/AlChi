@@ -8,58 +8,85 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <ScrollPane fitToHeight="true" fitToWidth="true" pickOnBounds="false" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.CU10Controller">
    <content>
       <AnchorPane prefHeight="600.0" prefWidth="900.0" stylesheets="@styles.css">
          <children>
-            <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="NEVER">
                      <children>
                         <Pane HBox.hgrow="SOMETIMES" />
-                        <Label text="Producto:" />
-                        <ComboBox fx:id="tipoProducto" minWidth="100.0" HBox.hgrow="SOMETIMES">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </ComboBox>
-                        <Pane maxWidth="60.0" HBox.hgrow="SOMETIMES" />
-                        <Label text="Paquete:" />
-                        <ComboBox fx:id="tipoPaquete" disable="true" minWidth="100.0">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </ComboBox>
-                        <Pane maxWidth="60.0" HBox.hgrow="SOMETIMES" />
-                        <Label text="Cantidad:" />
-                        <ComboBox fx:id="cantidad" disable="true" minWidth="100.0" HBox.hgrow="SOMETIMES">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </ComboBox>
-                        <Pane maxWidth="60.0" HBox.hgrow="SOMETIMES" />
-                        <Pane maxWidth="60.0" HBox.hgrow="SOMETIMES" />
+                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="5.0">
+                           <children>
+                              <Label text="Producto:" />
+                              <ComboBox fx:id="tipoProducto" minWidth="100.0" onAction="#listenerProductos" HBox.hgrow="SOMETIMES">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ComboBox>
+                           </children>
+                        </HBox>
+                        <Pane maxWidth="40.0" HBox.hgrow="SOMETIMES" />
+                        <VBox alignment="CENTER" spacing="15.0">
+                           <children>
+                              <HBox alignment="CENTER" spacing="5.0">
+                                 <children>
+                                    <Label text="Paquete inicial" />
+                                    <ComboBox fx:id="productoInicial" disable="true" minWidth="300.0" onAction="#listenerProductosIniciales">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                       <tooltip>
+                                          <Tooltip text="Se muestran aquellos paquetes que se registró que se pueden vender">
+                                             <font>
+                                                <Font name="System Italic" size="12.0" />
+                                             </font>
+                                          </Tooltip>
+                                       </tooltip>
+                                    </ComboBox>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="5.0">
+                                 <children>
+                                    <Label text="Forma de venta:" />
+                                    <ComboBox fx:id="formaVenta" disable="true" minWidth="150.0" HBox.hgrow="SOMETIMES">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ComboBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <Pane maxWidth="40.0" HBox.hgrow="SOMETIMES" />
+                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="5.0">
+                           <children>
+                              <Label text="Cantidad:" />
+                              <ComboBox fx:id="cantidad1" disable="true" minWidth="100.0" HBox.hgrow="SOMETIMES">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ComboBox>
+                           </children>
+                        </HBox>
                         <Pane HBox.hgrow="SOMETIMES" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" spacing="10.0">
                      <children>
-                        <Pane HBox.hgrow="SOMETIMES" />
-                        <Button disable="true" mnemonicParsing="false" onAction="#btnAnadirEmpaquetamiento" text="Añadir empaquetamiento" />
-                        <Pane HBox.hgrow="SOMETIMES">
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </Pane>
+                        <Button fx:id="btnAñadirEmpaquetamiento" disable="true" mnemonicParsing="false" onAction="#btnAnadirEmpaquetamiento" text="Añadir empaquetamiento" />
                      </children>
                      <VBox.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="10.0" top="10.0" />
                      </VBox.margin>
                   </HBox>
                   <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="150.0" minWidth="-Infinity" VBox.vgrow="SOMETIMES">
@@ -89,7 +116,7 @@
                            </cursor>
                         </Button>
                         <Region minWidth="20.0" prefWidth="50.0" />
-                        <Button defaultButton="true" mnemonicParsing="false" onAction="#btnConfirmarEmpaquetamiento" text="Confirmar empaquetamiento">
+                        <Button mnemonicParsing="false" onAction="#btnConfirmarEmpaquetamiento" text="Confirmar empaquetamiento">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

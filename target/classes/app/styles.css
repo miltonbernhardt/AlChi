@@ -16,25 +16,64 @@
 
 .button  {
     -fx-background-radius: 5,4,3,5;
-    /*-fx-text-fill: black;*/
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
     -fx-font-family: "Arial";
-   /* -fx-text-fill: linear-gradient(rgb(120, 38, 11), black);*/
     -fx-font-size: 13px;
     -fx-padding: 10 20 10 20;
 }
+
 .root{
     -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.9) , 1, 0.0 , 0 , 1 );
     -fx-font-size: 13px;
     -fx-font-family: "Abel Font";
     -fx-base: rgb(223, 75, 44);
-    -fx-background: rgb(54, 51, 50);
-    
-    /*no parece funcionar lo de abajo*/
-    -fx-text-fill: black;
-    -fx-text-fill: linear-gradient(rgb(120, 38, 11), black);
+    -fx-background: rgb(54, 51, 50);    
+}
+
+
+.text-field{
+    -fx-background-insets: 0, 0 0 1 0 ;
+    -fx-background-radius: 0;
+}
+
+.text-field:disabled{
+   /* -fx-background-color:transparent;*/
+}
+
+.text-field:focused {
+    -fx-background-color:  RGB(228,198,111);
+}
+
+
+.scroll-pane{
+	-fx-border-color: rgb(54, 51, 50);      
+}
+
+.scroll-pane:focused{
+	-fx-border-color: rgb(54, 51, 50);      
+}
+
+
+
+.check-box{
+   	-fx-text-fill: white;
+}
+
+.check-box:selected .mark {
     
 }
+
+.check-box:selected .box {
+   
+}
+
+
+
+/*
+.combo-box:focused {
+	-fx-text-fill: black;
+    -fx-background-color: RGB(228,198,111);
+}*/
 
 #tabla .table-cell {
     -fx-alignment: CENTER;
@@ -45,7 +84,7 @@
     -fx-cell-size: 2.0em; /* 24 */
     -fx-text-fill: -fx-text-inner-color;
 }
-
+/*
 #windows7-default {
     -fx-background-color: 
         #3c7fb1,
@@ -285,4 +324,4 @@
     -fx-padding: 3 30 3 30;
     -fx-text-fill: black;
     -fx-font-size: 14px;
-};
+};*/

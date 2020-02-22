@@ -70,22 +70,22 @@
                         <Insets top="-10.0" />
                      </VBox.margin>
                   </ComboBox>
+                  <Label text="Fecha ingreso después de:">
+                     <padding>
+                        <Insets right="-5.0" />
+                     </padding>
+                  </Label>
+                  <DatePicker fx:id="fechaIngresoDespues" minWidth="100.0" onKeyPressed="#vaciarFechaDespues" onKeyReleased="#vaciarFechaDespues" onKeyTyped="#vaciarFechaDespues">
+                     <VBox.margin>
+                        <Insets top="-10.0" />
+                     </VBox.margin>
+                  </DatePicker>
                   <Label text="Fecha ingreso antes de:">
                      <padding>
                         <Insets right="-5.0" />
                      </padding>
                   </Label>
                   <DatePicker fx:id="fechaIngresoAntes" minWidth="100.0" onKeyPressed="#vaciarFechaAntes" onKeyReleased="#vaciarFechaAntes" onKeyTyped="#vaciarFechaAntes">
-                     <VBox.margin>
-                        <Insets top="-10.0" />
-                     </VBox.margin>
-                  </DatePicker>
-                  <Label text="Fecha ingreso después de:">
-                     <padding>
-                        <Insets right="-5.0" />
-                     </padding>
-                  </Label>
-                  <DatePicker fx:id="fechaIngresoDespues" minWidth="100.0" onKeyPressed="#vaciarFechaAntes" onKeyReleased="#vaciarFechaAntes" onKeyTyped="#vaciarFechaDespues">
                      <VBox.margin>
                         <Insets top="-10.0" />
                      </VBox.margin>
