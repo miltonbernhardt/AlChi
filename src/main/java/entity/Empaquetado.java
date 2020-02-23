@@ -16,16 +16,16 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "producto_empaquetado")
-public class ProductoEmpaquetado {
+@Table
+public class Empaquetado {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_producto_inicial")
 	private ProductoInicial productoInicial;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_producto_empaquetado")
-	@SequenceGenerator(name="id_producto_empaquetado", sequenceName = "id_producto_empaquetado_seq", initialValue = 100, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_empaquetado")
+	@SequenceGenerator(name="id_empaquetado", sequenceName = "id_empaquetado_seq", initialValue = 100, allocationSize = 1)
 	@Column(nullable = false)
 	private Integer id;
 	
@@ -36,7 +36,7 @@ public class ProductoEmpaquetado {
 	@Column(nullable = false)
 	private Boolean vendido;
 	
-	public ProductoEmpaquetado() {}
+	public Empaquetado() {}
 	
 	public ProductoInicial getProductoInicial() { return productoInicial; }	
 	public Integer getId() { return id; }	

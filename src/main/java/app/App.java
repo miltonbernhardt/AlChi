@@ -17,6 +17,9 @@ public class App extends Application {
     private static Stage stage;
     private static FXMLLoader fxmlLoader;
     
+	private static Parent sceneAnterior = null;
+	private static String tituloAnterior = null;
+    
     public static void main(String[] args) {
         launch();
     } 
@@ -61,36 +64,31 @@ public class App extends Application {
         stage.setTitle(titulo);
         return fxmlLoader.getController();
     }
-    
-    static void setRoot(Parent p, String titulo) {
-        scene.setRoot(p);
-        scene.getRoot().requestFocus();
-        stage.setTitle(titulo);
-    }
 
-    static Parent getSceneAnterior() {
-	   return stage.getScene().getRoot();
-    }
-   
-    static String getTituloAnterior() {
-	   return stage.getTitle();
-    } 		
+	static void setViewAnterior() {
+		sceneAnterior = stage.getScene().getRoot();
+		tituloAnterior = stage.getTitle();
+	}
+	
+	static void getViewAnterior() {
+		scene.setRoot(sceneAnterior);
+	    scene.getRoot().requestFocus();
+	    stage.setTitle(tituloAnterior);
+	    sceneAnterior = null;
+	    tituloAnterior = null;
+	}
+	
+	static void getMenu() {
+		scene.setRoot(loadFXML("menu"));
+        scene.getRoot().requestFocus();
+        stage.setTitle("AlChi: Menú");
+	    sceneAnterior = null;
+	    tituloAnterior = null;
+	}
 
     static Object getControllerActual() {
     	return fxmlLoader.getController();
     }
-
-	/*static void onKeyPressed(KeyEvent event) {
-    	//TODO APP ver lo de manejar los eventos causados por el enter y el esc
-        if (event.getCode() == KeyCode.ESCAPE) {
-        	
-        } else if (event.getCode() == KeyCode.ENTER) {
-            Node focusOwner = stage.getScene().getFocusOwner();
-            if (focusOwner instanceof Button) {
-                ((Button) (focusOwner)).fire();
-            }
-        }
-    }*/
 	
 	static void setError(Control nodo) {
 		nodo.getStylesheets().clear();
@@ -101,6 +99,4 @@ public class App extends Application {
 		nodo.getStylesheets().clear();
 		nodo.getStylesheets().add("app/styles.css");
 	}
-	
-	//TODO APP setear letra bold en los combos al menos
 }

@@ -64,7 +64,7 @@ public class DTOProductoInicial {
 	public DTOProveedor getProveedor() { return proveedor; }
 	public DTOTipoProductoCU02 getTipoProducto() { return tipoProducto; }	
 	public String getPrecioComprado() { return precioComprado.toString()+" $"; }
-	public String getCantidadNoVendida() { return cantidadNoVendida.toString()+" $"; }
+	public String getCantidadNoVendida() { return cantidadNoVendida.toString(); }
 
 	public void setNombreCategoria(String nombreCategoria) { this.nombreCategoria = nombreCategoria; }
 	public void setPrecioComprado(Float precioComprado) { this.precioComprado = precioComprado; }

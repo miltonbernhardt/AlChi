@@ -11,7 +11,6 @@ import gestor.GestorCategoria;
 import gestor.GestorProductos;
 import gestor.GestorProveedor;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
@@ -25,16 +24,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 /**
  * Controller para la view de "Búsqueda de productos en stock"
  */
-public class CU08Controller {
-	
+public class CU08Controller {	
 	private static CU08Controller instance = null;
-	private static Parent sceneAnterior = null;
-	private static String tituloAnterior = null;
 
     public static CU08Controller get() {
         if (instance == null){ 
-    		sceneAnterior = App.getSceneAnterior();
-    		tituloAnterior = App.getTituloAnterior();
+        	App.setViewAnterior();	
         	instance = (CU08Controller) App.setRoot("CU08View", "AlChi: Búsqueda de productos en stock");
         }    
         return instance;
@@ -67,7 +62,7 @@ public class CU08Controller {
     public CU08Controller() { }
 	
     @FXML private void initialize(){
-    	//TODO CU08 doble click abre opciones
+    	//TODO CU08 doble click abre opciones de empaquetarlo o darlo de baja
     	setCombos();
     	iniciarTabla();
     	iniciarCalendario();
@@ -142,9 +137,7 @@ public class CU08Controller {
 	}
 	
     @FXML private void volver() {
-    	App.setRoot(sceneAnterior, tituloAnterior); 
-    	instance = null;
-    	tituloAnterior = null;
+    	App.getViewAnterior();
     	instance = null;
 	}
     

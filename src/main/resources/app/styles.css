@@ -67,7 +67,19 @@
    
 }
 
+.combo-box-popup .list-view {
+    
+}
 
+/*added this in an edit*/
+.combo-box-popup .list-view .list-cell {
+    /*-fx-padding: -1 -1 -1 -1;*/
+}
+
+
+.combo-box {
+	-fx-font-weight: bold;
+}
 
 /*
 .combo-box:focused {

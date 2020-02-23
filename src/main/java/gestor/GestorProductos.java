@@ -16,6 +16,7 @@ import database.DAOEntity;
 import dto.DTOCU03;
 import dto.DTOCU08;
 import dto.DTOCU10FormaVenta;
+import dto.DTOCU10Empaquetado;
 import dto.DTOCU10ProductoInicial;
 import dto.DTOCU10TipoProducto;
 import dto.DTOProductoInicial;
@@ -25,7 +26,7 @@ import dto.DTOTipoProductoCU05;
 import entity.BitacoraEntrada;
 import entity.Categoria;
 import entity.Precio;
-import entity.ProductoEmpaquetado;
+import entity.Empaquetado;
 import entity.ProductoInicial;
 import entity.Proveedor;
 import entity.TipoProducto;
@@ -306,7 +307,6 @@ public class GestorProductos {
 				pro.setVencimiento(dtoProdInicial.getVencimiento());
 				pro.setCodigoBarra(dtoProdInicial.getCodigoBarra());
 				pro.setDisponible(true);
-				pro.setProductoEmpaquetado(new ArrayList<ProductoEmpaquetado>());
 				
 				Proveedor proveedor = (Proveedor) DAOEntity.get().get(Proveedor.class, dtoProdInicial.getProveedor().getId());
 				pro.setProveedor(proveedor);				
@@ -424,7 +424,8 @@ public class GestorProductos {
 					break;
 					
 					case UNIDAD:
-						ventaUnidad = true;
+						if(valor != 0)
+							ventaUnidad = true;
 					break;
 				}
 			}		
@@ -440,5 +441,42 @@ public class GestorProductos {
 		}
 		
 		return listaProductosFinal;
+	}
+
+	public boolean registrarEmpaquetamiemto(List<DTOCU10Empaquetado> items) {
+		Iterator<DTOCU10Empaquetado> iterator = items.iterator();
+		while(iterator.hasNext()){
+			DTOCU10Empaquetado dto = iterator.next();
+			
+			/*if( TODO GESTOR-PRODUCTOS dto no es un descarte o parte de otro) {
+				
+			}*/
+			
+			ProductoInicial prodInicial = (ProductoInicial) DAOEntity.get().get(ProductoInicial.class, dto.getIdProductoInicial());
+			
+			Float cantNoVendida = prodInicial.getCantidadNoVendida();			
+			cantNoVendida = cantNoVendida - (dto.getCantidadPaquetes() * dto.getTipoPaqueteE().getCantidad())/1000; 
+			prodInicial.setCantidadNoVendida(cantNoVendida);
+			
+			
+			if(cantNoVendida<=0) {
+				prodInicial.setDisponible(false);
+			}
+			
+			
+			Empaquetado p = new Empaquetado();
+			
+			p.setProductoInicial(prodInicial);
+			p.setTipoVenta(dto.getTipoPaqueteE());
+			p.setVendido(false);
+			
+			if(! DAOEntity.get().save(p))
+				return false;
+			
+			if(! DAOEntity.get().update(prodInicial))
+				return false;
+		}
+		
+		return true;
 	}
 }

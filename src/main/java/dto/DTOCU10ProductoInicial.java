@@ -12,22 +12,15 @@ public class DTOCU10ProductoInicial {
 	private String codigoBarra;
 	private LocalDate vencimiento;
 	private String proveedor;
-	private String nombreProductoInicial;
 	
 	public DTOCU10ProductoInicial(Integer idProductoInicial, Float cantidadNoVendida, String codigoBarra,
 			LocalDate vencimiento, String proveedor) {
 		super();
-		this.nombreProductoInicial = "Proveedor: "+proveedor+".  Código de barra: "+codigoBarra+".  Vencimiento: "+vencimiento;
 		this.idProductoInicial = idProductoInicial;
 		this.cantidadNoVendida = cantidadNoVendida;
 		this.codigoBarra = codigoBarra;
 		this.vencimiento = vencimiento;
 		this.proveedor = proveedor;
-	}
-	
-	public DTOCU10ProductoInicial(Integer id, String nombre) {
-		this.nombreProductoInicial = nombre;
-		this.idProductoInicial = id;
 	}
 	
 	public Integer getIdProductoInicial() { return idProductoInicial; }
@@ -43,7 +36,7 @@ public class DTOCU10ProductoInicial {
 	public void setProveedor(String proveedor) { this.proveedor = proveedor; }
 	
 	@Override
-	public String toString() {
-		return nombreProductoInicial;
-	}
+	public String toString() {		
+		return "Proveedor: "+proveedor+".  Código de barra: "+codigoBarra+".  Vencimiento: "+vencimiento+".  Cantidad restante: "+cantidadNoVendida.toString()+" Kg";
+	}	
 }

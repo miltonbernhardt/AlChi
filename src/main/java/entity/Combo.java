@@ -24,7 +24,7 @@ public class Combo {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_combo", foreignKey=@ForeignKey(name = "fk_combo"))
 	@OrderBy("id asc")
-	private List<ProductoEmpaquetado> productos;
+	private List<Empaquetado> productos;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_bitacora_salida")
@@ -41,12 +41,12 @@ public class Combo {
 	
 	public Combo() {}
 
-	public List<ProductoEmpaquetado> getProductos() { return productos; }
+	public List<Empaquetado> getProductos() { return productos; }
 	public BitacoraSalida getBitacora() { return bitacora; }
 	public Integer getId() { return id; }
 	public Float getPrecio() { return precio; }
 
-	public void setProductos(List<ProductoEmpaquetado> productos) { this.productos = productos; }
+	public void setProductos(List<Empaquetado> productos) { this.productos = productos; }
 	public void setBitacora(BitacoraSalida bitacora) { this.bitacora = bitacora; }
 	public void setId(Integer id) { this.id = id; }
 	public void setPrecio(Float precio) { this.precio = precio; }	

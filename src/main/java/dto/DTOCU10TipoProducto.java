@@ -1,6 +1,7 @@
 package dto;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class DTOCU10TipoProducto {
@@ -21,7 +22,17 @@ public class DTOCU10TipoProducto {
 
 	public Integer getId() { return id; }
 	public String getNombre() { return nombre; }
-	public List<DTOCU10ProductoInicial> getProductosIniciales() { return productosIniciales; }
+	public List<DTOCU10ProductoInicial> getProductosIniciales() { 
+		List<DTOCU10ProductoInicial> lista = new ArrayList<DTOCU10ProductoInicial>();
+		Iterator<DTOCU10ProductoInicial> ite = productosIniciales.iterator();
+		while(ite.hasNext()) {
+			DTOCU10ProductoInicial dto = ite.next();
+			if(dto.getCantidadNoVendida()>0) {
+				lista.add(dto);
+			}
+		}
+		return lista; 
+	}
 	public List<DTOCU10FormaVenta> getFormasVenta() { return formasVenta; }
 	
 	public void setId(Integer id) { this.id = id; }

@@ -7,7 +7,6 @@ import dto.DTOTipoProductoCU02;
 import gestor.GestorCategoria;
 import gestor.GestorProductos;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -22,15 +21,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class CU02Controller {	
 	private static CU02Controller instance = null;
-	private static Parent sceneAnterior = null;
-	private static String tituloAnterior = null;
 	
     public CU02Controller() { }
 
     public static CU02Controller get() {
         if (instance == null){
-    		sceneAnterior = App.getSceneAnterior();
-    		tituloAnterior = App.getTituloAnterior();
+        	App.setViewAnterior();	
         	instance = (CU02Controller) App.setRoot("CU02View", "AlChi: Buscar productos");
         }    
         return instance;
@@ -150,9 +146,7 @@ public class CU02Controller {
     }
     
     @FXML private void volver() {
-    	App.setRoot(sceneAnterior, tituloAnterior); 
+    	App.getViewAnterior();
     	instance = null;
-    	tituloAnterior = null;
-    	sceneAnterior = null;
 	}
 }

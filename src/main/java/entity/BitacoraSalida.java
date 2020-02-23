@@ -24,7 +24,7 @@ public class BitacoraSalida {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_bitacora_salida", foreignKey=@ForeignKey(name = "fk_bitacora_salida"))
 	@OrderBy("id asc")
-	private List<ProductoEmpaquetado> productos;
+	private List<Empaquetado> productos;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_bitacora_salida", foreignKey=@ForeignKey(name = "fk_bitacora_salida"))
@@ -42,12 +42,12 @@ public class BitacoraSalida {
 
 	public BitacoraSalida() {}
 	
-	public List<ProductoEmpaquetado> getProductos() { return productos; }
+	public List<Empaquetado> getProductos() { return productos; }
 	public List<Combo> getCombos() { return combos; }
 	public Integer getId() { return id; }
 	public LocalDate getFecha() { return fecha; }
 	
-	public void setProductos(List<ProductoEmpaquetado> productos) { this.productos = productos; }
+	public void setProductos(List<Empaquetado> productos) { this.productos = productos; }
 	public void setCombos(List<Combo> combos) { this.combos = combos; }
 	public void setId(Integer id) { this.id = id; }
 	public void setFecha(LocalDate fecha) { this.fecha = fecha; }		

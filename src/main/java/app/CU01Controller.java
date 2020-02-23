@@ -11,7 +11,6 @@ import gestor.GestorCategoria;
 import gestor.GestorProductos;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -31,13 +30,10 @@ public class CU01Controller {
 	public void setControllerCu03(CU03Controller01 controllerCu03) { this.controllerCu03 = controllerCu03; }
 	
 	private static CU01Controller instance = null;
-	private static Parent sceneAnterior = null;
-	private static String tituloAnterior = null;
 	
 	public static CU01Controller get() {
         if (instance == null){
-        	sceneAnterior = App.getSceneAnterior();
-    		tituloAnterior = App.getTituloAnterior();
+        	App.setViewAnterior();	
         	instance = (CU01Controller) App.setRoot("CU01View", "AlChi: Registrar nuevo producto"); 
         }    
         return instance;
@@ -92,12 +88,16 @@ public class CU01Controller {
     		
     		nombreProducto = nombreProducto.substring(0, 1).toUpperCase() + nombreProducto.substring(1);
     		
+    		String cadena = "Categoría: "+categoria.getValue().toString()+"\nNombre del producto: "+nombreProducto;
+    		
     		if(completoDescripcion) {
         		descripcionProducto = descripcionProducto.substring(0, 1).toUpperCase() + descripcionProducto.substring(1);
+        		cadena = cadena+"\nDescripción: "+descripcionProducto;
     		}
     		
-    		Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar producto nuevo", "¿Desea confirmar los siguientes datos ingresados?",
-    				"Categoría: "+categoria.getValue().toString()+"\nNombre del producto: "+nombreProducto+"\nDescripción: "+descripcionProducto); 
+    		
+    		
+    		Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar producto nuevo", "¿Desea confirmar los siguientes datos ingresados?", cadena); 
     				
     		if (result.get() == ButtonType.OK){
     			DTOTipoProductoCU05 dto = new DTOTipoProductoCU05();
@@ -109,13 +109,26 @@ public class CU01Controller {
     				dto.setDirectorioImagen("");
     			else
     				dto.setDirectorioImagen(imagenPath.toString());
-    			//TODO CU01 desea agregar otro producto?
+
     			if(GestorProductos.get().agregarTipoProducto(dto)) {
-    				PanelAlerta.getInformation("Confirmación", null, "El producto '"+nombreProducto+"' fue correctamente guardado.");
     				if(controllerCu03 != null) {
     					controllerCu03.setearTipoProducto(GestorProductos.get().getTipoProductoCU02(dto.getIdProducto()));
+    					volver();
     				}
-                    volver();
+    				else {
+    					Optional<ButtonType> result2 = PanelAlerta.getConfirmation("Confirmación", "El producto '"+nombreProducto+"' fue correctamente guardado.",
+        						"¿Desea registrar un nuevo producto?");
+        				
+        				if (result2.get() == ButtonType.OK){
+        					categoria.getSelectionModel().selectFirst();
+        					nombre.setText("");
+        					descripcion.setText("");
+        					btnQuitarImagen();
+        				}
+        				else {
+        					volver();
+        				}
+    				}                    
     			}
     		}    		
     	}
@@ -146,9 +159,7 @@ public class CU01Controller {
     }
     
     @FXML private void volver() {
-    	App.setRoot(sceneAnterior, tituloAnterior); 
-    	sceneAnterior = null;
-    	tituloAnterior = null;
+    	App.getViewAnterior();
     	instance = null;
 	}
     

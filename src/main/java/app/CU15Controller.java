@@ -6,7 +6,6 @@ import java.util.Optional;
 import dto.DTOCategoria;
 import gestor.GestorCategoria;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -20,15 +19,11 @@ import javafx.scene.layout.HBox;
  * Controller para la view de "Administrar categorías"
  */
 public class CU15Controller {	
-	
 	private static CU15Controller instance = null;
-	private static Parent sceneAnterior = null;
-	private static String tituloAnterior = null;
 
     public static CU15Controller get() {
         if (instance == null){
-        	sceneAnterior = App.getSceneAnterior();
-    		tituloAnterior = App.getTituloAnterior();
+        	App.setViewAnterior();	
         	instance = (CU15Controller) App.setRoot("CU15View", "AlChi: Administrar categorías"); 
         }    
         return instance;
@@ -177,9 +172,7 @@ public class CU15Controller {
 	}
 	
     @FXML private void volver() {
-    	App.setRoot(sceneAnterior, tituloAnterior); 
-    	sceneAnterior = null;
-    	tituloAnterior = null;
+    	App.getViewAnterior();
     	instance = null;
 	}
     

@@ -46,7 +46,7 @@ public class MenuController  {
 
     @FXML
     private void setCU10View() {
-		CU10Controller.get();
+		CU10Controller01.get();
     }
     
     @FXML

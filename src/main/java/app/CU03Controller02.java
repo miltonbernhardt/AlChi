@@ -9,7 +9,6 @@ import gestor.GestorEntrada;
 import gestor.GestorProductos;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
@@ -27,13 +26,11 @@ import javafx.scene.input.KeyEvent;
  */
 public class CU03Controller02 {
 	private static CU03Controller02 instance = null;
-	private static Parent sceneAnterior = null;
-	private static String tituloAnterior = null;
 
     public static CU03Controller02 get() {
         if (instance == null){
-        	sceneAnterior = App.getSceneAnterior();
-    		tituloAnterior = App.getTituloAnterior();
+        	//TODO app arreglar el back cuando volves al menu o directamente poner volver al menu 
+        	App.setViewAnterior();	
         	instance = (CU03Controller02) App.setRoot("CU03View02", "AlChi: Actualización de precios para los productos de entrada");
         }    
         return instance;
@@ -281,10 +278,8 @@ public class CU03Controller02 {
     }
 
     @FXML private void volver() {
-    	App.setRoot(sceneAnterior, tituloAnterior); 
+    	App.getViewAnterior();
     	instance = null;
-    	tituloAnterior = null;
-    	sceneAnterior = null;
 	}
     
 	@FXML private void checkP100() {
@@ -534,8 +529,10 @@ public class CU03Controller02 {
     	p100.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
             	p100.setText(p100.getText().replace(',', '.'));   
-            	if(! p100.getText().isBlank())
+            	if(! p100.getText().isBlank()) {
+            		App.setValido(p100);
             		p100Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p100.getText())).toString());
+            	}
             	else
             		p100Nuevo.setText("");
             }
@@ -544,8 +541,10 @@ public class CU03Controller02 {
     	p250.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
             	p250.setText(p250.getText().replace(',', '.'));
-            	if(! p250.getText().isBlank())
+            	if(! p250.getText().isBlank()) {
+            		App.setValido(p250);
             		p250Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p250.getText())).toString());
+            	}
             	else
             		p250Nuevo.setText("");
             }
@@ -555,8 +554,10 @@ public class CU03Controller02 {
             if (!newValue) { 
             	p500.setText(p500.getText().replace(',', '.'));
             	
-            	if(! p500.getText().isBlank())
+            	if(! p500.getText().isBlank()) {
+            		App.setValido(p500);
             		p500Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p500.getText())).toString());
+            	}
             	else
             		p500Nuevo.setText("");
             }
@@ -566,8 +567,10 @@ public class CU03Controller02 {
             if (!newValue) { 
             	p1000.setText(p1000.getText().replace(',', '.'));
             	
-            	if(! p1000.getText().isBlank())
+            	if(! p1000.getText().isBlank()) {
+            		App.setValido(p1000);
             		p1000Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p1000.getText())).toString());
+            	}
             	else
             		p1000Nuevo.setText("");
             }
@@ -577,8 +580,10 @@ public class CU03Controller02 {
             if (!newValue) { 
             	p2000.setText(p2000.getText().replace(',', '.'));
             	
-            	if(! p2000.getText().isBlank())
+            	if(! p2000.getText().isBlank()) {
+            		App.setValido(p2000);
             		p2000Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p2000.getText())).toString());
+            	}
             	else
             		p2000Nuevo.setText("");
             }
@@ -588,8 +593,10 @@ public class CU03Controller02 {
             if (!newValue) { 
             	pUnidad.setText(pUnidad.getText().replace(',', '.'));
             	
-            	if(! pUnidad.getText().isBlank())
+            	if(! pUnidad.getText().isBlank()) {
+            		App.setValido(pUnidad);
             		pUnidadNuevo.setText(calcularPrecioNuevo(Float.parseFloat(pUnidad.getText())).toString());
+            	}
             	else
             		pUnidadNuevo.setText("");
             }
@@ -623,7 +630,6 @@ public class CU03Controller02 {
     
     private void validarCampos(KeyEvent e) {
 		TextField campo = (TextField) e.getSource();
-		App.setValido(campo);
     	Character caracter = e.getCharacter().charAt(0);
     	String temporal = "";
 		if(Character.isDigit(caracter) ||  caracter == '.' || caracter == ','){

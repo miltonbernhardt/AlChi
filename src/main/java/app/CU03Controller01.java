@@ -8,7 +8,6 @@ import gestor.GestorProductos;
 import gestor.GestorProveedor;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
@@ -23,16 +22,12 @@ import javafx.scene.input.KeyEvent;
 /*
  * Controller para la view "Registro de entrada de productos"
  */
-public class CU03Controller01 {
-	
+public class CU03Controller01 {	
 	private static CU03Controller01 instance = null;
-	private static Parent sceneAnterior = null;
-	private static String tituloAnterior = null;
 	
 	public static CU03Controller01 get() {
         if (instance == null){
-        	sceneAnterior = App.getSceneAnterior();
-    		tituloAnterior = App.getTituloAnterior();
+        	App.setViewAnterior();	
         	instance = (CU03Controller01) App.setRoot("CU03View01", "AlChi: Registrar entrada de productos");
         }    
         return instance;
@@ -234,7 +229,6 @@ public class CU03Controller01 {
     }
     
     @FXML private void btnEditarFila() {
-    	//TODO CU03.1 antes de editar si hay campos llenos no borrarlos
     	if(productoSeleccionado != null) {    		
         	productos.getSelectionModel().select(productoSeleccionado.getTipoProducto());
         	proveedores.getSelectionModel().select(productoSeleccionado.getProveedor());
@@ -274,9 +268,7 @@ public class CU03Controller01 {
     }    
 
     @FXML public void volver() {
-    	App.setRoot(sceneAnterior, tituloAnterior); 
-    	sceneAnterior = null;
-    	tituloAnterior = null;
+    	App.getMenu();
     	instance = null;
 	}
 

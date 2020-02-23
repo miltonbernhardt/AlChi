@@ -12,7 +12,6 @@ import gestor.GestorCategoria;
 import gestor.GestorProductos;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
@@ -29,15 +28,12 @@ import javafx.stage.Stage;
 
 public class CU05Controller {
 	private static CU05Controller instance = null;
-	private static Parent sceneAnterior = null;
-	private static String tituloAnterior = null;
 	
     public CU05Controller() { }
 
     public static CU05Controller get() {
         if (instance == null){ 
-        	sceneAnterior = App.getSceneAnterior();
-    		tituloAnterior = App.getTituloAnterior();
+        	App.setViewAnterior();	
         	instance = (CU05Controller) App.setRoot("CU05View", "AlChi: Actualización de características de productos");
         }    
         return instance;
@@ -116,14 +112,14 @@ public class CU05Controller {
     			   descripcionProducto = descripcion.getText().toLowerCase();
     		nombreProducto = nombreProducto.substring(0, 1).toUpperCase() + nombreProducto.substring(1);
     		
+    		String cadena = "Categoría: "+categoria.getValue().toString()+"\nNombre del producto: "+nombreProducto+"\n";
+    		
     		if(completoDescripcion) {
-        		descripcionProducto = descripcionProducto.substring(0, 1).toUpperCase() + descripcionProducto.substring(1);    			
+        		descripcionProducto = descripcionProducto.substring(0, 1).toUpperCase() + descripcionProducto.substring(1);    	
+        		cadena = cadena + "Descripción: "+descripcionProducto;
     		}
     		
-    		Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar producto nuevo", "¿Desea confirmar los siguientes datos ingresados?",
-    				  "Categoría: "+categoria.getValue().toString()+"\n"
-    				+ "Nombre del producto: "+nombreProducto+"\n"
-    				+ "Descripción: "+descripcionProducto);
+    		Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar producto nuevo", "¿Desea confirmar los siguientes datos ingresados?",cadena);
     		
     		if (result.get() == ButtonType.OK){ 
     			dto.setIdCategoria(categoria.getValue().getId());
@@ -168,10 +164,8 @@ public class CU05Controller {
     }
     
     @FXML private void volver() {
-    	App.setRoot(sceneAnterior, tituloAnterior); 
+    	App.getViewAnterior();
     	instance = null;
-    	tituloAnterior = null;
-    	sceneAnterior = null;
 	}
     
     @FXML private void setCategoriaValida() {

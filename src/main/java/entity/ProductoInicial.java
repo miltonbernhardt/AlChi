@@ -30,10 +30,14 @@ public class ProductoInicial {
 	private BitacoraEntrada bitacoraEntrada;	
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_producto_empaquetado", foreignKey=@ForeignKey(name = "fk_producto_empaquetado"))
+	@JoinColumn(name = "id_empaquetado", foreignKey=@ForeignKey(name = "fk_empaquetado"))
 	@OrderBy("id asc")
-	private List<ProductoEmpaquetado> productoEmpaquetado;
+	private List<Empaquetado> empaquetado;
 	
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
+	@JoinColumn(name = "id_producto_inicial")
+	private EmpaquetadoConjunto empaquetadoConjunto;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_proveedor", foreignKey=@ForeignKey(name = "fk_proveedor"), nullable = false)
 	private Proveedor proveedor;
@@ -63,7 +67,8 @@ public class ProductoInicial {
 	
 	public TipoProducto getTipoProducto() { return tipoProducto; }
 	public BitacoraEntrada getBitacoraEntrada() { return bitacoraEntrada; }
-	public List<ProductoEmpaquetado> getProductoEmpaquetado() { return productoEmpaquetado; }
+	public List<Empaquetado> getEmpaquetado() { return empaquetado; }
+	public EmpaquetadoConjunto getEmpaquetadoConjunto() { return empaquetadoConjunto; }
 	public Proveedor getProveedor() { return proveedor; }
 	public Integer getId() { return id; }
 	public Float getPrecioComprado() { return precioComprado; }
@@ -74,7 +79,8 @@ public class ProductoInicial {
 	
 	public void setTipoProducto(TipoProducto tipoProducto) { this.tipoProducto = tipoProducto; }
 	public void setBitacoraEntrada(BitacoraEntrada bitacorasEntrada) { this.bitacoraEntrada = bitacorasEntrada; }
-	public void setProductoEmpaquetado(List<ProductoEmpaquetado> productoEmpaquetado) { this.productoEmpaquetado = productoEmpaquetado; }
+	public void setEmpaquetado(List<Empaquetado> productoEmpaquetado) { this.empaquetado = productoEmpaquetado; }
+	public void setEmpaquetadoConjunto(EmpaquetadoConjunto empaquetadoConjunto) { this.empaquetadoConjunto = empaquetadoConjunto; }
 	public void setProveedor(Proveedor proveedor) { this.proveedor = proveedor; }
 	public void setId(Integer id) { this.id = id; }
 	public void setPrecioComprado(Float precioComprado) { this.precioComprado = precioComprado; }

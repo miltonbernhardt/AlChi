@@ -6,7 +6,6 @@ import java.util.Optional;
 import dto.DTOProveedor;
 import gestor.GestorProveedor;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -19,16 +18,11 @@ import javafx.scene.layout.HBox;
 /**
  * Controller para la view de "Manejar proveedores"
  */
-public class CU07Controller01 {
-	
+public class CU07Controller01 {	
 	private static CU07Controller01 instance = null;
-	private static Parent sceneAnterior = null;
-	private static String tituloAnterior = null;
 
     public static CU07Controller01 get() {
         if (instance == null){ 
-        	sceneAnterior = App.getSceneAnterior();
-    		tituloAnterior = App.getTituloAnterior();
         	instance = (CU07Controller01) App.setRoot("CU07View01", "AlChi: Administrar proveedores");
         }    
         return instance;
@@ -230,9 +224,7 @@ public class CU07Controller01 {
 	}
 	
     @FXML private void volver() {
-    	App.setRoot(sceneAnterior, tituloAnterior); 
+    	App.getViewAnterior();
     	instance = null;
-    	tituloAnterior = null;
-    	sceneAnterior = null;
 	}
 }

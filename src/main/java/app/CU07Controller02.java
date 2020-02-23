@@ -4,19 +4,15 @@ import java.util.Optional;
 import dto.DTOProveedor;
 import gestor.GestorProveedor;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
 public class CU07Controller02 {
 	private static CU07Controller02 instance = null;
-	private static Parent sceneAnterior = null;
-	private static String tituloAnterior = null;
 	
 	public static CU07Controller02 get() {
         if (instance == null){
-        	sceneAnterior = App.getSceneAnterior();
-    		tituloAnterior = App.getTituloAnterior();
+        	App.setViewAnterior();	
         	instance = (CU07Controller02) App.setRoot("CU07View02", "AlChi: Agregar proveedor");; 
         }    
         return instance;
@@ -72,9 +68,7 @@ public class CU07Controller02 {
 	}
 	
     @FXML private void volver() {
-    	App.setRoot(sceneAnterior, tituloAnterior); 
-    	sceneAnterior = null;
-    	tituloAnterior = null;
+    	App.getViewAnterior();
     	instance = null;
 	}
 }
