@@ -27,7 +27,7 @@ public class CU03Controller01 {
 	
 	public static CU03Controller01 get() {
         if (instance == null){
-        	App.setViewAnterior();	
+        	App.setViewAnterior2();		
         	instance = (CU03Controller01) App.setRoot("CU03View01", "AlChi: Registrar entrada de productos");
         }    
         return instance;
@@ -268,7 +268,7 @@ public class CU03Controller01 {
     }    
 
     @FXML public void volver() {
-    	App.getMenu();
+    	App.getViewAnterior2();
     	instance = null;
 	}
 

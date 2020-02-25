@@ -29,7 +29,6 @@ public class CU03Controller02 {
 
     public static CU03Controller02 get() {
         if (instance == null){
-        	//TODO app arreglar el back cuando volves al menu o directamente poner volver al menu 
         	App.setViewAnterior();	
         	instance = (CU03Controller02) App.setRoot("CU03View02", "AlChi: Actualización de precios para los productos de entrada");
         }    
@@ -283,7 +282,13 @@ public class CU03Controller02 {
 	}
     
 	@FXML private void checkP100() {
+		validarChecks();
+		
 		if(checkP100.isSelected() && !checkP100.isDisable()) {
+			if(checkPUnidad.isSelected()) {
+				checkPUnidad.setSelected(false);
+				checkPUnidad();
+			}			
 			
     		p100.setDisable(false);
     		rd100.setDisable(false);
@@ -317,7 +322,13 @@ public class CU03Controller02 {
 	
 	@FXML private void checkP250() {
 		validarChecks();
+		
 		if(checkP250.isSelected() && !checkP250.isDisable()) {
+			if(checkPUnidad.isSelected()) {
+				checkPUnidad.setSelected(false);
+				checkPUnidad();
+			}
+			
 			p250.setDisable(false);
     		rd250.setDisable(false);
     		p250Nuevo.setDisable(false);   
@@ -349,7 +360,13 @@ public class CU03Controller02 {
 	
 	@FXML private void checkP500() {
 		validarChecks();
+		
 		if(checkP500.isSelected() && !checkP500.isDisable()) {
+			if(checkPUnidad.isSelected()) {
+				checkPUnidad.setSelected(false);
+				checkPUnidad();
+			}
+			
 			p500.setDisable(false);
     		rd500.setDisable(false);  
     		p500Nuevo.setDisable(false); 
@@ -381,7 +398,13 @@ public class CU03Controller02 {
 	
 	@FXML private void checkP1000() {
 		validarChecks();
+
 		if(checkP1000.isSelected() && !checkP1000.isDisable()) {
+			if(checkPUnidad.isSelected()) {
+				checkPUnidad.setSelected(false);
+				checkPUnidad();
+			}
+			
 			p1000.setDisable(false);
     		rd1000.setDisable(false);
     		p1000Nuevo.setDisable(false);   		
@@ -413,7 +436,13 @@ public class CU03Controller02 {
 	
 	@FXML private void checkP2000() {
 		validarChecks();
+
 		if(checkP2000.isSelected() && !checkP2000.isDisable()) {
+			if(checkPUnidad.isSelected()) {
+				checkPUnidad.setSelected(false);
+				checkPUnidad();
+			}
+			
     		p2000.setDisable(false);
     		rd2000.setDisable(false);
     		p2000Nuevo.setDisable(false);
@@ -443,9 +472,29 @@ public class CU03Controller02 {
 		p2000.setText("");
 	}
 	
-	@FXML private void checkPUnidad() {
-		validarChecks();
+	@FXML private void checkPUnidad() {				
 		if(checkPUnidad.isSelected() && !checkPUnidad.isDisable()) {
+			if(checkP100.isSelected()) {
+				checkP100.setSelected(false);
+				checkP100();
+			}
+			if(checkP250.isSelected()) {
+				checkP250.setSelected(false);
+				checkP250();
+			}
+			if(checkP500.isSelected()) {
+				checkP500.setSelected(false);
+				checkP500();
+			}
+			if(checkP1000.isSelected()) {
+				checkP1000.setSelected(false);
+				checkP1000();
+			}
+			if(checkP2000.isSelected()) {
+				checkP2000.setSelected(false);
+				checkP2000();
+			}
+			
     		pUnidad.setDisable(false);
     		rdUnidad.setDisable(false);    		
     		pUnidadNuevo.setDisable(false);
@@ -522,6 +571,9 @@ public class CU03Controller02 {
 		if(dto != null) {
 			tipoProductoTabla = dto;
 			btnEditarPrecios.setDisable(false);
+		}
+		else {
+			btnEditarPrecios.setDisable(true);
 		}
 	}
 	 
@@ -829,12 +881,12 @@ public class CU03Controller02 {
 		checkPUnidad();			
     }
     
-    private void validarChecks() {
-    	App.setValido(checkP100);
-		App.setValido(checkP250);
+    private void validarChecks() {    	
+    	App.setValido(checkP100);    	
+		App.setValido(checkP250);		
 		App.setValido(checkP500);
-		App.setValido(checkP1000);
-		App.setValido(checkP2000);
+		App.setValido(checkP1000);		
+		App.setValido(checkP2000);		
 		App.setValido(checkPUnidad);
     }
 }

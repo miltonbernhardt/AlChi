@@ -1,9 +1,9 @@
 package app;
 
-import dto.DTOCU10FormaVenta;
-import dto.DTOCU10Empaquetado;
-import dto.DTOCU10ProductoInicial;
-import dto.DTOCU10TipoProducto;
+import dto.DTOFormaVentaCU10;
+import dto.DTOEmpaquetadoCU10;
+import dto.DTOProductoInicialCU10;
+import dto.DTOTipoProductoCU10;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -28,26 +28,26 @@ public class CU10Controller02 {
     @FXML private Button btnAnadirConOtroPaquete;
     @FXML private Button btnEditarFila;
     @FXML private Button btnEliminarFila;
-	@FXML private ComboBox<DTOCU10TipoProducto> tipoProducto;	
-	@FXML private ComboBox<DTOCU10ProductoInicial> productoInicial;
-	@FXML private ComboBox<DTOCU10FormaVenta> formaVenta;
+	@FXML private ComboBox<DTOTipoProductoCU10> tipoProducto;	
+	@FXML private ComboBox<DTOProductoInicialCU10> productoInicial;
+	@FXML private ComboBox<DTOFormaVentaCU10> formaVenta;
 	@FXML private TextField cantidad;
 	@FXML private Label productoRestante;
 	@FXML private Label cantidadMaximaPaquete;
-	@FXML private TableView<DTOCU10Empaquetado> tabla;	
-	@FXML private TableColumn<DTOCU10Empaquetado, String> columnaProducto;	
-	@FXML private TableColumn<DTOCU10Empaquetado, String> columnaProveedor;	
-	@FXML private TableColumn<DTOCU10Empaquetado, String> columnaCodigoBarra;	
-	@FXML private TableColumn<DTOCU10Empaquetado, String> columnaVencimiento;	
-	@FXML private TableColumn<DTOCU10Empaquetado, String> columnaFormaVenta;	
-	@FXML private TableColumn<DTOCU10Empaquetado, String> columnaCantidad;
+	@FXML private TableView<DTOEmpaquetadoCU10> tabla;	
+	@FXML private TableColumn<DTOEmpaquetadoCU10, String> columnaProducto;	
+	@FXML private TableColumn<DTOEmpaquetadoCU10, String> columnaProveedor;	
+	@FXML private TableColumn<DTOEmpaquetadoCU10, String> columnaCodigoBarra;	
+	@FXML private TableColumn<DTOEmpaquetadoCU10, String> columnaVencimiento;	
+	@FXML private TableColumn<DTOEmpaquetadoCU10, String> columnaFormaVenta;	
+	@FXML private TableColumn<DTOEmpaquetadoCU10, String> columnaCantidad;
     
     public CU10Controller02() { }
 	
     @FXML private void initialize(){
     	
     }
-
+	//TODO CU10.2 implementar
     
 	@FXML private void btnAnadirEmpaquetamiento() {
 

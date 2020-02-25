@@ -1,6 +1,5 @@
 package app;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import dto.DTOProveedor;
@@ -60,11 +59,8 @@ public class CU07Controller01 {
       
     private void cargarTabla() {	
     	List<DTOProveedor> lista = GestorProveedor.get().getProveedores();
-    	tabla.getItems().clear();    	
-    	Iterator<DTOProveedor> iteratorProveedores = lista.iterator();    	
-    	while(iteratorProveedores.hasNext()) {
-    		tabla.getItems().add(iteratorProveedores.next());	
-    	}
+    	tabla.getItems().clear(); 
+    	tabla.getItems().addAll(lista);
     }
     
 	@FXML private void btnEditar() {

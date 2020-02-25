@@ -2,12 +2,13 @@ package app;
 
 import gestor.GestorProductos;
 
+import java.util.Iterator;
 import java.util.Optional;
 
-import dto.DTOCU10FormaVenta;
-import dto.DTOCU10Empaquetado;
-import dto.DTOCU10ProductoInicial;
-import dto.DTOCU10TipoProducto;
+import dto.DTOFormaVentaCU10;
+import dto.DTOEmpaquetadoCU10;
+import dto.DTOProductoInicialCU10;
+import dto.DTOTipoProductoCU10;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -39,26 +40,26 @@ public class CU10Controller01 {
     private Float cantidadRestante = null;
     private Integer cantidadMaxima = null;
     
-    private DTOCU10Empaquetado productoEmpaquetado = null;
+    private DTOEmpaquetadoCU10 productoEmpaquetado = null;
 	
     @FXML private Button btnAnadirEmpaquetamiento;
     @FXML private Button btnDarBajaProductoInicial;
     @FXML private Button btnAnadirConOtroPaquete;
     @FXML private Button btnEditarFila;
     @FXML private Button btnEliminarFila;
-	@FXML private ComboBox<DTOCU10TipoProducto> tipoProducto;	
-	@FXML private ComboBox<DTOCU10ProductoInicial> productoInicial;
-	@FXML private ComboBox<DTOCU10FormaVenta> formaVenta;
+	@FXML private ComboBox<DTOTipoProductoCU10> tipoProducto;	
+	@FXML private ComboBox<DTOProductoInicialCU10> productoInicial;
+	@FXML private ComboBox<DTOFormaVentaCU10> formaVenta;
 	@FXML private TextField cantidad;
 	@FXML private Label productoRestante;
 	@FXML private Label cantidadMaximaPaquete;
-	@FXML private TableView<DTOCU10Empaquetado> tabla;	
-	@FXML private TableColumn<DTOCU10Empaquetado, String> columnaProducto;	
-	@FXML private TableColumn<DTOCU10Empaquetado, String> columnaProveedor;	
-	@FXML private TableColumn<DTOCU10Empaquetado, String> columnaCodigoBarra;	
-	@FXML private TableColumn<DTOCU10Empaquetado, String> columnaVencimiento;	
-	@FXML private TableColumn<DTOCU10Empaquetado, String> columnaFormaVenta;	
-	@FXML private TableColumn<DTOCU10Empaquetado, String> columnaCantidad;
+	@FXML private TableView<DTOEmpaquetadoCU10> tabla;	
+	@FXML private TableColumn<DTOEmpaquetadoCU10, String> columnaProducto;	
+	@FXML private TableColumn<DTOEmpaquetadoCU10, String> columnaProveedor;	
+	@FXML private TableColumn<DTOEmpaquetadoCU10, String> columnaCodigoBarra;	
+	@FXML private TableColumn<DTOEmpaquetadoCU10, String> columnaVencimiento;	
+	@FXML private TableColumn<DTOEmpaquetadoCU10, String> columnaFormaVenta;	
+	@FXML private TableColumn<DTOEmpaquetadoCU10, String> columnaCantidad;
     
     public CU10Controller01() { }
 	
@@ -70,8 +71,10 @@ public class CU10Controller01 {
     
     private void setCombo() {
     	tipoProducto.getItems().clear();
-    	tipoProducto.getItems().add(new DTOCU10TipoProducto(null, "Seleccionar producto"));
-    	tipoProducto.getItems().addAll(GestorProductos.get().getTiposProducto());
+    	tipoProducto.getItems().add(new DTOTipoProductoCU10(null, "Seleccionar producto"));
+    	try {
+    		tipoProducto.getItems().addAll(GestorProductos.get().getTiposProducto());
+    	}catch(Exception e) {}
     	tipoProducto.getSelectionModel().selectFirst();
     }
     
@@ -115,21 +118,22 @@ public class CU10Controller01 {
     
 	@FXML private void btnAnadirEmpaquetamiento() {
 		if(!cantidad.getText().isBlank()) {
-			DTOCU10Empaquetado dto = new DTOCU10Empaquetado(); 
+			DTOEmpaquetadoCU10 dto = new DTOEmpaquetadoCU10(); 
 			
-			DTOCU10TipoProducto dtoTipoProd = tipoProducto.getValue();	
+			
+			DTOTipoProductoCU10 dtoTipoProd = tipoProducto.getValue();	
 			dto.setDtoTipoProducto(dtoTipoProd);
 			dto.setIdProductoInicial(dtoTipoProd.getId());
 			dto.setNombreTipoProducto(dtoTipoProd.getNombre());
 			
-			DTOCU10ProductoInicial dtoProdIni = productoInicial.getValue();	
+			DTOProductoInicialCU10 dtoProdIni = productoInicial.getValue();	
 			dto.setDtoProductoInicial(dtoProdIni);
 			dto.setIdProductoInicial(dtoProdIni.getIdProductoInicial());
 			dto.setCodigoBarra(dtoProdIni.getCodigoBarra());		
 			dto.setNombreProveedor(dtoProdIni.getProveedor());
 			dto.setVencimiento(dtoProdIni.getVencimiento());	
 			
-			DTOCU10FormaVenta dtoForma = formaVenta.getValue();
+			DTOFormaVentaCU10 dtoForma = formaVenta.getValue();
 			dto.setDtoFormaVenta(dtoForma);
 			dto.setTipoPaquete(dtoForma.getTipoPaquete());		
 			dto.setCantidadPaquetes(Integer.parseInt(cantidad.getText()));		
@@ -143,13 +147,7 @@ public class CU10Controller01 {
 			}
 			else {
 				productoInicial.getItems().remove(productoInicial.getValue());
-				
-				if(productoInicial.getItems().size()>0) {
-					productoInicial.getSelectionModel().selectFirst();
-				}
-				else {
-					tipoProducto.getSelectionModel().selectNext();
-				}			
+				cambiarProductoSinStock();	
 			}		
 			
 			tabla.getItems().add(dto);
@@ -158,49 +156,90 @@ public class CU10Controller01 {
 			PanelAlerta.getError("Aviso", null, "Se debe elegir una cantidad de paquetes a empaquetar.");
 		}
 	}
-		
+	
+	private void cambiarProductoSinStock() {
+		if(productoInicial.getItems().size()>0) {
+			productoInicial.getSelectionModel().selectFirst();
+		}
+		else {
+			Boolean todos = true;			
+			tipoProducto.getValue().setConStock(false);			
+			Iterator<DTOTipoProductoCU10> iterator = tipoProducto.getItems().iterator();			
+			
+			while(iterator.hasNext()) {
+				DTOTipoProductoCU10 dto = iterator.next();
+				if(dto.getConStock() && dto.getId()!=null) {
+					tipoProducto.getSelectionModel().select(dto);
+					todos = false;
+					break;
+				}						
+			}
+			
+			if(todos) {
+				tipoProducto.getSelectionModel().selectFirst();
+				tipoProducto.setDisable(true);
+			}
+		}		
+	}		
+	
 	@FXML  private void btnEliminar() {
-		DTOCU10TipoProducto dtoTipoProd = tipoProducto.getValue();		
-		DTOCU10ProductoInicial dtoProdIni = productoInicial.getValue();	
-		DTOCU10FormaVenta dtoForma = formaVenta.getValue();
-		
-		Float f = productoEmpaquetado.getDtoProductoInicial().getCantidadNoVendida();
-		productoEmpaquetado.getDtoProductoInicial().setCantidadNoVendida(f + (productoEmpaquetado.getCantidadPaquetes()*productoEmpaquetado.getTipoPaqueteE().getCantidad())/1000);
-		if(f<=0) {
+		if(productoEmpaquetado != null) {
+			DTOTipoProductoCU10 dtoTipoProd = productoEmpaquetado.getDtoTipoProducto();		
+			DTOProductoInicialCU10 dtoProdIni = productoEmpaquetado.getDtoProductoInicial();	
+			DTOFormaVentaCU10 dtoForma = productoEmpaquetado.getDtoFormaVenta();
+			
+			Float f = productoEmpaquetado.getDtoProductoInicial().getCantidadNoVendida();
+			
+			dtoProdIni.setCantidadNoVendida(f + (productoEmpaquetado.getCantidadPaquetes()*productoEmpaquetado.getTipoPaqueteE().getCantidad())/1000);
+			
+			if(f<=0) {
+				dtoTipoProd.setConStock(true);
+				if(tipoProducto.isDisable())
+					tipoProducto.setDisable(false);
+				tipoProducto.getSelectionModel().clearSelection();
+				tipoProducto.getSelectionModel().select(dtoTipoProd);
+				productoInicial.getSelectionModel().select(dtoProdIni);
+				formaVenta.getSelectionModel().select(dtoForma);
+			}		
+			cantidadRestante = productoInicial.getValue().getCantidadNoVendida()*1000;
+			productoRestante.setText("Cantidad no vendida: "+productoInicial.getValue().getCantidadNoVendida().toString()+" Kg / "+cantidadRestante.toString()+" g ");
+			calcularCantidad();
+			tabla.getItems().remove(productoEmpaquetado);
+			btnEliminarFila.setDisable(true);
+			btnEditarFila.setDisable(true);	
+		}
+	}
+	
+	@FXML private void btnEditar() {
+		if(productoEmpaquetado != null) {
+			DTOTipoProductoCU10 dtoTipoProd = productoEmpaquetado.getDtoTipoProducto();		
+			DTOProductoInicialCU10 dtoProdIni = productoEmpaquetado.getDtoProductoInicial();	
+			DTOFormaVentaCU10 dtoForma = productoEmpaquetado.getDtoFormaVenta();
+			
+			Float f = dtoProdIni.getCantidadNoVendida();		
+			dtoProdIni.setCantidadNoVendida(f + (productoEmpaquetado.getCantidadPaquetes()*productoEmpaquetado.getTipoPaqueteE().getCantidad())/1000);
+			dtoTipoProd.setConStock(true);
+			
 			tipoProducto.getSelectionModel().clearSelection();
 			tipoProducto.getSelectionModel().select(dtoTipoProd);
 			productoInicial.getSelectionModel().select(dtoProdIni);
 			formaVenta.getSelectionModel().select(dtoForma);
-		}		
-
-		tabla.getItems().remove(productoEmpaquetado);
-		btnEliminarFila.setDisable(true);
-		btnEditarFila.setDisable(true);	
-	}
-	
-	@FXML private void btnEditar() {
-		Float f = productoEmpaquetado.getDtoProductoInicial().getCantidadNoVendida();		
-		productoEmpaquetado.getDtoProductoInicial().setCantidadNoVendida(f + (productoEmpaquetado.getCantidadPaquetes()*productoEmpaquetado.getTipoPaqueteE().getCantidad())/1000);
+			
+			calcularCantidad();
+			cantidad.setText(productoEmpaquetado.getCantidadPaquetes().toString());
+			
+			tabla.getItems().remove(productoEmpaquetado);
+			if(tipoProducto.isDisable())
+				tipoProducto.setDisable(false);
+			btnEliminarFila.setDisable(true);
+			btnEditarFila.setDisable(true);			
+		}
 		
-		tipoProducto.getSelectionModel().clearSelection();
-		tipoProducto.getSelectionModel().select(productoEmpaquetado.getDtoTipoProducto());
-		
-		productoInicial.getSelectionModel().select(productoEmpaquetado.getDtoProductoInicial());
-		
-		formaVenta.getSelectionModel().select(productoEmpaquetado.getDtoFormaVenta());
-		
-		calcularCantidad();
-		cantidad.setText(productoEmpaquetado.getCantidadPaquetes().toString());
-		
-		tabla.getItems().remove(productoEmpaquetado);
-		btnEliminarFila.setDisable(true);
-		btnEditarFila.setDisable(true);
 	}
 	
 	@FXML private void btnConfirmarEmpaquetamiento() {
 		if(tabla.getItems().size()>0) {			
 			Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar registro del empaquetamiento de productos", null, "¿Desea confirmar el ingeso de los productos y la actualización de los precios?");
-			
 			if (result.get() == ButtonType.OK){
 				if(GestorProductos.get().registrarEmpaquetamiemto(tabla.getItems())) {
 					PanelAlerta.getInformation("Confirmación", null, "La transacción ocurrió de manera efectiva.");
@@ -243,8 +282,10 @@ public class CU10Controller01 {
     }
     
     @FXML private void seleccionarTipoProducto(){
-    	DTOCU10TipoProducto dto = tipoProducto.getValue();
+    	DTOTipoProductoCU10 dto = tipoProducto.getValue();
 		if(dto != null && (dto.getProductosIniciales().size()>0)) {
+			btnAnadirEmpaquetamiento.setDisable(false);
+			
 			productoInicial.setDisable(false);
 			productoInicial.getItems().clear();
 			productoInicial.getItems().addAll(dto.getProductosIniciales());
@@ -253,11 +294,11 @@ public class CU10Controller01 {
 			formaVenta.setDisable(false);
 			formaVenta.getItems().clear();
 			formaVenta.getItems().addAll(dto.getFormasVenta());
-			formaVenta.getSelectionModel().selectFirst();	
-			
-			btnAnadirEmpaquetamiento.setDisable(false);
+			formaVenta.getSelectionModel().selectFirst();
 		}
 		else {
+			btnAnadirEmpaquetamiento.setDisable(true);
+			
 			productoInicial.setDisable(true);
 			productoInicial.getItems().clear();
 			
@@ -267,36 +308,43 @@ public class CU10Controller01 {
 			cantidad.setDisable(true);
 			cantidad.setText("");
 			cantidadMaximaPaquete.setText("Cantidad de paquetes:");
-			
-			btnAnadirEmpaquetamiento.setDisable(true);
 		}    	
     }
     
     @FXML private void seleccionarProductoInicial(){
-    	DTOCU10ProductoInicial dto = productoInicial.getValue();
+    	DTOProductoInicialCU10 dto = productoInicial.getValue();
 		if(dto != null) {
+			btnDarBajaProductoInicial.setDisable(false);
+			
 			cantidadRestante = dto.getCantidadNoVendida()*1000;
 			productoRestante.setText("Cantidad no vendida: "+dto.getCantidadNoVendida().toString()+" Kg / "+cantidadRestante.toString()+" g ");
-			btnDarBajaProductoInicial.setDisable(false);
+			
 			calcularCantidad();
 		}
 		else {
 			App.setValido(cantidad);
 			cantidad.setText("");
 			cantidad.setDisable(true);
+			
 			cantidadMaximaPaquete.setText("Cantidad de paquetes:");
 			productoRestante.setText("Cantidad no vendida:");
+			
+			btnAnadirEmpaquetamiento.setDisable(true);
 			btnDarBajaProductoInicial.setDisable(true);
+			
+			//formaVenta.setDisable(true);
+			//formaVenta.getItems().clear();
 		}        	
     }
     
     @FXML private void seleccionarFormaVenta(){
-    	DTOCU10FormaVenta dto = formaVenta.getValue();
+    	DTOFormaVentaCU10 dto = formaVenta.getValue();
 		if(dto != null) {
 			tamanoPaquete = dto.getTipoPaquete().getCantidad();
 			calcularCantidad();
 		}
 		else {
+			btnAnadirEmpaquetamiento.setDisable(true);
 			cantidad.setDisable(true);
 			cantidad.setText("");
 			cantidadMaximaPaquete.setText("");
@@ -307,18 +355,22 @@ public class CU10Controller01 {
     	if( (tamanoPaquete!=null) && (cantidadRestante!=null)) {
     		cantidad.setText("");
     		
-    		if(cantidadRestante < tamanoPaquete) {
-    			btnDarBajaProductoInicial.setDisable(false);
-    			btnAnadirConOtroPaquete.setDisable(false);
-    			cantidadMaximaPaquete.setText("Cantidad de paquetes:");
+    		if(cantidadRestante <= tamanoPaquete) {
     			cantidad.setDisable(true);
+    			
+    			btnAnadirEmpaquetamiento.setDisable(true);
+    			btnAnadirConOtroPaquete.setDisable(false);
+    			
+    			cantidadMaximaPaquete.setText("Cantidad de paquetes:");
     		}
     		else {
             	cantidadMaxima = (int) (cantidadRestante / tamanoPaquete);
             	if( !(cantidadMaxima<1) ) {
-            		btnDarBajaProductoInicial.setDisable(true);
+            		cantidad.setDisable(false);
+            		
+            		btnAnadirEmpaquetamiento.setDisable(false);
         			btnAnadirConOtroPaquete.setDisable(true);
-                	cantidad.setDisable(false);
+        			
             		cantidadMaximaPaquete.setText("Cantidad de paquetes: 1 - "+cantidadMaxima);
             	} 
     		}        	        	

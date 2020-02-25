@@ -10,7 +10,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import java.io.IOException;
 import database.HibernateUtil;
-//TODO ver cuando deja de ser estar diponible, si cuando no haya mas productos o cuando lo decida el administrador
+
 public class App extends Application {
 	
     private static Scene scene;
@@ -19,6 +19,9 @@ public class App extends Application {
     
 	private static Parent sceneAnterior = null;
 	private static String tituloAnterior = null;
+	
+	private static Parent sceneAnterior2 = null;
+	private static String tituloAnterior2 = null;
     
     public static void main(String[] args) {
         launch();
@@ -29,7 +32,7 @@ public class App extends Application {
     public void start(Stage primaryStage) throws IOException {
     	HibernateUtil.apagarLog(true);
     	HibernateUtil.getSessionFactory();    	    	
-    	scene = new Scene(loadFXML("menu"));
+    	scene = new Scene(loadFXML("CU06View"));
     	primaryStage.setOnCloseRequest(e->{
         	Platform.exit();
         	System.exit(0);    
@@ -71,19 +74,36 @@ public class App extends Application {
 	}
 	
 	static void getViewAnterior() {
-		scene.setRoot(sceneAnterior);
-	    scene.getRoot().requestFocus();
-	    stage.setTitle(tituloAnterior);
+		try {
+			scene.setRoot(sceneAnterior);
+		    scene.getRoot().requestFocus();
+		    stage.setTitle(tituloAnterior);
+	    }catch(Exception e) {
+	    	 scene.setRoot(loadFXML("menu"));
+	         scene.getRoot().requestFocus();
+	         stage.setTitle("AlChi: Menú");
+	    }
 	    sceneAnterior = null;
 	    tituloAnterior = null;
 	}
 	
-	static void getMenu() {
-		scene.setRoot(loadFXML("menu"));
-        scene.getRoot().requestFocus();
-        stage.setTitle("AlChi: Menú");
-	    sceneAnterior = null;
-	    tituloAnterior = null;
+	static void setViewAnterior2() {
+		sceneAnterior2 = stage.getScene().getRoot();
+		tituloAnterior2 = stage.getTitle();
+	}
+	
+	static void getViewAnterior2() {
+		try {
+			scene.setRoot(sceneAnterior2);
+		    scene.getRoot().requestFocus();
+		    stage.setTitle(tituloAnterior2);
+	    }catch(Exception e) {
+	    	 scene.setRoot(loadFXML("menu"));
+	         scene.getRoot().requestFocus();
+	         stage.setTitle("AlChi: Menú");
+	    }
+	    sceneAnterior2 = null;
+	    tituloAnterior2 = null;
 	}
 
     static Object getControllerActual() {

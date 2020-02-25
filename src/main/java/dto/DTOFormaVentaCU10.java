@@ -2,11 +2,11 @@ package dto;
 
 import enums.TipoPaquete;
 
-public class DTOCU10FormaVenta {	
+public class DTOFormaVentaCU10 {	
 	private TipoPaquete tipoPaquete;
 	private Float precioVenta;
 	
-	public DTOCU10FormaVenta(TipoPaquete tipoPaquete, Float precioVenta) {
+	public DTOFormaVentaCU10(TipoPaquete tipoPaquete, Float precioVenta) {
 		super();
 		this.tipoPaquete = tipoPaquete;
 		this.precioVenta = precioVenta;

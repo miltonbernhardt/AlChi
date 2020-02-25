@@ -14,11 +14,12 @@ import java.util.List;
 import app.PanelAlerta;
 import database.DAOEntity;
 import dto.DTOCU03;
+import dto.DTOCU06;
 import dto.DTOCU08;
-import dto.DTOCU10FormaVenta;
-import dto.DTOCU10Empaquetado;
-import dto.DTOCU10ProductoInicial;
-import dto.DTOCU10TipoProducto;
+import dto.DTOFormaVentaCU10;
+import dto.DTOEmpaquetadoCU10;
+import dto.DTOProductoInicialCU10;
+import dto.DTOTipoProductoCU10;
 import dto.DTOProductoInicial;
 import dto.DTOTipoProducto;
 import dto.DTOTipoProductoCU02;
@@ -260,6 +261,8 @@ public class GestorProductos {
 		
 		Iterator<DTOCU03> itemsIterator = items.iterator();		
 		while(itemsIterator.hasNext()) {
+			Boolean ventaUnidades = false;
+			
 			DTOCU03 dtoCu03 = itemsIterator.next();
 			
 			TipoProducto tipoProducto = (TipoProducto) DAOEntity.get().get(TipoProducto.class, dtoCu03.getIdTipoProducto());
@@ -291,6 +294,9 @@ public class GestorProductos {
 					break;
 					
 					case UNIDAD:
+						if(dtoCu03.getPUnidadFinalF()>0) {
+							ventaUnidades = true;
+						}
 						p.setValor(dtoCu03.getPUnidadFinalF());
 					break;
 				}
@@ -313,10 +319,23 @@ public class GestorProductos {
 				
 				pro.setBitacoraEntrada(bitacora);					
 				listaProductos.add(pro);
-				pro.setTipoProducto(tipoProducto);
+				pro.setTipoProducto(tipoProducto);			
 				
 				if( !DAOEntity.get().save(pro))
 					return false;
+				
+				if(ventaUnidades) {
+					for(int i = 0; i<dtoProdInicial.getCantidadNoVendidaF(); i++) {
+						Empaquetado p = new Empaquetado();
+						
+						p.setProductoInicial(pro);
+						p.setTipoVenta(TipoPaquete.UNIDAD);
+						p.setVendido(false);
+						
+						if(! DAOEntity.get().save(p))
+							return false;
+					}
+				}
 			}		
 			
 			if(!tipoProducto.getEnVenta())
@@ -377,17 +396,15 @@ public class GestorProductos {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<DTOCU10TipoProducto> getTiposProducto() {
-		String consulta = "SELECT new dto.DTOCU10TipoProducto(t.id, t.nombre ) FROM TipoProducto t WHERE t.enVenta=true ORDER BY t.nombre ASC"; 
+	public List<DTOTipoProductoCU10> getTiposProducto() {
+		String consulta = "SELECT new dto.DTOTipoProductoCU10(t.id, t.nombre) FROM TipoProducto t WHERE t.enVenta=true ORDER BY t.nombre ASC"; 
 			
-		List<DTOCU10TipoProducto> listaProductos =  (List<DTOCU10TipoProducto>) DAOEntity.get().getResultList(consulta, DTOCU10TipoProducto.class);
-		
-		List<DTOCU10TipoProducto> listaProductosFinal = new ArrayList<DTOCU10TipoProducto>();
-		
-		Iterator<DTOCU10TipoProducto> iteratorProductos = listaProductos.iterator();
+		List<DTOTipoProductoCU10> listaProductos =  (List<DTOTipoProductoCU10>) DAOEntity.get().getResultList(consulta, DTOTipoProductoCU10.class);
+		Iterator<DTOTipoProductoCU10> iteratorProductos = listaProductos.iterator();
+		List<DTOTipoProductoCU10> listaProductosFinal = new ArrayList<DTOTipoProductoCU10>();
 
 		while(iteratorProductos.hasNext()) {
-			DTOCU10TipoProducto dto = iteratorProductos.next();
+			DTOTipoProductoCU10 dto = iteratorProductos.next();				
 			
 			Boolean ventaUnidad = false;
 			TipoProducto t = (TipoProducto) DAOEntity.get().get(TipoProducto.class, dto.getId());
@@ -400,27 +417,27 @@ public class GestorProductos {
 				switch(tipoVenta) {
 					case G100:
 						if(valor != 0)
-							dto.getFormasVenta().add(new DTOCU10FormaVenta(tipoVenta, valor));
+							dto.getFormasVenta().add(new DTOFormaVentaCU10(tipoVenta, valor));
 					break;
 					
 					case G250:
 						if(valor != 0)
-							dto.getFormasVenta().add(new DTOCU10FormaVenta(tipoVenta, valor));
+							dto.getFormasVenta().add(new DTOFormaVentaCU10(tipoVenta, valor));
 					break;
 					
 					case G500:
 						if(valor != 0)
-							dto.getFormasVenta().add(new DTOCU10FormaVenta(tipoVenta, valor));
+							dto.getFormasVenta().add(new DTOFormaVentaCU10(tipoVenta, valor));
 					break;
 					
 					case G1000:
 						if(valor != 0)
-							dto.getFormasVenta().add(new DTOCU10FormaVenta(tipoVenta, valor));
+							dto.getFormasVenta().add(new DTOFormaVentaCU10(tipoVenta, valor));
 					break;
 					
 					case G2000:
 						if(valor != 0)
-							dto.getFormasVenta().add(new DTOCU10FormaVenta(tipoVenta, valor));
+							dto.getFormasVenta().add(new DTOFormaVentaCU10(tipoVenta, valor));
 					break;
 					
 					case UNIDAD:
@@ -428,25 +445,29 @@ public class GestorProductos {
 							ventaUnidad = true;
 					break;
 				}
-			}		
+			}
 			
-			if( !(ventaUnidad && (dto.getFormasVenta().size() <= 1))) {
-				consulta = "SELECT new dto.DTOCU10ProductoInicial(p.id, p.cantidadNoVendida, p.codigoBarra, p.vencimiento, pro.nombre ) "
-						+ "FROM ProductoInicial p, Proveedor pro "
-						+ "WHERE pro.id=p.proveedor AND p.disponible=true AND p.tipoProducto="+dto.getId();
-				
-				dto.setProductosIniciales((List<DTOCU10ProductoInicial>) DAOEntity.get().getResultList(consulta, DTOCU10ProductoInicial.class));
-				listaProductosFinal.add(dto);
-			}		
+			if( !(ventaUnidad && (dto.getFormasVenta().size() == 0)) ) {
+				if(!ventaUnidad) {
+					consulta = "SELECT new dto.DTOProductoInicialCU10(p.id, p.cantidadNoVendida, p.codigoBarra, p.vencimiento, pro.nombre ) "
+							+ "FROM ProductoInicial p, Proveedor pro "
+							+ "WHERE pro.id=p.proveedor AND p.disponible=true AND p.tipoProducto="+dto.getId();
+					
+					dto.setProductosIniciales((List<DTOProductoInicialCU10>) DAOEntity.get().getResultList(consulta, DTOProductoInicialCU10.class));
+						
+					listaProductosFinal.add(dto);	
+				}
+			}
 		}
 		
 		return listaProductosFinal;
 	}
 
-	public boolean registrarEmpaquetamiemto(List<DTOCU10Empaquetado> items) {
-		Iterator<DTOCU10Empaquetado> iterator = items.iterator();
+	public boolean registrarEmpaquetamiemto(List<DTOEmpaquetadoCU10> items) {
+		Iterator<DTOEmpaquetadoCU10> iterator = items.iterator();
+
 		while(iterator.hasNext()){
-			DTOCU10Empaquetado dto = iterator.next();
+			DTOEmpaquetadoCU10 dto = iterator.next();
 			
 			/*if( TODO GESTOR-PRODUCTOS dto no es un descarte o parte de otro) {
 				
@@ -458,25 +479,78 @@ public class GestorProductos {
 			cantNoVendida = cantNoVendida - (dto.getCantidadPaquetes() * dto.getTipoPaqueteE().getCantidad())/1000; 
 			prodInicial.setCantidadNoVendida(cantNoVendida);
 			
-			
 			if(cantNoVendida<=0) {
 				prodInicial.setDisponible(false);
 			}
 			
-			
-			Empaquetado p = new Empaquetado();
-			
-			p.setProductoInicial(prodInicial);
-			p.setTipoVenta(dto.getTipoPaqueteE());
-			p.setVendido(false);
-			
-			if(! DAOEntity.get().save(p))
-				return false;
+			for(int i = 0; i<dto.getCantidadPaquetes(); i++) {
+				Empaquetado p = new Empaquetado();
+				
+				p.setProductoInicial(prodInicial);
+				p.setTipoVenta(dto.getTipoPaqueteE());
+				p.setVendido(false);
+				
+				if(! DAOEntity.get().save(p))
+					return false;
+			}
+
 			
 			if(! DAOEntity.get().update(prodInicial))
-				return false;
+				return false;	
+			
+			if(cantNoVendida<=0) {
+				if(!tipoProductoEnVenta(dto.getDtoTipoProducto().getId()))
+					return false;
+			}		
 		}
 		
 		return true;
 	}
+	
+	private Boolean tipoProductoEnVenta(Integer id) {
+		String cadena = "select count(p.id_tipo_producto)"
+				+ "from producto_inicial p "
+				+ "where p.id_tipo_producto="+id+" and p.disponible=true "
+			    + "group by p.id_tipo_producto";
+		Integer cantDisponible = DAOEntity.get().getCantidad(cadena);
+		if(cantDisponible == 0) {
+			TipoProducto t = (TipoProducto) DAOEntity.get().get(TipoProducto.class, id);
+			t.setEnVenta(false);
+			if(! DAOEntity.get().update(t))
+				return false;
+		}
+		
+		return true;			
+	}
+
+
+	@SuppressWarnings("unchecked")
+	public List<DTOCU06> getPaquetes() {
+		String consulta = "SELECT new dto.DTOCU06(e.id, t.id, t.nombre, p.id, e.tipoVenta, pro.nombre, p.codigoBarra, p.vencimiento) "
+				+ "FROM TipoProducto t, ProductoInicial p, Proveedor pro, Empaquetado e "
+				+ "WHERE t.id=p.tipoProducto AND p.proveedor=pro.id AND p.id=e.productoInicial "
+				+ "AND e.vendido = false  ORDER BY t.nombre ASC"; 
+		
+		List<DTOCU06> lista = (List<DTOCU06>) DAOEntity.get().getResultList(consulta, DTOCU06.class);
+		
+		Iterator<DTOCU06> ite = lista.iterator();
+		
+		while(ite.hasNext()) {
+			DTOCU06 dto = ite.next();
+			TipoProducto t = (TipoProducto) DAOEntity.get().get(TipoProducto.class, dto.getIdTipoProducto());
+			
+			Iterator<Precio> precios = t.getPrecios().iterator();
+			TipoPaquete tipoVenta = dto.getFormaVenta();
+			while(precios.hasNext()) {
+				Precio p = precios.next();
+				
+				if(p.getTipoVenta().equals(tipoVenta)) {
+					dto.setPrecioVenta(p.getValor());
+					break;
+				}
+			}
+		}
+		return lista;
+	}
+	
 }

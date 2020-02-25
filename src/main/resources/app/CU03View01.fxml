@@ -59,7 +59,7 @@
                         <Label text="Precio de compra ($):" />
                         <TextField fx:id="precioCompra" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="100.0" promptText="0.0" />
                         <Pane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="60.0" HBox.hgrow="SOMETIMES" />
-                        <Label text="Cantidad (Kg):" />
+                        <Label text="Cantidad (Kg o unidad):" />
                         <TextField fx:id="cantidad" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="100.0" promptText="0.0" />
                         <Pane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="60.0" />
                         <Label text="Vencimiento:" />

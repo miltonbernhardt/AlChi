@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import enums.TipoPaquete;
 
 @SuppressWarnings("unused")
-public class DTOCU10ProductoInicial {
+public class DTOProductoInicialCU10 {
 	
 	private Integer idProductoInicial;
 	private Float cantidadNoVendida;
@@ -13,7 +13,7 @@ public class DTOCU10ProductoInicial {
 	private LocalDate vencimiento;
 	private String proveedor;
 	
-	public DTOCU10ProductoInicial(Integer idProductoInicial, Float cantidadNoVendida, String codigoBarra,
+	public DTOProductoInicialCU10(Integer idProductoInicial, Float cantidadNoVendida, String codigoBarra,
 			LocalDate vencimiento, String proveedor) {
 		super();
 		this.idProductoInicial = idProductoInicial;

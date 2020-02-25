@@ -4,11 +4,11 @@ import java.time.LocalDate;
 
 import enums.TipoPaquete;
 
-public class DTOCU10Empaquetado {
+public class DTOEmpaquetadoCU10 {
 	
-	private DTOCU10FormaVenta dtoFormaVenta;
-	private DTOCU10ProductoInicial dtoProductoInicial;
-	private DTOCU10TipoProducto dtoTipoProducto;
+	private DTOFormaVentaCU10 dtoFormaVenta;
+	private DTOProductoInicialCU10 dtoProductoInicial;
+	private DTOTipoProductoCU10 dtoTipoProducto;
 	
 	private Integer idTipoProducto;
 	private Integer idProductoInicial;
@@ -20,11 +20,11 @@ public class DTOCU10Empaquetado {
 	private TipoPaquete tipoPaquete;
 	private Integer cantidadPaquetes;
 	
-	public DTOCU10Empaquetado() { }
+	public DTOEmpaquetadoCU10() { }
 	
-	public DTOCU10FormaVenta getDtoFormaVenta() { return dtoFormaVenta; }
-	public DTOCU10ProductoInicial getDtoProductoInicial() { return dtoProductoInicial; }
-	public DTOCU10TipoProducto getDtoTipoProducto() { return dtoTipoProducto; }
+	public DTOFormaVentaCU10 getDtoFormaVenta() { return dtoFormaVenta; }
+	public DTOProductoInicialCU10 getDtoProductoInicial() { return dtoProductoInicial; }
+	public DTOTipoProductoCU10 getDtoTipoProducto() { return dtoTipoProducto; }
 	public Integer getIdTipoProducto() { return idTipoProducto; }
 	public Integer getIdProductoInicial() { return idProductoInicial; }
 	public String getNombreTipoProducto() { return nombreTipoProducto; }
@@ -36,9 +36,9 @@ public class DTOCU10Empaquetado {
 	
 	public String getTipoPaquete() { return tipoPaquete.toString(); }
 	
-	public void setDtoFormaVenta(DTOCU10FormaVenta dtoFormaVenta) { this.dtoFormaVenta = dtoFormaVenta; }
-	public void setDtoProductoInicial(DTOCU10ProductoInicial dtoProductoInicial) { this.dtoProductoInicial = dtoProductoInicial; }
-	public void setDtoTipoProducto(DTOCU10TipoProducto dtoTipoProducto) { this.dtoTipoProducto = dtoTipoProducto; }
+	public void setDtoFormaVenta(DTOFormaVentaCU10 dtoFormaVenta) { this.dtoFormaVenta = dtoFormaVenta; }
+	public void setDtoProductoInicial(DTOProductoInicialCU10 dtoProductoInicial) { this.dtoProductoInicial = dtoProductoInicial; }
+	public void setDtoTipoProducto(DTOTipoProductoCU10 dtoTipoProducto) { this.dtoTipoProducto = dtoTipoProducto; }
 	public void setIdTipoProducto(Integer idTipoProducto) { this.idTipoProducto = idTipoProducto; }
 	public void setIdProductoInicial(Integer idProductoInicial) { this.idProductoInicial = idProductoInicial; }
 	public void setNombreTipoProducto(String nombreTipoProducto) { this.nombreTipoProducto = nombreTipoProducto; }

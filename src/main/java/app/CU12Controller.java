@@ -15,7 +15,7 @@ public class CU12Controller {
         }    
         return instance;
     }	
-	
+	//TODO CU12 implementar
     public CU12Controller() { }
 	
     @FXML

@@ -1,5 +1,6 @@
 package database;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -107,7 +108,7 @@ public class DAOEntity {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void addProductoInicialToTipoProducto(Class clase, Integer id, String cadenaGraph, List<ProductoInicial> productos) {//ProductoInicial pro) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-				
+				//TODO DAO hacer generico
 		EntityGraph graph = session.getEntityGraph(cadenaGraph);
 		  
 		Map hints = new HashMap();
@@ -124,5 +125,23 @@ public class DAOEntity {
 		}
 		
 		session.close();
+	}
+
+	public Integer getCantidad(String cadena) {
+		Integer i = 0;
+		Object o = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			o = session.createSQLQuery(cadena).getSingleResult();			
+		}catch (javax.persistence.NoResultException e) { 
+			o = null;    
+		}
+		
+		if(o != null) {
+			i = ((BigInteger) o).intValue();
+		}
+		
+		session.close();
+	    return i;
 	}
 }
