@@ -9,25 +9,25 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
 <ScrollPane fitToHeight="true" fitToWidth="true" pickOnBounds="false" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.CU06Controller">
    <content>
-      <BorderPane>
-         <center>
-            <VBox alignment="CENTER_LEFT" minWidth="800.0" spacing="15.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="600.0" prefWidth="900.0" stylesheets="@styles.css">
+         <children>
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label text="Productos empaquetados:">
+                  <Label text="Productos empaquetados para agregar al combo:">
                      <VBox.margin>
                         <Insets bottom="-10.0" />
                      </VBox.margin>
                   </Label>
                   <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" minHeight="150.0" minWidth="820.0" VBox.vgrow="ALWAYS">
                      <content>
-                        <TableView fx:id="tabla1" minHeight="150.0" minWidth="-Infinity" onMouseClicked="#selecionarPaquete1" prefHeight="210.0" prefWidth="820.0">
+                        <TableView fx:id="tabla1" minHeight="150.0" onMouseClicked="#selecionarPaquete1" prefHeight="250.0" prefWidth="820.0">
                            <columns>
                               <TableColumn fx:id="columnaProducto1" editable="false" maxWidth="700.0" minWidth="200.0" prefWidth="200.0" text="Producto" />
                               <TableColumn fx:id="columnaFormaVenta1" editable="false" maxWidth="300.0" minWidth="100.0" prefWidth="100.0" text="Forma venta" />
@@ -42,15 +42,9 @@
                         </TableView>
                      </content>
                   </ScrollPane>
-                  <HBox alignment="CENTER" spacing="25.0" VBox.vgrow="NEVER">
+                  <HBox alignment="CENTER" spacing="5.0">
                      <children>
                         <Button fx:id="btnAnadirAlCombo" contentDisplay="CENTER" disable="true" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnAnadirAlCombo" text="Añadir al combo">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </Button>
-                        <Pane minWidth="60.0" />
-                        <Button contentDisplay="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnEmpaquetar" text="Agregar producto empaquetado">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -60,9 +54,14 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </HBox>
+                  <Label text="Productos en el combo:">
+                     <VBox.margin>
+                        <Insets bottom="-10.0" />
+                     </VBox.margin>
+                  </Label>
                   <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" minHeight="150.0" minWidth="820.0" VBox.vgrow="ALWAYS">
                      <content>
-                        <TableView fx:id="tabla2" minHeight="150.0" minWidth="-Infinity" onMouseClicked="#selecionarPaquete2" prefHeight="190.0" prefWidth="820.0">
+                        <TableView fx:id="tabla2" minHeight="150.0" onMouseClicked="#selecionarPaquete2" prefHeight="190.0" prefWidth="820.0">
                            <columns>
                               <TableColumn fx:id="columnaProducto2" editable="false" maxWidth="700.0" minWidth="200.0" prefWidth="200.0" text="Producto" />
                               <TableColumn fx:id="columnaFormaVenta2" editable="false" maxWidth="300.0" minWidth="100.0" prefWidth="100.0" text="Forma venta" />
@@ -77,21 +76,20 @@
                         </TableView>
                      </content>
                   </ScrollPane>
-                  <HBox alignment="CENTER" spacing="15.0" VBox.vgrow="NEVER">
+                  <HBox alignment="CENTER" spacing="10.0">
                      <children>
                         <Button fx:id="btnEliminarDelCombo" disable="true" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnEliminarProducto" text="Eliminar producto del combo">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                     </children></HBox>
-                  <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="NEVER">
-                     <children>
+                        <Pane HBox.hgrow="SOMETIMES" />
                         <Label text="Precio de venta sugerido ($):" />
                         <TextField fx:id="precioVenta" alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minWidth="60.0" prefHeight="30.0" prefWidth="40.0" promptText="0.0">
                            <tooltip>
                               <Tooltip text="El precio sugerido es de acuerdo al precio al que se compró el producto más un porcentaje de ganancia asignado a la modalidad de venta por combo" />
-                           </tooltip></TextField>
+                           </tooltip>
+                        </TextField>
                         <Pane HBox.hgrow="SOMETIMES" />
                         <Button mnemonicParsing="false" onAction="#btnConfirmarCombo" text="Confirmar combo">
                            <cursor>
@@ -106,12 +104,9 @@
                      </children>
                   </HBox>
                </children>
-               <BorderPane.margin>
-                  <Insets left="15.0" />
-               </BorderPane.margin>
             </VBox>
-         </center>
-      </BorderPane>
+         </children>
+      </AnchorPane>
    </content>
    <padding>
       <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

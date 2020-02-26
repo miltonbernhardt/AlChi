@@ -1,16 +1,10 @@
 package database;
 
 import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import javax.persistence.EntityGraph;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import app.PanelAlerta;
-import entity.ProductoInicial;
-import entity.TipoProducto;
 
 public class DAOEntity {
 	
@@ -105,28 +99,6 @@ public class DAOEntity {
 		return lista;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void addProductoInicialToTipoProducto(Class clase, Integer id, String cadenaGraph, List<ProductoInicial> productos) {//ProductoInicial pro) {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-				//TODO DAO hacer generico
-		EntityGraph graph = session.getEntityGraph(cadenaGraph);
-		  
-		Map hints = new HashMap();
-		hints.put("javax.persistence.fetchgraph", graph);
-		  
-		TipoProducto tipoProducto = (TipoProducto) session.find(clase, id, hints);
-		
-		Iterator<ProductoInicial> iterator = productos.iterator();
-		
-		while(iterator.hasNext()) {
-			ProductoInicial pro = iterator.next();
-			//pro.setTipoProducto(tipoProducto);
-			tipoProducto.getProductos().add(pro);
-		}
-		
-		session.close();
-	}
-
 	public Integer getCantidad(String cadena) {
 		Integer i = 0;
 		Object o = null;
@@ -144,4 +116,26 @@ public class DAOEntity {
 		session.close();
 	    return i;
 	}
+	
+	/*@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void addProductoInicialToTipoProducto(Class clase, Integer id, String cadenaGraph, List<ProductoInicial> productos) {//ProductoInicial pro) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		EntityGraph graph = session.getEntityGraph(cadenaGraph);
+		  
+		Map hints = new HashMap();
+		hints.put("javax.persistence.fetchgraph", graph);
+		  
+		TipoProducto tipoProducto = (TipoProducto) session.find(clase, id, hints);
+		
+		Iterator<ProductoInicial> iterator = productos.iterator();
+		
+		while(iterator.hasNext()) {
+			ProductoInicial pro = iterator.next();
+			//pro.setTipoProducto(tipoProducto);
+			tipoProducto.getProductos().add(pro);
+		}
+		
+		session.close();
+	}*/
 }

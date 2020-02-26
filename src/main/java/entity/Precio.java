@@ -2,7 +2,6 @@ package entity;
 
 import java.time.LocalDate;
 import enums.TipoPaquete;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

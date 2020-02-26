@@ -60,20 +60,6 @@ public class CU02Controller {
     @FXML private void initialize(){
     	setCombo();
     	iniciarTabla();
-    	
-    	//TODO CU02 implementar vista de producto y dar la posibilidad de editarlo
-    	/*tabla.setRowFactory( tv -> {
-    	    TableRow<DTOTipoProductoCU02> fila = new TableRow<>();
-    	    fila.setOnMouseClicked(event -> {
-    	    	productoSeleccionado = tabla.getSelectionModel().getSelectedItem();
-    	        if (event.getClickCount() == 2 && (! fila.isEmpty()) && productoSeleccionado != null ) {
-    	        	@SuppressWarnings("unused")
-					DTOTipoProductoCU02 dto = fila.getItem();    
-    	        }
-    	    });
-    	    return fila ;
-    	});
-    	*/
     }
      
     private void setCombo(){
@@ -95,6 +81,20 @@ public class CU02Controller {
     	columnaPrecio1000.setCellValueFactory(new PropertyValueFactory<>("precio1000"));
     	columnaPrecio2000.setCellValueFactory(new PropertyValueFactory<>("precio2000"));
     	columnaPrecioUnidad.setCellValueFactory(new PropertyValueFactory<>("precioUnidad"));
+    	
+    	//TODO CU02 implementar vista de producto y dar la posibilidad de editarlo
+    	/*tabla.setRowFactory( tv -> {
+    	    TableRow<DTOTipoProductoCU02> fila = new TableRow<>();
+    	    fila.setOnMouseClicked(event -> {
+    	    	productoSeleccionado = tabla.getSelectionModel().getSelectedItem();
+    	        if (event.getClickCount() == 2 && (! fila.isEmpty()) && productoSeleccionado != null ) {
+    	        	@SuppressWarnings("unused")
+					DTOTipoProductoCU02 dto = fila.getItem();    
+    	        }
+    	    });
+    	    return fila ;
+    	});
+    	*/
     }
 
     private void cargarTabla(List<DTOTipoProductoCU02> lista) {

@@ -2,10 +2,13 @@ package app;
 
 import gestor.GestorProductos;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 import dto.DTOFormaVentaCU10;
+import dto.DTOCU06;
 import dto.DTOEmpaquetadoCU10;
 import dto.DTOProductoInicialCU10;
 import dto.DTOTipoProductoCU10;
@@ -40,8 +43,10 @@ public class CU10Controller01 {
     private Float cantidadRestante = null;
     private Integer cantidadMaxima = null;
     
+    private CU04Controller controllerCu04 = null;
     private DTOEmpaquetadoCU10 productoEmpaquetado = null;
 	
+    //TODO CU10.1 cambiar el color del default button btnAnadirEmpaquetamiento
     @FXML private Button btnAnadirEmpaquetamiento;
     @FXML private Button btnDarBajaProductoInicial;
     @FXML private Button btnAnadirConOtroPaquete;
@@ -91,22 +96,7 @@ public class CU10Controller01 {
     private void addListenerCampos() {
     	cantidad.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
-            	String s = cantidad.getText();
-            	
-            	if( !(s.isBlank())) {
-            		Integer i = 0;
-            		try {
-            			i = Integer.parseInt(s);
-            		}catch(Exception e) { }
-            		
-            		if( !(i>=1 && i<=cantidadMaxima) ) {
-            			cantidad.setText("");
-                		App.setError(cantidad);
-            		}
-            		else {
-            			App.setValido(cantidad);       
-            		}
-            	}            		
+            	validarCampos();           		
             }
         });
     	
@@ -117,6 +107,7 @@ public class CU10Controller01 {
     }
     
 	@FXML private void btnAnadirEmpaquetamiento() {
+		validarCampos();
 		if(!cantidad.getText().isBlank()) {
 			DTOEmpaquetadoCU10 dto = new DTOEmpaquetadoCU10(); 
 			
@@ -153,7 +144,7 @@ public class CU10Controller01 {
 			tabla.getItems().add(dto);
 		}
 		else {
-			PanelAlerta.getError("Aviso", null, "Se debe elegir una cantidad de paquetes a empaquetar.");
+			PanelAlerta.getError("Aviso", null, "Se debe elegir una cantidad de paquetes válida a empaquetar.");
 		}
 	}
 	
@@ -241,9 +232,16 @@ public class CU10Controller01 {
 		if(tabla.getItems().size()>0) {			
 			Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar registro del empaquetamiento de productos", null, "¿Desea confirmar el ingeso de los productos y la actualización de los precios?");
 			if (result.get() == ButtonType.OK){
-				if(GestorProductos.get().registrarEmpaquetamiemto(tabla.getItems())) {
+				List<DTOCU06> itemsParaCu4 = null;
+				if(controllerCu04 != null) {
+					itemsParaCu4 = new ArrayList<DTOCU06>();
+				}
+				if(GestorProductos.get().registrarEmpaquetamiemto(tabla.getItems(), itemsParaCu4)) {
 					PanelAlerta.getInformation("Confirmación", null, "La transacción ocurrió de manera efectiva.");
 	                volver();
+	                if(controllerCu04 != null) {
+	                	controllerCu04.addToTabla(itemsParaCu4);
+					}
 	                CU10Controller01.get().volver();
 				}
 			}    
@@ -331,9 +329,6 @@ public class CU10Controller01 {
 			
 			btnAnadirEmpaquetamiento.setDisable(true);
 			btnDarBajaProductoInicial.setDisable(true);
-			
-			//formaVenta.setDisable(true);
-			//formaVenta.getItems().clear();
 		}        	
     }
     
@@ -354,8 +349,7 @@ public class CU10Controller01 {
     private void calcularCantidad() {    	
     	if( (tamanoPaquete!=null) && (cantidadRestante!=null)) {
     		cantidad.setText("");
-    		
-    		if(cantidadRestante <= tamanoPaquete) {
+    		if(cantidadRestante < tamanoPaquete) {
     			cantidad.setDisable(true);
     			
     			btnAnadirEmpaquetamiento.setDisable(true);
@@ -372,15 +366,39 @@ public class CU10Controller01 {
         			btnAnadirConOtroPaquete.setDisable(true);
         			
             		cantidadMaximaPaquete.setText("Cantidad de paquetes: 1 - "+cantidadMaxima);
+            		
+            		cantidad.requestFocus();
             	} 
     		}        	        	
     	}
     }
+
+    private void validarCampos() {
+    	String s = cantidad.getText();    	
+    	if( !(s.isBlank())) {
+    		Integer i = 0;
+    		try {
+    			i = Integer.parseInt(s);
+    		}catch(Exception e) { }
+    		
+    		if( !(i>=1 && i<=cantidadMaxima) ) {
+    			cantidad.setText("");
+        		App.setError(cantidad);
+    		}
+    		else {
+    			App.setValido(cantidad);       
+    		}
+    	} 
+    }
     
     private void validarCampos(KeyEvent e) {
-    	Character caracter = e.getCharacter().charAt(0);
-		if(!Character.isDigit(caracter) ){	
+    	Character caracter = e.getCharacter().charAt(0);    	
+		if(!Character.isDigit(caracter)){
 			e.consume();
 		}
     }
+
+    public void setControllerCu04(CU04Controller controllerCu04) {
+		this.controllerCu04 = controllerCu04;
+	}
 }

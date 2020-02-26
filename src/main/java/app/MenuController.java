@@ -52,16 +52,6 @@ public class MenuController  {
     @FXML
     private void setCU11View() {
 		CU11Controller.get();
-    }  
-    
-    @FXML
-    private void setCU12View() {
-		CU12Controller.get();
-    }  
-    
-    @FXML
-    private void setCU13View() {
-		CU13Controller.get();
     }
     
     @FXML

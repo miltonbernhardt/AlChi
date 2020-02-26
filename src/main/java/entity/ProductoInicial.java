@@ -30,7 +30,7 @@ public class ProductoInicial {
 	private BitacoraEntrada bitacoraEntrada;	
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_empaquetado", foreignKey=@ForeignKey(name = "fk_empaquetado"))
+	@JoinColumn(name = "id_producto_inicial", foreignKey=@ForeignKey(name = "fk_producto_inicial"))
 	@OrderBy("id asc")
 	private List<Empaquetado> empaquetado;
 	

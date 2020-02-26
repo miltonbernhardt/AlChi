@@ -1,9 +1,12 @@
 package dto;
 
 import java.time.LocalDate;
+import java.util.List;
+
 import enums.TipoPaquete;
 
 public class DTOCU06 {
+	private List<DTOCU06> listaCombo;
 
 	private Integer idEmpaquetado;
 	private Integer idTipoProducto;
@@ -16,9 +19,23 @@ public class DTOCU06 {
 	private LocalDate vencimiento;
 	private Integer cantidad;
 	
+	public DTOCU06(DTOEmpaquetadoCU10 dto, Integer id) {
+		this.listaCombo = null;
+		setCodigoBarra(dto.getCodigoBarra());
+		setFormaVenta(dto.getTipoPaqueteE());
+		setIdEmpaquetado(id);
+		setIdProductoInicial(dto.getIdProductoInicial());
+		setIdTipoProducto(dto.getIdTipoProducto());
+		setNombreProducto(dto.getNombreTipoProducto());
+		setNombreProveedor(dto.getNombreProveedor());
+		setPrecioVenta(dto.getDtoFormaVenta().getPrecioVenta());
+		setVencimiento(dto.getVencimiento());		
+	}
+	
 	public DTOCU06(Integer idEmpaquetado, Integer idTipoProducto, String nombreProducto, Integer idProductoInicial, TipoPaquete formaVenta, String nombreProveedor,
 			String codigoBarra, LocalDate vencimiento) {
 		super();
+		this.listaCombo = null;
 		this.idEmpaquetado = idEmpaquetado;
 		this.idTipoProducto = idTipoProducto;
 		this.nombreProducto = nombreProducto;
@@ -29,21 +46,53 @@ public class DTOCU06 {
 		this.vencimiento = vencimiento;
 	}
 	
+	public DTOCU06(List<DTOCU06> listaCombo, Float precio) {
+		this.setListaCombo(listaCombo);
+		this.idProductoInicial = null;
+		this.idTipoProducto = null;
+		this.nombreProducto = "Combo de "+listaCombo.size()+" productos.";
+		this.codigoBarra = "-";
+		this.vencimiento = null;
+		this.nombreProveedor = "-";
+		this.precioVenta = precio;
+		this.formaVenta = null;
+	}
+	
+	public List<DTOCU06> getListaCombo() { return listaCombo; }
 	public Integer getIdEmpaquetado() { return idEmpaquetado; }
 	public Integer getIdTipoProducto() { return idTipoProducto; }
 	public String getNombreProducto() { return nombreProducto; }
 	public Integer getIdProductoInicial() { return idProductoInicial; }
-	public TipoPaquete getFormaVenta() { return formaVenta; }
+	public TipoPaquete getFormaVentaE() { return formaVenta; }
 	public Float getPrecioVentaF() { return precioVenta; }
 	public String getNombreProveedor() { return nombreProveedor; }
 	public String getCodigoBarra() { return codigoBarra; }
-	public LocalDate getVencimiento() { return vencimiento; }
+	public LocalDate getVencimientoL() { return vencimiento; }
 	public Integer getCantidad() { return cantidad; }
 	
 	public String getPrecioVenta() {
 		return precioVenta.toString()+" $";
 	}
+	
+	public String getVencimiento() {
+		if(vencimiento == null) {
+			return "-";
+		}
+		else {
+			return vencimiento.toString();
+		}
+	}
+	
+	public String getFormaVenta() {
+		if(formaVenta == null) {
+			return "Combo";
+		}
+		else {
+			return formaVenta.toString(); 
+		}		
+	}
 
+	public void setListaCombo(List<DTOCU06> listaCombo) { this.listaCombo = listaCombo; }
 	public void setIdEmpaquetado(Integer idEmpaquetado) { this.idEmpaquetado = idEmpaquetado; }
 	public void setIdTipoProducto(Integer idTipoProducto) { this.idTipoProducto = idTipoProducto; }
 	public void setNombreProducto(String nombreProducto) { this.nombreProducto = nombreProducto; }	

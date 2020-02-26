@@ -19,6 +19,9 @@ public class CU11Controller {
     }
 	
 	//TODO CU11 implementar
+    /*
+    Va a tener la vista de genear archivos de ganancias o perdidas, y tambien de generar pdfs de otras cosas y las imagenes para reder sociales
+     */
 	
 	
     @FXML private void volver() {

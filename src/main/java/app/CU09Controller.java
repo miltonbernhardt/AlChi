@@ -17,7 +17,7 @@ public class CU09Controller {
 
     public CU09Controller() { }	
     
-    //TODO CU09 actualizar en venta del tipo producto
+    //TODO CU09 implementar, actualizar en venta del tipo producto
 	
     @FXML
     private void volver() {

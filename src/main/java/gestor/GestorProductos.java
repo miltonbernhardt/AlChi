@@ -463,12 +463,15 @@ public class GestorProductos {
 		return listaProductosFinal;
 	}
 
-	public boolean registrarEmpaquetamiemto(List<DTOEmpaquetadoCU10> items) {
+	public boolean registrarEmpaquetamiemto(List<DTOEmpaquetadoCU10> items, List<DTOCU06> itemsParaCu6) {
 		Iterator<DTOEmpaquetadoCU10> iterator = items.iterator();
+		Boolean cu06 = false;
+		if(itemsParaCu6 != null) {
+			cu06 = true;
+		}
 
 		while(iterator.hasNext()){
-			DTOEmpaquetadoCU10 dto = iterator.next();
-			
+			DTOEmpaquetadoCU10 dto = iterator.next();			
 			/*if( TODO GESTOR-PRODUCTOS dto no es un descarte o parte de otro) {
 				
 			}*/
@@ -492,8 +495,12 @@ public class GestorProductos {
 				
 				if(! DAOEntity.get().save(p))
 					return false;
+				
+				if(cu06) {
+					DTOCU06 dto6 = new DTOCU06(dto, p.getId());
+					itemsParaCu6.add(dto6);
+				}
 			}
-
 			
 			if(! DAOEntity.get().update(prodInicial))
 				return false;	
@@ -501,7 +508,7 @@ public class GestorProductos {
 			if(cantNoVendida<=0) {
 				if(!tipoProductoEnVenta(dto.getDtoTipoProducto().getId()))
 					return false;
-			}		
+			}				
 		}
 		
 		return true;
@@ -523,7 +530,6 @@ public class GestorProductos {
 		return true;			
 	}
 
-
 	@SuppressWarnings("unchecked")
 	public List<DTOCU06> getPaquetes() {
 		String consulta = "SELECT new dto.DTOCU06(e.id, t.id, t.nombre, p.id, e.tipoVenta, pro.nombre, p.codigoBarra, p.vencimiento) "
@@ -540,7 +546,7 @@ public class GestorProductos {
 			TipoProducto t = (TipoProducto) DAOEntity.get().get(TipoProducto.class, dto.getIdTipoProducto());
 			
 			Iterator<Precio> precios = t.getPrecios().iterator();
-			TipoPaquete tipoVenta = dto.getFormaVenta();
+			TipoPaquete tipoVenta = dto.getFormaVentaE();
 			while(precios.hasNext()) {
 				Precio p = precios.next();
 				
@@ -551,6 +557,5 @@ public class GestorProductos {
 			}
 		}
 		return lista;
-	}
-	
+	}	
 }

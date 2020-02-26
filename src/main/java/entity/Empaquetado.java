@@ -24,8 +24,8 @@ public class Empaquetado {
 	private ProductoInicial productoInicial;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_empaquetado")
-	@SequenceGenerator(name="id_empaquetado", sequenceName = "id_empaquetado_seq", initialValue = 100, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id")
+	@SequenceGenerator(name="id", sequenceName = "id_seq", initialValue = 100, allocationSize = 1)
 	@Column(nullable = false)
 	private Integer id;
 	
@@ -36,15 +36,20 @@ public class Empaquetado {
 	@Column(nullable = false)
 	private Boolean vendido;
 	
+	@Column
+	private Float precio;
+
 	public Empaquetado() {}
 	
 	public ProductoInicial getProductoInicial() { return productoInicial; }	
 	public Integer getId() { return id; }	
 	public TipoPaquete getTipoVenta() { return tipoVenta; }	
 	public Boolean getVendido() { return vendido; }
+	public Float getPrecio() { return precio; }
 	
 	public void setProductoInicial(ProductoInicial productoTotal) { this.productoInicial = productoTotal; }	
 	public void setId(Integer id) { this.id = id; }	
 	public void setTipoVenta(TipoPaquete tipoVenta) { this.tipoVenta = tipoVenta; }	
 	public void setVendido(Boolean vendido) { this.vendido = vendido; }	
+	public void setPrecio(Float precio) { this.precio = precio; }
 }

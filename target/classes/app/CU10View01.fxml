@@ -76,7 +76,10 @@
                               <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="5.0">
                                  <children>
                                     <Label contentDisplay="CENTER" ellipsisString="" minWidth="-Infinity" text="Cantidad de paquetes a hacer:" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" />
-                                    <TextField fx:id="cantidad" alignment="CENTER" disable="true" maxWidth="50.0" minWidth="30.0" />
+                                    <TextField fx:id="cantidad" alignment="CENTER" disable="true" maxWidth="50.0" minWidth="30.0">
+                                       <cursor>
+                                          <Cursor fx:constant="TEXT" />
+                                       </cursor></TextField>
                                  </children>
                               </HBox>
                               <Label fx:id="cantidadMaximaPaquete" text="Cantidad de paquetes:" />
@@ -87,7 +90,10 @@
                   </HBox>
                   <HBox alignment="CENTER" spacing="60.0">
                      <children>
-                        <Button fx:id="btnAnadirEmpaquetamiento" disable="true" mnemonicParsing="false" onAction="#btnAnadirEmpaquetamiento" text="Añadir empaquetamiento" />
+                        <Button fx:id="btnAnadirEmpaquetamiento" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#btnAnadirEmpaquetamiento" text="Añadir empaquetamiento">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
                         <Button fx:id="btnDarBajaProductoInicial" disable="true" mnemonicParsing="false" onAction="#btnDarBajaPaqueteInicial" text="Dar de baja paquete inicial">
                            <tooltip>
                               <Tooltip text="Oprimir este botón cuando se desee dar de baja a un paquete inicial, debido a motivos como que se haya vencido o que ya no se posea el stock de dicho paquete" wrapText="true">
@@ -96,6 +102,9 @@
                                  </font>
                               </Tooltip>
                            </tooltip>
+                           <cursor>
+                              <Cursor fx:constant="MOVE" />
+                           </cursor>
                         </Button>
                         <Button fx:id="btnAnadirConOtroPaquete" disable="true" mnemonicParsing="false" onAction="#btnAnadirConOtroPaquete" text="Empaquetar con fracciones de otros paquetes">
                            <tooltip>
@@ -105,6 +114,9 @@
                                  </font>
                               </Tooltip>
                            </tooltip>
+                           <cursor>
+                              <Cursor fx:constant="MOVE" />
+                           </cursor>
                         </Button>
                      </children>
                      <VBox.margin>
@@ -132,23 +144,23 @@
                      <children>
                         <Button fx:id="btnEliminarFila" disable="true" mnemonicParsing="false" onAction="#btnEliminar" text="Eliminar">
                            <cursor>
-                              <Cursor fx:constant="HAND" />
+                              <Cursor fx:constant="MOVE" />
                            </cursor>
                         </Button>
                         <Button fx:id="btnEditarFila" disable="true" mnemonicParsing="false" onAction="#btnEditar" text="Editar">
                            <cursor>
-                              <Cursor fx:constant="HAND" />
+                              <Cursor fx:constant="MOVE" />
                            </cursor>
                         </Button>
                         <Region minWidth="20.0" prefWidth="50.0" />
                         <Button mnemonicParsing="false" onAction="#btnConfirmarEmpaquetamiento" text="Confirmar empaquetamiento">
                            <cursor>
-                              <Cursor fx:constant="HAND" />
+                              <Cursor fx:constant="MOVE" />
                            </cursor>
                         </Button>
                         <Button cancelButton="true" mnemonicParsing="false" onAction="#volver" text="Volver">
                            <cursor>
-                              <Cursor fx:constant="HAND" />
+                              <Cursor fx:constant="MOVE" />
                            </cursor>
                         </Button>
                      </children>

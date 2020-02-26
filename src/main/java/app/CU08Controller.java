@@ -90,6 +90,20 @@ public class CU08Controller {
 	   	columnaPrecioCompra.setCellValueFactory(new PropertyValueFactory<>("precioCompra"));
 	   	columnaVencimiento.setCellValueFactory(new PropertyValueFactory<>("fechaVencimiento"));
 	  	columnaDisponible.setCellValueFactory(new PropertyValueFactory<>("disponible"));
+	  	
+	  //TODO CU08 implementar doble click y dar opciones para quepase algo
+    	/*tabla.setRowFactory( tv -> {
+    	    TableRow<DTOTipoProductoCU02> fila = new TableRow<>();
+    	    fila.setOnMouseClicked(event -> {
+    	    	productoSeleccionado = tabla.getSelectionModel().getSelectedItem();
+    	        if (event.getClickCount() == 2 && (! fila.isEmpty()) && productoSeleccionado != null ) {
+    	        	@SuppressWarnings("unused")
+					DTOTipoProductoCU02 dto = fila.getItem();    
+    	        }
+    	    });
+    	    return fila ;
+    	});
+    	*/
 	}
 	
     private void cargarTabla(List<DTOCU08> lista) {

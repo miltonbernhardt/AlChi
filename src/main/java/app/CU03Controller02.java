@@ -5,7 +5,7 @@ import java.util.Optional;
 import dto.DTOCU03;
 import dto.DTOProductoInicial;
 import enums.Porcentaje;
-import gestor.GestorEntrada;
+import gestor.GestorEntradaSalida;
 import gestor.GestorProductos;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -100,6 +100,7 @@ public class CU03Controller02 {
     @FXML private void initialize(){
     	iniciarTabla();
     	addListenerCampos();
+    	addFueraFoco();
     }
     
 	private void iniciarTabla() {
@@ -112,6 +113,46 @@ public class CU03Controller02 {
     	columnaP2000.setCellValueFactory(new PropertyValueFactory<>("p2000Final"));
     	columnaPUnidad.setCellValueFactory(new PropertyValueFactory<>("pUnidadFinal"));
     }
+	
+	private void addFueraFoco() {
+		productos.setFocusTraversable(false);
+		
+		p100Nuevo.setFocusTraversable(false);
+		p250Nuevo.setFocusTraversable(false);
+		p500Nuevo.setFocusTraversable(false);
+		p1000Nuevo.setFocusTraversable(false);
+		p2000Nuevo.setFocusTraversable(false);
+		pUnidadNuevo.setFocusTraversable(false);
+		
+		p100Anterior.setFocusTraversable(false);
+		p250Anterior.setFocusTraversable(false);
+		p500Anterior.setFocusTraversable(false);
+		p1000Anterior.setFocusTraversable(false);
+		p2000Anterior.setFocusTraversable(false);
+		pUnidadAnterior.setFocusTraversable(false);
+		
+		rd100.setFocusTraversable(false); 
+		rd250.setFocusTraversable(false);
+		rd500.setFocusTraversable(false);
+		rd1000.setFocusTraversable(false);
+		rd2000.setFocusTraversable(false);
+		rdUnidad.setFocusTraversable(false);
+		rd100Ant.setFocusTraversable(false);
+		rd250Ant.setFocusTraversable(false);
+		rd500Ant.setFocusTraversable(false);
+		rd1000Ant.setFocusTraversable(false);
+		rd2000Ant.setFocusTraversable(false);
+		rdUnidadAnt.setFocusTraversable(false);
+		
+		checkP100.setFocusTraversable(false);
+		checkP250.setFocusTraversable(false);
+		checkP500.setFocusTraversable(false);
+		checkP1000.setFocusTraversable(false);
+		checkP2000.setFocusTraversable(false);
+		checkPUnidad.setFocusTraversable(false);
+
+		tabla.setFocusTraversable(false);
+	}
 	
 	@FXML private void btnConfirmarPrecios() {
 		DTOCU03 dto = productos.getValue();
@@ -261,7 +302,7 @@ public class CU03Controller02 {
     
 	@FXML private void btnFinalizar() {
 		if(tabla.getItems().size()>0) {			
-			Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar ingreso de productos", null, "¿Desea confirmar el ingeso de los productos y la actualización de los precios?");
+			Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar ingreso de productos", null, "¿Desea confirmar el ingreso de los productos y la actualización de los precios?");
 			
 			if (result.get() == ButtonType.OK){
 				if(GestorProductos.get().registrarIngreso(tabla.getItems())) {
@@ -698,7 +739,7 @@ public class CU03Controller02 {
 	private Float calcularPrecioNuevo(Float valorSugerido) {
     	Float valor = valorSugerido*Porcentaje.NORMAL.getValue();
     	
-    	Float modulo5 = valor%10;
+    	Float modulo5 = valor%5;
     	if(modulo5 >= 2.5) {
     		valor = valor - modulo5 + 5;
     	}
@@ -712,7 +753,7 @@ public class CU03Controller02 {
 	@SuppressWarnings("exports")
 	public void setListaProductos( List<DTOProductoInicial> listaProductos) {
 		productos.getItems().clear();
-		productos.getItems().addAll(GestorEntrada.get().getProductosActualizar(listaProductos));
+		productos.getItems().addAll(GestorEntradaSalida.get().getProductosActualizar(listaProductos));
 		productos.getSelectionModel().selectFirst();
 		setearCampos();
 	}

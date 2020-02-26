@@ -45,11 +45,6 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#setCU06View" text="CU06 - Registrar venta de combos">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
                   <Button mnemonicParsing="false" onAction="#setCU07View" text="CU07 - Administrar proveedores">
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -71,16 +66,6 @@
                      </cursor>
                   </Button>
                   <Button disable="true" mnemonicParsing="false" onAction="#setCU11View" text="CU11 - Exportar archivos">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
-                  <Button disable="true" mnemonicParsing="false" onAction="#setCU12View" text="CU12 - Calculo de ganancias">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
-                  <Button disable="true" mnemonicParsing="false" onAction="#setCU13View" text="CU13 - Calculo de pérdidas">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
