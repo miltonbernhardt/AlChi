@@ -13,10 +13,12 @@ public class GestorContable {
     }
     
     public void calcularGanancias() {
-    	//TODO CU12 implementar
+    	//fijarse si el paquete es compuesto o no 
+    	//TODO CU11 implementar
     }
     
     public void calcularPerdidas() {
-    	//TODO CU13 implementar
+    	//fijarse si el paquete es compuesto o no 
+    	//TODO CU11 implementar
     }
 }

@@ -1,28 +1,40 @@
 package app;
 
 import java.time.LocalDate;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import dto.DTOCU08;
 import dto.DTOCategoria;
+import dto.DTOProductoInicialCU10;
 import dto.DTOProveedor;
 import dto.DTOTipoProducto;
 import gestor.GestorCategoria;
+import gestor.GestorEntradaSalida;
 import gestor.GestorProductos;
 import gestor.GestorProveedor;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 
 /**
  * Controller para la view de "Búsqueda de productos en stock"
+ * para productos iniciales
  */
 public class CU08Controller {	
 	private static CU08Controller instance = null;
@@ -34,6 +46,8 @@ public class CU08Controller {
         }    
         return instance;
     }
+    
+    private DTOCU08 productoSeleccionado = null;
 	
 	@FXML private ComboBox<DTOCategoria> categorias;
 	@FXML private ComboBox<DTOProveedor> proveedores;
@@ -56,17 +70,17 @@ public class CU08Controller {
 	@FXML private TableColumn<String, DTOCU08> columnaProveedor;
 	@FXML private TableColumn<LocalDate, DTOCU08> columnaIngreso;
 	@FXML private TableColumn<LocalDate, DTOCU08> columnaPrecioCompra;
+	@FXML private TableColumn<LocalDate, DTOCU08> columnaNoVendido;
 	@FXML private TableColumn<LocalDate, DTOCU08> columnaVencimiento;
 	@FXML private TableColumn<String, DTOCU08> columnaDisponible;
     
     public CU08Controller() { }
 	
     @FXML private void initialize(){
-    	//TODO CU08 doble click abre opciones de empaquetarlo o darlo de baja
     	setCombos();
     	iniciarTabla();
     	iniciarCalendario();
-    }    
+    }  
 	 
 	private void setCombos() {
     	categorias.getItems().clear();
@@ -88,30 +102,31 @@ public class CU08Controller {
 	   	columnaProveedor.setCellValueFactory(new PropertyValueFactory<>("nombreProveedor"));
 	   	columnaIngreso.setCellValueFactory(new PropertyValueFactory<>("fechaIngreso"));
 	   	columnaPrecioCompra.setCellValueFactory(new PropertyValueFactory<>("precioCompra"));
+	   	columnaNoVendido.setCellValueFactory(new PropertyValueFactory<>("cantidadNoVendida"));
 	   	columnaVencimiento.setCellValueFactory(new PropertyValueFactory<>("fechaVencimiento"));
 	  	columnaDisponible.setCellValueFactory(new PropertyValueFactory<>("disponible"));
 	  	
-	  //TODO CU08 implementar doble click y dar opciones para quepase algo
-    	/*tabla.setRowFactory( tv -> {
-    	    TableRow<DTOTipoProductoCU02> fila = new TableRow<>();
+    	tabla.setRowFactory( tv -> {
+    	    TableRow<DTOCU08> fila = new TableRow<>();
     	    fila.setOnMouseClicked(event -> {
     	    	productoSeleccionado = tabla.getSelectionModel().getSelectedItem();
     	        if (event.getClickCount() == 2 && (! fila.isEmpty()) && productoSeleccionado != null ) {
-    	        	@SuppressWarnings("unused")
-					DTOTipoProductoCU02 dto = fila.getItem();    
+    	        	productoSeleccionado = fila.getItem();
+    	        	if(productoSeleccionado.getDisponibleB()) {
+    	        		getOptions();
+    	        	}
+    	        	else
+    	        		PanelAlerta.getInformation("Aviso", null, "No hay opciones sobre el producto seleccionado.");
     	        }
     	    });
     	    return fila ;
     	});
-    	*/
+    	
 	}
 	
     private void cargarTabla(List<DTOCU08> lista) {
     	tabla.getItems().clear();    	
-    	Iterator<DTOCU08> iteratorProductos = lista.iterator();    	
-    	while(iteratorProductos.hasNext()) {
-    		tabla.getItems().add(iteratorProductos.next());	
-    	}
+    	tabla.getItems().addAll(lista);
     }
     
     private void iniciarCalendario() {   	
@@ -131,7 +146,7 @@ public class CU08Controller {
     	}});
     }
 
-	@FXML private void btnBuscar() {
+	@FXML public void btnBuscar() {
 		Integer idCategoria=categorias.getValue().getId(), idProveedor = proveedores.getValue().getId(), idProducto=null;
 		String textCodigoBarra=codigoBarra.getText();
 		LocalDate fechaIngAntes=fechaIngresoAntes.getValue(), fechaIngDespues=fechaIngresoDespues.getValue();
@@ -158,16 +173,23 @@ public class CU08Controller {
     @FXML private void seleccionarCategoria() {
     	Integer idCategoria = categorias.getValue().getId();
     	if(idCategoria != null) {
-    		productos.setDisable(false);
-    		productos.getItems().clear();
-    		productos.getItems().add(new DTOTipoProducto(null, "Seleccionar producto"));
-    		productos.getItems().addAll(GestorProductos.get().getTiposProducto(idCategoria));
-    		productos.getSelectionModel().selectFirst();
+    		List<DTOTipoProducto> lista = GestorProductos.get().getTiposProducto(idCategoria);
+    		if(lista.size() > 0) {
+    			productos.setDisable(false);
+        		productos.getItems().clear();
+        		productos.getItems().add(new DTOTipoProducto(null, "Seleccionar producto"));        		
+        		productos.getItems().addAll(lista);
+        		productos.getSelectionModel().selectFirst();
+    		}
     	}
     	else {
     		productos.setDisable(true);
     		productos.getItems().clear();
     	}
+    }
+    
+    @FXML private void seleccionarProducto() {
+    	productoSeleccionado = tabla.getSelectionModel().getSelectedItem();
     }
     
     @FXML private void vaciarFechaAntes() {
@@ -177,4 +199,65 @@ public class CU08Controller {
     @FXML private void vaciarFechaDespues() {
     	fechaIngresoDespues.setValue(null);
     }
+    
+	private void getOptions() {
+		ButtonType b1 = new ButtonType("Empaquetarlo"), b2 = new ButtonType("Darlo de baja"), b3 = new ButtonType("Cancelar", ButtonData.CANCEL_CLOSE);
+		
+		if(productoSeleccionado.getPrecioUnidad()>0f) {
+			Alert alert = new Alert(AlertType.CONFIRMATION, "", b2, b3);
+	    	alert.setTitle("Acción sobre '"+productoSeleccionado.getNombreProducto()+"'");
+	    	alert.setHeaderText(null);
+	    	alert.setContentText("¿Que desea hacer sobre '"+productoSeleccionado.getNombreProducto()+"'?");
+	    	
+	    	App.setStyle(alert.getDialogPane());
+			
+			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+	    	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
+	            if (KeyCode.ESCAPE == event.getCode()) {
+	                stage.close();
+	            }
+	        });
+	    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+	    	Optional<ButtonType> options = alert.showAndWait();
+	    	
+	    	if(options.get().equals(b2)) {
+    			//TODO CU09 desarollar bien
+        		if(GestorEntradaSalida.get().darBaja(productoSeleccionado))
+        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"'\nha sido correctamente dado de baja.");
+        	}
+		}
+		else {
+			Alert alert = new Alert(AlertType.CONFIRMATION, "", b1, b2, b3);
+	    	alert.setTitle("Acción sobre '"+productoSeleccionado.getNombreProducto()+"'");
+	    	alert.setHeaderText(null);
+	    	alert.setContentText("¿Que desea hacer sobre '"+productoSeleccionado.getNombreProducto()+"'?");
+	    	
+	    	App.setStyle(alert.getDialogPane());
+			
+			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+	    	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
+	            if (KeyCode.ESCAPE == event.getCode()) {
+	                stage.close();
+	            }
+	        });
+	    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+	    	Optional<ButtonType> options = alert.showAndWait();
+	    	
+	    	if(options.get().equals(b1)) {
+	    		CU10Controller01 controller = CU10Controller01.get();
+	    		controller.setControllerCu08(this);
+	    		controller.empaquetarProducto(new DTOProductoInicialCU10(productoSeleccionado));
+	    		
+	    	}
+	    	else {
+	    		if(options.get().equals(b2)) {
+	        		if(GestorEntradaSalida.get().darBaja(productoSeleccionado)) {
+	        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"'\nha sido correctamente dado de baja.");
+	        			
+	    			}
+	        	}
+	    	}
+		}		
+		
+	}	
 }

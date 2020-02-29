@@ -14,8 +14,7 @@ public class Proveedor {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_proveedor")
-	@SequenceGenerator(name="id_proveedor", sequenceName = "id_proveedor_seq", initialValue = 100, allocationSize = 1)
-	@Column(nullable = false, name = "id_proveedor")
+	@SequenceGenerator(name="id", sequenceName = "id_proveedor_seq", initialValue = 100, allocationSize = 1)
 	private Integer id;
 	
 	@Column(nullable = false)

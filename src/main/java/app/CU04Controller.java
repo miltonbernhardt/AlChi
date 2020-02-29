@@ -57,6 +57,8 @@ public class CU04Controller {
 	@FXML private TableColumn<DTOCU06, String> columnaProveedor2;	
 	@FXML private TableColumn<DTOCU06, String> columnaCodigoBarra2;	
 	@FXML private TableColumn<DTOCU06, String> columnaVencimiento2;
+	
+	private CU16Controller cu16Controller = null;
 
     @FXML  private void initialize(){
     	iniciarTabla();
@@ -199,6 +201,9 @@ public class CU04Controller {
 			if (result.get() == ButtonType.OK){
 				if(GestorEntradaSalida.get().registrarSalida(tabla2.getItems())) {
 					PanelAlerta.getInformation("Confirmación", null, "La transacción ocurrió de manera efectiva.");
+					if(cu16Controller != null) {
+						cu16Controller.btnBuscar();
+					}
 					volver();
 				}
 			}  
@@ -252,4 +257,19 @@ public class CU04Controller {
 			e.consume();			
 		}
     }
+
+	public void setController(CU16Controller cu16Controller) {
+		this.cu16Controller = cu16Controller;		
+	}
+	
+	@SuppressWarnings("exports")
+	public void addToVenta(DTOCU06 dto) {
+		tabla2.getItems().add(dto);
+		tabla1.getItems().remove(dto);
+		//RODO CU16 remover de la tabla 1
+		tabla1.getSelectionModel().clearSelection();
+		precioVenta.setText("");
+		btnAnadirVenta.setDisable(true);
+	}
+
 }

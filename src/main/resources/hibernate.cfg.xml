@@ -15,12 +15,9 @@
 		<property name="hibernate.current_session_context_class">thread</property>
 		<mapping class="entity.Proveedor"/>
 		<mapping class="entity.TipoProducto"/>
-        <mapping class="entity.BitacoraEntrada"/>
-        <mapping class="entity.BitacoraSalida"/>
         <mapping class="entity.Combo"/>
         <mapping class="entity.Precio"/>
         <mapping class="entity.Empaquetado"/>
-        <mapping class="entity.EmpaquetadoConjunto"/>
         <mapping class="entity.ProductoInicial"/>
         <mapping class="entity.Categoria"/>
     </session-factory>

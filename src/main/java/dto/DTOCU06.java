@@ -57,7 +57,7 @@ public class DTOCU06 {
 		this.precioVenta = precio;
 		this.formaVenta = null;
 	}
-	
+
 	public List<DTOCU06> getListaCombo() { return listaCombo; }
 	public Integer getIdEmpaquetado() { return idEmpaquetado; }
 	public Integer getIdTipoProducto() { return idTipoProducto; }

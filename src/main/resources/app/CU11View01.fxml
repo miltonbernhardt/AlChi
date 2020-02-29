@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="900.0" prefWidth="1200.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.CU11Controller01">
+   <padding>
+      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+   </padding>
+   <content>
+      <HBox alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER_RIGHT" spacing="40.0">
+               <children>
+                  <Pane VBox.vgrow="ALWAYS" />
+                  <VBox alignment="CENTER_LEFT" spacing="45.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <HBox spacing="15.0">
+                           <children>
+                              <Button focusTraversable="false" mnemonicParsing="false" onAction="#informeGananciasPerdidas" text="Informe de ganancias y perdidas">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Pane maxWidth="70.0" minWidth="10.0" prefWidth="35.0" HBox.hgrow="SOMETIMES" />
+                              <VBox minHeight="-Infinity" minWidth="-Infinity" spacing="25.0">
+                                 <children>
+                                    <RadioButton fx:id="treintaDias" focusTraversable="false" mnemonicParsing="false" selected="true" text="En los últimos 30 días">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="ganancias" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="seisMeses" focusTraversable="false" mnemonicParsing="false" text="En los últimos 6 meses" toggleGroup="$ganancias" />
+                                    <RadioButton focusTraversable="false" mnemonicParsing="false" text="En el último año" toggleGroup="$ganancias" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Button focusTraversable="false" mnemonicParsing="false" onAction="#informeStockDisponible" text="Informe de stock disponible">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Pane VBox.vgrow="ALWAYS" />
+                        <Button focusTraversable="false" mnemonicParsing="false" onAction="#generarPlanilaProductos" text="Generar planilla productos">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Pane VBox.vgrow="ALWAYS" />
+                        <Button focusTraversable="false" mnemonicParsing="false" onAction="#generarImagenesRedesSociales" text="Generar imágenes para redes sociales">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Pane VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <Button focusTraversable="false" mnemonicParsing="false" onAction="#volver" text="Volver">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Pane VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </content>
+</ScrollPane>

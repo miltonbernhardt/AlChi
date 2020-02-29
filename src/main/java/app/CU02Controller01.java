@@ -2,32 +2,43 @@ package app;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
+
+import dto.DTOCU03;
 import dto.DTOCategoria;
 import dto.DTOTipoProductoCU02;
 import gestor.GestorCategoria;
 import gestor.GestorProductos;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 
 /**
  * Controller para la view de "Buscar tipos de productos"
  */
-public class CU02Controller {	
-	private static CU02Controller instance = null;
+public class CU02Controller01 {	
+	private static CU02Controller01 instance = null;
 	
-    public CU02Controller() { }
+    public CU02Controller01() { }
 
-    public static CU02Controller get() {
+    public static CU02Controller01 get() {
         if (instance == null){
         	App.setViewAnterior();	
-        	instance = (CU02Controller) App.setRoot("CU02View", "AlChi: Buscar productos");
+        	instance = (CU02Controller01) App.setRoot("CU02View01", "AlChi: Buscar productos");
         }    
         return instance;
     }
@@ -41,8 +52,6 @@ public class CU02Controller {
 	@FXML private RadioButton noImporta;	
 	@FXML private RadioButton siVende;	
 	@FXML private RadioButton noVende;
-	
-	@FXML private Button btnEditar;
 	
 	@FXML private TableView<DTOTipoProductoCU02> tabla;
 	
@@ -82,23 +91,20 @@ public class CU02Controller {
     	columnaPrecio2000.setCellValueFactory(new PropertyValueFactory<>("precio2000"));
     	columnaPrecioUnidad.setCellValueFactory(new PropertyValueFactory<>("precioUnidad"));
     	
-    	//TODO CU02 implementar vista de producto y dar la posibilidad de editarlo
-    	/*tabla.setRowFactory( tv -> {
+    	tabla.setRowFactory( tv -> {
     	    TableRow<DTOTipoProductoCU02> fila = new TableRow<>();
     	    fila.setOnMouseClicked(event -> {
     	    	productoSeleccionado = tabla.getSelectionModel().getSelectedItem();
     	        if (event.getClickCount() == 2 && (! fila.isEmpty()) && productoSeleccionado != null ) {
-    	        	@SuppressWarnings("unused")
-					DTOTipoProductoCU02 dto = fila.getItem();    
+    	        	productoSeleccionado = fila.getItem();
+    	        	getOptions();
     	        }
     	    });
     	    return fila ;
     	});
-    	*/
     }
 
     private void cargarTabla(List<DTOTipoProductoCU02> lista) {
-    	btnEditar.setDisable(true);
     	tabla.getItems().clear();    	
     	Iterator<DTOTipoProductoCU02> iteratorProductos = lista.iterator();    	
     	while(iteratorProductos.hasNext()) {
@@ -126,27 +132,54 @@ public class CU02Controller {
     	CU01Controller.get();
 	}
     
-    @FXML private void btnEditar(){
-    	CU05Controller.get().setProducto(productoSeleccionado.getIdProducto());
-    	tabla.getSelectionModel().clearSelection();
-    	btnEditar.setDisable(true);
-    	
-	}
-    
     public void actualizarProductoEditado(Integer id) {
     	DTOTipoProductoCU02 dto =  GestorProductos.get().getTipoProductoCU02(id);
-    	tabla.getItems().set(tabla.getItems().indexOf(productoSeleccionado), dto);
+    	tabla.getItems().set(tabla.getSelectionModel().getSelectedIndex(), dto);
     }
     
     @FXML private void seleccionarProducto() {
     	productoSeleccionado = tabla.getSelectionModel().getSelectedItem();
-		if(productoSeleccionado != null) {
-			btnEditar.setDisable(false);
-		}
     }
     
     @FXML private void volver() {
     	App.getViewAnterior();
     	instance = null;
+	}
+    
+	private void getOptions() {
+		ButtonType b1 = new ButtonType("Editar características"), b2 = new ButtonType("Editar precio"), b3 = new ButtonType("Cancelar", ButtonData.CANCEL_CLOSE);
+		
+		Alert alert = new Alert(AlertType.CONFIRMATION, "", b1, b2, b3);
+    	alert.setTitle("Acción sobre '"+productoSeleccionado.getNombreTipoProducto()+"'");
+    	alert.setHeaderText(null);
+    	alert.setContentText("¿Que desea hacer sobre '"+productoSeleccionado.getNombreTipoProducto()+"'?");
+    	
+    	App.setStyle(alert.getDialogPane());
+		
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+    	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
+            if (KeyCode.ESCAPE == event.getCode()) {
+                stage.close();
+            }
+        });
+    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+    	Optional<ButtonType> options = alert.showAndWait();
+    	
+    	if(options.get().equals(b1)) {
+    		CU05Controller cu05 = CU05Controller.get();
+    		cu05.setControllerCU02(this);
+    		cu05.setProducto(productoSeleccionado.getIdProducto());
+    	}
+    	else {
+    		if(options.get().equals(b2)) {
+    			editarPrecios();
+        	}
+    	}
+	}
+	
+	private void editarPrecios() {
+		CU02Controller02 controller = CU02Controller02.get();
+		controller.addDTOCU03(new DTOCU03(productoSeleccionado));
+		controller.setController(this);
 	}
 }

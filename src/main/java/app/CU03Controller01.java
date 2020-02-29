@@ -41,7 +41,7 @@ public class CU03Controller01 {
 	@FXML private TextField precioCompra;	
 	@FXML private TextField cantidad;
 	@FXML private TextField codigoBarra;
-	
+
 	@FXML private Button btnEliminarFila;	
 	@FXML private Button btnDuplicarFila;	
 	@FXML private Button btnEditarFila;

@@ -44,9 +44,9 @@ public class CU10Controller01 {
     private Integer cantidadMaxima = null;
     
     private CU04Controller controllerCu04 = null;
+    private CU08Controller controllerCu08 = null;
     private DTOEmpaquetadoCU10 productoEmpaquetado = null;
 	
-    //TODO CU10.1 cambiar el color del default button btnAnadirEmpaquetamiento
     @FXML private Button btnAnadirEmpaquetamiento;
     @FXML private Button btnDarBajaProductoInicial;
     @FXML private Button btnAnadirConOtroPaquete;
@@ -79,7 +79,8 @@ public class CU10Controller01 {
     	tipoProducto.getItems().add(new DTOTipoProductoCU10(null, "Seleccionar producto"));
     	try {
     		tipoProducto.getItems().addAll(GestorProductos.get().getTiposProducto());
-    	}catch(Exception e) {}
+    		
+    	}catch(Exception e) {e.printStackTrace();}
     	tipoProducto.getSelectionModel().selectFirst();
     }
     
@@ -129,7 +130,7 @@ public class CU10Controller01 {
 			dto.setTipoPaquete(dtoForma.getTipoPaquete());		
 			dto.setCantidadPaquetes(Integer.parseInt(cantidad.getText()));		
 			
-			cantidadRestante = cantidadRestante - dto.getCantidadPaquetes()*dto.getTipoPaqueteE().getCantidad();
+			cantidadRestante = cantidadRestante - dto.getCantidadPaquetesF()*dto.getTipoPaqueteE().getCantidad();
 			productoInicial.getValue().setCantidadNoVendida(cantidadRestante/1000);	
 			
 			if(cantidadRestante>0) {			
@@ -181,7 +182,7 @@ public class CU10Controller01 {
 			
 			Float f = productoEmpaquetado.getDtoProductoInicial().getCantidadNoVendida();
 			
-			dtoProdIni.setCantidadNoVendida(f + (productoEmpaquetado.getCantidadPaquetes()*productoEmpaquetado.getTipoPaqueteE().getCantidad())/1000);
+			dtoProdIni.setCantidadNoVendida(f + (productoEmpaquetado.getCantidadPaquetesF()*productoEmpaquetado.getTipoPaqueteE().getCantidad())/1000);
 			
 			if(f<=0) {
 				dtoTipoProd.setConStock(true);
@@ -208,7 +209,7 @@ public class CU10Controller01 {
 			DTOFormaVentaCU10 dtoForma = productoEmpaquetado.getDtoFormaVenta();
 			
 			Float f = dtoProdIni.getCantidadNoVendida();		
-			dtoProdIni.setCantidadNoVendida(f + (productoEmpaquetado.getCantidadPaquetes()*productoEmpaquetado.getTipoPaqueteE().getCantidad())/1000);
+			dtoProdIni.setCantidadNoVendida(f + (productoEmpaquetado.getCantidadPaquetesF()*productoEmpaquetado.getTipoPaqueteE().getCantidad())/1000);
 			dtoTipoProd.setConStock(true);
 			
 			tipoProducto.getSelectionModel().clearSelection();
@@ -242,7 +243,9 @@ public class CU10Controller01 {
 	                if(controllerCu04 != null) {
 	                	controllerCu04.addToTabla(itemsParaCu4);
 					}
-	                CU10Controller01.get().volver();
+	            	if(controllerCu08 != null) {
+	            		controllerCu08.btnBuscar();
+	            	}
 				}
 			}    
 		}
@@ -252,13 +255,46 @@ public class CU10Controller01 {
 	}
 	
 	@FXML private void btnDarBajaPaqueteInicial() {
-		//TODO CU10 implementar
-		//CU09Controller.get();
+		if(!cantidad.getText().isBlank()) {
+			DTOEmpaquetadoCU10 dto = new DTOEmpaquetadoCU10(); 
+			
+			
+			DTOTipoProductoCU10 dtoTipoProd = tipoProducto.getValue();	
+			dto.setDtoTipoProducto(dtoTipoProd);
+			dto.setIdProductoInicial(dtoTipoProd.getId());
+			dto.setNombreTipoProducto(dtoTipoProd.getNombre());
+			
+			DTOProductoInicialCU10 dtoProdIni = productoInicial.getValue();	
+			dto.setDtoProductoInicial(dtoProdIni);
+			dto.setIdProductoInicial(dtoProdIni.getIdProductoInicial());
+			dto.setCodigoBarra(dtoProdIni.getCodigoBarra());		
+			dto.setNombreProveedor(dtoProdIni.getProveedor());
+			dto.setVencimiento(dtoProdIni.getVencimiento());	
+			
+			dto.setDtoFormaVenta(null);
+			dto.setTipoPaquete(null);		
+			dto.setCantidadPaquetes(-1);		
+
+			dtoProdIni.setDisponible(false);
+			
+			if(cantidadRestante>0) {			
+				productoRestante.setText("Cantidad no vendida: "+productoInicial.getValue().getCantidadNoVendida().toString()+" Kg / "+cantidadRestante.toString()+" g ");
+				calcularCantidad();			
+			}
+			else {
+				productoInicial.getItems().remove(productoInicial.getValue());
+				cambiarProductoSinStock();	
+			}		
+			
+			tabla.getItems().add(dto);
+		}
+		
+		//Si se elimina de la tabla de venta no se da de baja
 	}
 	
 	@FXML private void btnAnadirConOtroPaquete() {
 		//CU10Controller02.get();
-		//TODO CU10 implementar, diria de abrir otra pantalla
+		//TODO CU10.2 implementar, diria de abrir otra pantalla
 	}
 
     @FXML private void volver() {
@@ -401,4 +437,31 @@ public class CU10Controller01 {
     public void setControllerCu04(CU04Controller controllerCu04) {
 		this.controllerCu04 = controllerCu04;
 	}
+    
+    public void setControllerCu08(CU08Controller controllerCu08) {
+		this.controllerCu08 = controllerCu08;
+	}
+    
+    @SuppressWarnings("exports")
+	public void empaquetarProducto(DTOProductoInicialCU10 dto) {
+    	Iterator<DTOTipoProductoCU10> ite = tipoProducto.getItems().iterator();
+    	DTOTipoProductoCU10 dtoTP = null;
+
+    	while(ite.hasNext()) {
+    		DTOTipoProductoCU10 d = ite.next();
+        	if(d.getId()!=null) {
+        		if(d.getId().equals(dto.getIdTipoProducto())) {
+        			dtoTP = d;
+        			break;
+        		}
+        	}
+    	}
+    	
+    	tipoProducto.getSelectionModel().select(dtoTP);
+    	seleccionarTipoProducto();
+    	
+    	productoInicial.getSelectionModel().select(dto);
+    	seleccionarProductoInicial();
+    }
+    
 }

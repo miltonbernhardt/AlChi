@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane fitToHeight="true" fitToWidth="true" pickOnBounds="false" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.CU02Controller02">
+   <content>
+      <AnchorPane prefHeight="650.0" prefWidth="1200.0" stylesheets="@styles.css">
+         <children>
+            <VBox alignment="TOP_CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="NEVER">
+                     <children>
+                        <Label fx:id="titulo">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <Pane maxHeight="70.0" VBox.vgrow="SOMETIMES" />
+                  <GridPane alignment="CENTER" hgap="3.0" vgap="15.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" />
+                        <ColumnConstraints minWidth="-Infinity" />
+                        <ColumnConstraints halignment="RIGHT" minWidth="-Infinity" />
+                        <ColumnConstraints halignment="CENTER" minWidth="-Infinity" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" />
+                        <ColumnConstraints minWidth="-Infinity" />
+                        <ColumnConstraints halignment="RIGHT" minWidth="-Infinity" />
+                        <ColumnConstraints halignment="CENTER" minWidth="-Infinity" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" />
+                        <ColumnConstraints halignment="RIGHT" minWidth="-Infinity" />
+                        <ColumnConstraints halignment="RIGHT" minWidth="-Infinity" />
+                        <ColumnConstraints halignment="CENTER" minWidth="-Infinity" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" />
+                        <ColumnConstraints halignment="RIGHT" minWidth="-Infinity" />
+                        <ColumnConstraints halignment="RIGHT" minWidth="-Infinity" />
+                        <ColumnConstraints halignment="CENTER" minWidth="-Infinity" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" />
+                        <ColumnConstraints halignment="RIGHT" minWidth="-Infinity" />
+                        <ColumnConstraints halignment="RIGHT" minWidth="-Infinity" />
+                        <ColumnConstraints halignment="CENTER" minWidth="-Infinity" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" />
+                        <ColumnConstraints halignment="RIGHT" minWidth="-Infinity" />
+                        <ColumnConstraints halignment="RIGHT" minWidth="-Infinity" />
+                        <ColumnConstraints halignment="CENTER" minWidth="-Infinity" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" />
+                        <ColumnConstraints />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints minHeight="10.0" />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints minHeight="20.0" />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints minHeight="20.0" />
+                        <RowConstraints />
+                        <RowConstraints />
+                     </rowConstraints>
+                     <children>
+                        <CheckBox fx:id="checkP100" focusTraversable="false" minWidth="-Infinity" mnemonicParsing="false" onAction="#checkP100" text="Vender 100g" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip text="Si se vende por peso, no se vende por unidad" />
+                           </tooltip></CheckBox>
+                        <TextField fx:id="p100" alignment="CENTER" disable="true" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip autoHide="true" text="Precio sugerido para la venta de 100g" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
+                        <CheckBox fx:id="checkP250" minWidth="-Infinity" mnemonicParsing="false" onAction="#checkP250" text="Vender 250g" GridPane.columnIndex="7" GridPane.rowIndex="1">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip text="Si se vende por peso, no se vende por unidad" />
+                           </tooltip></CheckBox>
+                        <TextField fx:id="p250" alignment="CENTER" disable="true" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="7" GridPane.rowIndex="4">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip autoHide="true" text="Precio sugerido para la venta de 250g" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
+                        <CheckBox fx:id="checkP500" focusTraversable="false" minWidth="-Infinity" mnemonicParsing="false" onAction="#checkP500" text="Vender 500g" GridPane.columnIndex="11" GridPane.rowIndex="1">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip text="Si se vende por peso, no se vende por unidad" />
+                           </tooltip></CheckBox>
+                        <TextField fx:id="p500" alignment="CENTER" disable="true" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="11" GridPane.rowIndex="4">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip autoHide="true" text="Precio sugerido para la venta de 500g" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
+                        <CheckBox fx:id="checkP1000" focusTraversable="false" minWidth="-Infinity" mnemonicParsing="false" onAction="#checkP1000" text="Vender 1000g" GridPane.columnIndex="15" GridPane.rowIndex="1">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip text="Si se vende por peso, no se vende por unidad" />
+                           </tooltip></CheckBox>
+                        <TextField fx:id="p1000" alignment="CENTER" disable="true" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="15" GridPane.rowIndex="4">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip autoHide="true" text="Precio sugerido para la venta de 1000g" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
+                        <CheckBox fx:id="checkP2000" focusTraversable="false" minWidth="-Infinity" mnemonicParsing="false" onAction="#checkP2000" text="Vender 2000g" GridPane.columnIndex="19" GridPane.rowIndex="1">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip text="Si se vende por peso, no se vende por unidad" />
+                           </tooltip></CheckBox>
+                        <TextField fx:id="p2000" alignment="CENTER" disable="true" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="19" GridPane.rowIndex="4">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip autoHide="true" text="Precio sugerido para la venta de 2000g" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
+                        <CheckBox fx:id="checkPUnidad" focusTraversable="false" minWidth="-Infinity" mnemonicParsing="false" onAction="#checkPUnidad" text="Vender unidad" GridPane.columnIndex="23" GridPane.rowIndex="1">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip text="Si se vende una unidad, no se vende por peso" />
+                           </tooltip></CheckBox>
+                        <TextField fx:id="pUnidad" alignment="CENTER" disable="true" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="23" GridPane.rowIndex="4">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip autoHide="true" text="Precio sugerido para la venta de 1 unidad" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
+                        <Label text="PRECIOS SUGERIDOS" textOverrun="WORD_ELLIPSIS" GridPane.columnIndex="1" GridPane.columnSpan="25" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="System Bold Italic" size="16.0" />
+                           </font>
+                           <tooltip>
+                              <Tooltip text="Precios que se corresponden a las sugerencias que los proveedores pueden realizar" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip>
+                        </Label>
+                        <Label text="PRECIOS ANTERIORES" textOverrun="WORD_ELLIPSIS" GridPane.columnIndex="1" GridPane.columnSpan="25" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="System Bold Italic" size="16.0" />
+                           </font>
+                           <tooltip>
+                              <Tooltip text="Precios que se corresponden a los productos, que son anteriores al registro de entrada de este producto">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip>
+                        </Label>
+                        <Label text="P.100g:" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                        <TextField fx:id="p100Anterior" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="3" GridPane.rowIndex="7">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip autoHide="true" text="Precio anterior al registro de la entrada del producto correspondiente a la venta de 100g" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
+                        <Label text="P. 250g:" GridPane.columnIndex="6" GridPane.rowIndex="7" />
+                        <RadioButton fx:id="rd250Ant" disable="true" focusTraversable="false" minWidth="-Infinity" mnemonicParsing="false" GridPane.columnIndex="5" GridPane.rowIndex="7">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="dosCinco" />
+                           </toggleGroup>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </RadioButton>
+                        <RadioButton fx:id="rd100Ant" disable="true" focusTraversable="false" minWidth="-Infinity" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="cien" />
+                           </toggleGroup>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </RadioButton>
+                        <TextField fx:id="p250Anterior" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="7" GridPane.rowIndex="7">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip autoHide="true" text="Precio anterior al registro de la entrada del producto correspondiente a la venta de 250g" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
+                        <RadioButton fx:id="rd500Ant" disable="true" focusTraversable="false" minWidth="-Infinity" mnemonicParsing="false" GridPane.columnIndex="9" GridPane.rowIndex="7">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="cincoCero" />
+                           </toggleGroup>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </RadioButton>
+                        <Label text="P. 500g:" GridPane.columnIndex="10" GridPane.rowIndex="7" />
+                        <TextField fx:id="p500Anterior" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="11" GridPane.rowIndex="7">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip autoHide="true" text="Precio anterior al registro de la entrada del producto correspondiente a la venta de 500g" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
+                        <RadioButton fx:id="rd1000Ant" disable="true" minWidth="-Infinity" mnemonicParsing="false" GridPane.columnIndex="13" GridPane.rowIndex="7">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="mil" />
+                           </toggleGroup>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </RadioButton>
+                        <Label text="P. 1000g:" GridPane.columnIndex="14" GridPane.rowIndex="7" />
+                        <TextField fx:id="p1000Anterior" alignment="CENTER" disable="true" editable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="15" GridPane.rowIndex="7">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip autoHide="true" text="Precio anterior al registro de la entrada del producto correspondiente a la venta de 1000g" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
+                        <RadioButton fx:id="rd2000Ant" disable="true" focusTraversable="false" minWidth="-Infinity" mnemonicParsing="false" GridPane.columnIndex="17" GridPane.rowIndex="7">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="dosMill" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <Label text="P. 2000g:" GridPane.columnIndex="18" GridPane.rowIndex="7" />
+                        <TextField fx:id="p2000Anterior" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="19" GridPane.rowIndex="7">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip autoHide="true" text="Precio anterior al registro de la entrada del producto correspondiente a la venta de 2000g" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
+                        <RadioButton fx:id="rdUnidadAnt" disable="true" focusTraversable="false" minWidth="-Infinity" mnemonicParsing="false" GridPane.columnIndex="21" GridPane.rowIndex="7">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="unaUnidad" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <Label text="P. Unidad:" GridPane.columnIndex="22" GridPane.rowIndex="7" />
+                        <TextField fx:id="pUnidadAnterior" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="23" GridPane.rowIndex="7">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip autoHide="true" text="Empty TooltiPrecio anterior al registro de la entrada del producto correspondiente a la venta de 1 unidadp" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
+                        <Label text="PRECIOS ACTUALIZADOS" textOverrun="WORD_ELLIPSIS" GridPane.columnIndex="1" GridPane.columnSpan="25" GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="System Bold Italic" size="16.0" />
+                           </font>
+                           <tooltip>
+                              <Tooltip text="Precios que se corresponderían con el precio final del producto, y se obtienen aplicando el porcentaje de ganancia al precio sugerido" />
+                           </tooltip>
+                        </Label>
+                        <Label text="P. 100g:" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+                        <TextField fx:id="p100Nuevo" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="3" GridPane.rowIndex="10">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip autoHide="true" text="Precio actualizado respecto al sugerido para la venta de 100g" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
+                        <RadioButton fx:id="rd100" disable="true" focusTraversable="false" minWidth="-Infinity" mnemonicParsing="false" selected="true" textAlignment="RIGHT" toggleGroup="$cien" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </RadioButton>
+                        <Label text="P. 250g:" GridPane.columnIndex="6" GridPane.rowIndex="10" />
+                        <RadioButton fx:id="rd250" disable="true" focusTraversable="false" minWidth="-Infinity" mnemonicParsing="false" selected="true" toggleGroup="$dosCinco" GridPane.columnIndex="5" GridPane.rowIndex="10">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </RadioButton>
+                        <TextField fx:id="p250Nuevo" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="7" GridPane.rowIndex="10">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip autoHide="true" text="Precio actualizado respecto al sugerido para la venta de 250g" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
+                        <RadioButton fx:id="rd500" disable="true" minWidth="-Infinity" mnemonicParsing="false" selected="true" toggleGroup="$cincoCero" GridPane.columnIndex="9" GridPane.rowIndex="10">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </RadioButton>
+                        <Label text="P. 500g:" GridPane.columnIndex="10" GridPane.rowIndex="10" />
+                        <TextField fx:id="p500Nuevo" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="11" GridPane.rowIndex="10">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip autoHide="true" text="Precio actualizado respecto al sugerido para la venta de 500g" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
+                        <RadioButton fx:id="rd1000" disable="true" minWidth="-Infinity" mnemonicParsing="false" selected="true" toggleGroup="$mil" GridPane.columnIndex="13" GridPane.rowIndex="10">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </RadioButton>
+                        <Label text="P. 1000g:" GridPane.columnIndex="14" GridPane.rowIndex="10" />
+                        <TextField fx:id="p1000Nuevo" alignment="CENTER" disable="true" editable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="15" GridPane.rowIndex="10">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip autoHide="true" text="Precio actualizado respecto al sugerido para la venta de 1000g" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
+                        <Label text="P. 2000g:" GridPane.columnIndex="18" GridPane.rowIndex="10" />
+                        <RadioButton fx:id="rd2000" disable="true" focusTraversable="false" minWidth="-Infinity" mnemonicParsing="false" selected="true" toggleGroup="$dosMill" GridPane.columnIndex="17" GridPane.rowIndex="10">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </RadioButton>
+                        <TextField fx:id="p2000Nuevo" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="19" GridPane.rowIndex="10">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip autoHide="true" text="Precio actualizado respecto al sugerido para la venta de 2000g" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
+                        <RadioButton fx:id="rdUnidad" disable="true" focusTraversable="false" minWidth="-Infinity" mnemonicParsing="false" selected="true" toggleGroup="$unaUnidad" GridPane.columnIndex="21" GridPane.rowIndex="10">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </RadioButton>
+                        <Label text="P. Unidad:" GridPane.columnIndex="22" GridPane.rowIndex="10" />
+                        <TextField fx:id="pUnidadNuevo" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="23" GridPane.rowIndex="10">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip autoHide="true" text="Precio actualizado respecto al sugerido para la venta de 1 unidad" wrapText="true">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
+                        <Label text="P. 500g:" GridPane.columnIndex="10" GridPane.rowIndex="4" />
+                        <Label text="P. Unidad:" GridPane.columnIndex="22" GridPane.rowIndex="4" />
+                        <Label text="P. 1000g:" GridPane.columnIndex="14" GridPane.rowIndex="4" />
+                        <Label text="P. 2000g:" GridPane.columnIndex="18" GridPane.rowIndex="4" />
+                        <Label text="P.100g:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <Label text="P. 250g:" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+                     </children>
+                  </GridPane>
+                  <Pane VBox.vgrow="SOMETIMES" />
+                  <HBox alignment="CENTER" spacing="60.0">
+                     <children>
+                        <Button fx:id="btnConfirmarPrecios" mnemonicParsing="false" onAction="#btnConfirmarPrecios" text="Confirmar precios">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Button cancelButton="true" mnemonicParsing="false" onAction="#volver" text="Volver">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <Pane VBox.vgrow="SOMETIMES" />
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding>
+      </AnchorPane>
+   </content>
+</ScrollPane>

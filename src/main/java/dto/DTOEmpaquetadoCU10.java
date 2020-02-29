@@ -32,9 +32,24 @@ public class DTOEmpaquetadoCU10 {
 	public String getCodigoBarra() { return codigoBarra; }
 	public LocalDate getVencimiento() { return vencimiento; }
 	public TipoPaquete getTipoPaqueteE() { return tipoPaquete; }
-	public Integer getCantidadPaquetes() { return cantidadPaquetes; }
+	public Integer getCantidadPaquetesF() { return cantidadPaquetes; }
 	
-	public String getTipoPaquete() { return tipoPaquete.toString(); }
+	
+	public String getTipoPaquete() { 
+		if(tipoPaquete!=null)
+			return tipoPaquete.toString(); 
+		else
+			return "Dado de baja";
+	}
+	
+	public String getCantidadPaquetes() {
+		if(cantidadPaquetes <= 0) {
+			return "-";
+		}
+		else {
+			return cantidadPaquetes.toString();
+		} 
+	}
 	
 	public void setDtoFormaVenta(DTOFormaVentaCU10 dtoFormaVenta) { this.dtoFormaVenta = dtoFormaVenta; }
 	public void setDtoProductoInicial(DTOProductoInicialCU10 dtoProductoInicial) { this.dtoProductoInicial = dtoProductoInicial; }

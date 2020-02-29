@@ -23,20 +23,12 @@ public class ProductoInicial {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_tipo_producto", nullable = false)
-	private TipoProducto tipoProducto;	
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_bitacora_entrada", foreignKey=@ForeignKey(name = "fk_bitacora_entrada"), nullable = false)
-	private BitacoraEntrada bitacoraEntrada;	
+	private TipoProducto tipoProducto;		
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_producto_inicial", foreignKey=@ForeignKey(name = "fk_producto_inicial"))
 	@OrderBy("id asc")
 	private List<Empaquetado> empaquetado;
-	
-	@ManyToOne(fetch = FetchType.LAZY, optional = true)
-	@JoinColumn(name = "id_producto_inicial")
-	private EmpaquetadoConjunto empaquetadoConjunto;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_proveedor", foreignKey=@ForeignKey(name = "fk_proveedor"), nullable = false)
@@ -44,8 +36,7 @@ public class ProductoInicial {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_producto_inicial")
-	@SequenceGenerator(name="id_producto_inicial", sequenceName = "id_producto_inicial_seq", initialValue = 100, allocationSize = 1)
-	@Column(nullable = false)
+	@SequenceGenerator(name="id", sequenceName = "id_producto_inicial_seq", initialValue = 100, allocationSize = 1)
 	private Integer id;	
 	
 	@Column(nullable = false, name = "precio_comprado")
@@ -62,13 +53,14 @@ public class ProductoInicial {
 	
 	@Column(name = "codigo_barra")
 	private String codigoBarra;
+	
+	@Column(nullable = false, name = "fecha_entrada")
+	private LocalDate fechaEntrada;
 
 	public ProductoInicial() {}
 	
 	public TipoProducto getTipoProducto() { return tipoProducto; }
-	public BitacoraEntrada getBitacoraEntrada() { return bitacoraEntrada; }
 	public List<Empaquetado> getEmpaquetado() { return empaquetado; }
-	public EmpaquetadoConjunto getEmpaquetadoConjunto() { return empaquetadoConjunto; }
 	public Proveedor getProveedor() { return proveedor; }
 	public Integer getId() { return id; }
 	public Float getPrecioComprado() { return precioComprado; }
@@ -76,11 +68,10 @@ public class ProductoInicial {
 	public Boolean getDisponible() { return disponible; }
 	public LocalDate getVencimiento() { return vencimiento;	}
 	public String getCodigoBarra() { return codigoBarra; }
+	public LocalDate getFechaEntrada() { return fechaEntrada; }
 	
 	public void setTipoProducto(TipoProducto tipoProducto) { this.tipoProducto = tipoProducto; }
-	public void setBitacoraEntrada(BitacoraEntrada bitacorasEntrada) { this.bitacoraEntrada = bitacorasEntrada; }
 	public void setEmpaquetado(List<Empaquetado> productoEmpaquetado) { this.empaquetado = productoEmpaquetado; }
-	public void setEmpaquetadoConjunto(EmpaquetadoConjunto empaquetadoConjunto) { this.empaquetadoConjunto = empaquetadoConjunto; }
 	public void setProveedor(Proveedor proveedor) { this.proveedor = proveedor; }
 	public void setId(Integer id) { this.id = id; }
 	public void setPrecioComprado(Float precioComprado) { this.precioComprado = precioComprado; }
@@ -88,4 +79,5 @@ public class ProductoInicial {
 	public void setDisponible(Boolean disponible) { this.disponible = disponible; }
 	public void setVencimiento(LocalDate vencimiento) { this.vencimiento = vencimiento; }
 	public void setCodigoBarra(String codigoBarra) { this.codigoBarra = codigoBarra; }
+	public void setFechaEntrada(LocalDate fechaEntrada) { this.fechaEntrada = fechaEntrada; }
 }

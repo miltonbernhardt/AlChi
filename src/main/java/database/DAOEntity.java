@@ -29,7 +29,8 @@ public class DAOEntity {
         }
         catch (HibernateException e) {
         	valido = false;        	
-        	PanelAlerta.getExcepcion(e, "No se pudo guardar en la base de datos.");        	
+        	PanelAlerta.getExcepcion(e, "No se pudo guardar en la base de datos.");    
+        	e.printStackTrace();
             session.getTransaction().rollback();	
 		}
         session.close();

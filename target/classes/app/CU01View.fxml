@@ -23,12 +23,12 @@
          <bottom>
             <HBox alignment="CENTER" maxHeight="70.0" spacing="25.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button maxHeight="70.0" mnemonicParsing="false" onAction="#btnConfirmar" text="Confirmar">
+                  <Button focusTraversable="false" maxHeight="70.0" mnemonicParsing="false" onAction="#btnConfirmar" text="Confirmar">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button cancelButton="true" maxHeight="70.0" mnemonicParsing="false" onAction="#volver" text="Volver">
+                  <Button cancelButton="true" focusTraversable="false" maxHeight="70.0" mnemonicParsing="false" onAction="#volver" text="Volver">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -46,7 +46,7 @@
             <HBox alignment="CENTER_LEFT" maxHeight="70.0" spacing="15.0" BorderPane.alignment="CENTER_LEFT">
                <children>
                   <Label text="Categoría:" />
-                  <ComboBox fx:id="categoria" onAction="#setCategoriaValida">
+                  <ComboBox fx:id="categoria" focusTraversable="false" onAction="#setCategoriaValida">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -85,7 +85,7 @@
                   <VBox alignment="TOP_CENTER" spacing="15.0">
                      <children>
                         <Pane minHeight="0.0" minWidth="0.0" VBox.vgrow="SOMETIMES" />
-                        <Button mnemonicParsing="false" onAction="#btnAgregarImagen" text="Agregar imágen">
+                        <Button focusTraversable="false" mnemonicParsing="false" onAction="#btnAgregarImagen" text="Agregar imágen">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -100,7 +100,7 @@
                               </ImageView>
                            </children>
                         </StackPane>
-                        <Button fx:id="btnQuitarImagen" disable="true" mnemonicParsing="false" onAction="#btnQuitarImagen" text="Quitar imágen">
+                        <Button fx:id="btnQuitarImagen" disable="true" focusTraversable="false" mnemonicParsing="false" onAction="#btnQuitarImagen" text="Quitar imágen">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

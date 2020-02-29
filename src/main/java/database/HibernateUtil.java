@@ -27,15 +27,6 @@ public class HibernateUtil {
         }
         return sessionFactory;
     }
-  
-	public static Boolean conectarBaseDatos() {
-		if(getSessionFactory() != null) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}	
 	
 	public static void closeBaseDatos() {
 		registry.close();

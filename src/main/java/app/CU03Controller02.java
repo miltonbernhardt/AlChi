@@ -6,7 +6,6 @@ import dto.DTOCU03;
 import dto.DTOProductoInicial;
 import enums.Porcentaje;
 import gestor.GestorEntradaSalida;
-import gestor.GestorProductos;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -100,7 +99,6 @@ public class CU03Controller02 {
     @FXML private void initialize(){
     	iniciarTabla();
     	addListenerCampos();
-    	addFueraFoco();
     }
     
 	private void iniciarTabla() {
@@ -114,47 +112,14 @@ public class CU03Controller02 {
     	columnaPUnidad.setCellValueFactory(new PropertyValueFactory<>("pUnidadFinal"));
     }
 	
-	private void addFueraFoco() {
-		productos.setFocusTraversable(false);
-		
-		p100Nuevo.setFocusTraversable(false);
-		p250Nuevo.setFocusTraversable(false);
-		p500Nuevo.setFocusTraversable(false);
-		p1000Nuevo.setFocusTraversable(false);
-		p2000Nuevo.setFocusTraversable(false);
-		pUnidadNuevo.setFocusTraversable(false);
-		
-		p100Anterior.setFocusTraversable(false);
-		p250Anterior.setFocusTraversable(false);
-		p500Anterior.setFocusTraversable(false);
-		p1000Anterior.setFocusTraversable(false);
-		p2000Anterior.setFocusTraversable(false);
-		pUnidadAnterior.setFocusTraversable(false);
-		
-		rd100.setFocusTraversable(false); 
-		rd250.setFocusTraversable(false);
-		rd500.setFocusTraversable(false);
-		rd1000.setFocusTraversable(false);
-		rd2000.setFocusTraversable(false);
-		rdUnidad.setFocusTraversable(false);
-		rd100Ant.setFocusTraversable(false);
-		rd250Ant.setFocusTraversable(false);
-		rd500Ant.setFocusTraversable(false);
-		rd1000Ant.setFocusTraversable(false);
-		rd2000Ant.setFocusTraversable(false);
-		rdUnidadAnt.setFocusTraversable(false);
-		
-		checkP100.setFocusTraversable(false);
-		checkP250.setFocusTraversable(false);
-		checkP500.setFocusTraversable(false);
-		checkP1000.setFocusTraversable(false);
-		checkP2000.setFocusTraversable(false);
-		checkPUnidad.setFocusTraversable(false);
-
-		tabla.setFocusTraversable(false);
-	}
-	
 	@FXML private void btnConfirmarPrecios() {
+		validar100();
+		validar250();
+		validar500();
+		validar1000();
+		validar2000();
+		validarUnidad();
+		
 		DTOCU03 dto = productos.getValue();
 		String cadena = "", header = "Confirmación de precios para el producto: '"+productos.getValue().getNombreTipoProducto()+"' no válida.";
 		Integer numError = 1;
@@ -305,7 +270,7 @@ public class CU03Controller02 {
 			Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar ingreso de productos", null, "¿Desea confirmar el ingreso de los productos y la actualización de los precios?");
 			
 			if (result.get() == ButtonType.OK){
-				if(GestorProductos.get().registrarIngreso(tabla.getItems())) {
+				if(GestorEntradaSalida.get().registrarIngreso(tabla.getItems())) {
 					PanelAlerta.getInformation("Confirmación", null, "La transacción ocurrió de manera efectiva.");
 	                volver();
 	                CU03Controller01.get().volver();
@@ -344,6 +309,7 @@ public class CU03Controller02 {
 			}			
     	}
     	else {
+    		App.setValido(p100);
     		checkP100.setSelected(false);
     		
     		p100Anterior.setText("");
@@ -383,6 +349,7 @@ public class CU03Controller02 {
 			}
     	}
     	else {
+    		App.setValido(p250);
     		checkP250.setSelected(false);
     		
     		p250Anterior.setText("");
@@ -421,6 +388,7 @@ public class CU03Controller02 {
 			}
     	}
     	else {
+    		App.setValido(p500);
     		checkP500.setSelected(false);
     		
     		p500Anterior.setText("");
@@ -459,6 +427,7 @@ public class CU03Controller02 {
 			}
     	}
     	else {
+    		App.setValido(p1000);
     		checkP1000.setSelected(false);
     		
     		p1000Anterior.setText("");
@@ -497,6 +466,7 @@ public class CU03Controller02 {
 			}
     	}
     	else {
+    		App.setValido(p2000);
     		checkP2000.setSelected(false);
     		
     		p2000Anterior.setText("");
@@ -513,7 +483,8 @@ public class CU03Controller02 {
 		p2000.setText("");
 	}
 	
-	@FXML private void checkPUnidad() {				
+	@FXML private void checkPUnidad() {
+		validarChecks();
 		if(checkPUnidad.isSelected() && !checkPUnidad.isDisable()) {
 			if(checkP100.isSelected()) {
 				checkP100.setSelected(false);
@@ -549,6 +520,8 @@ public class CU03Controller02 {
 			}
     	}
     	else {
+    		App.setValido(pUnidad);
+    		
     		checkPUnidad.setSelected(false);
     		
     		pUnidadAnterior.setText("");
@@ -621,77 +594,37 @@ public class CU03Controller02 {
     private void addListenerCampos() {
     	p100.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
-            	p100.setText(p100.getText().replace(',', '.'));   
-            	if(! p100.getText().isBlank()) {
-            		App.setValido(p100);
-            		p100Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p100.getText())).toString());
-            	}
-            	else
-            		p100Nuevo.setText("");
+            	validar100();
             }
         }); 
     	
     	p250.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
-            	p250.setText(p250.getText().replace(',', '.'));
-            	if(! p250.getText().isBlank()) {
-            		App.setValido(p250);
-            		p250Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p250.getText())).toString());
-            	}
-            	else
-            		p250Nuevo.setText("");
+            	validar250();
             }
         }); 
     	
     	p500.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
-            	p500.setText(p500.getText().replace(',', '.'));
-            	
-            	if(! p500.getText().isBlank()) {
-            		App.setValido(p500);
-            		p500Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p500.getText())).toString());
-            	}
-            	else
-            		p500Nuevo.setText("");
+            	validar500();
             }
         }); 
     	
     	p1000.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
-            	p1000.setText(p1000.getText().replace(',', '.'));
-            	
-            	if(! p1000.getText().isBlank()) {
-            		App.setValido(p1000);
-            		p1000Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p1000.getText())).toString());
-            	}
-            	else
-            		p1000Nuevo.setText("");
+            	validar1000();
             }
         }); 
     	
     	p2000.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
-            	p2000.setText(p2000.getText().replace(',', '.'));
-            	
-            	if(! p2000.getText().isBlank()) {
-            		App.setValido(p2000);
-            		p2000Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p2000.getText())).toString());
-            	}
-            	else
-            		p2000Nuevo.setText("");
+            	validar2000();
             }
         }); 
     	
     	pUnidad.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { 
-            	pUnidad.setText(pUnidad.getText().replace(',', '.'));
-            	
-            	if(! pUnidad.getText().isBlank()) {
-            		App.setValido(pUnidad);
-            		pUnidadNuevo.setText(calcularPrecioNuevo(Float.parseFloat(pUnidad.getText())).toString());
-            	}
-            	else
-            		pUnidadNuevo.setText("");
+            	validarUnidad();
             }
         }); 
     	
@@ -721,7 +654,71 @@ public class CU03Controller02 {
     	});
     }
     
-    private void validarCampos(KeyEvent e) {
+    private void validar100() {
+    	p100.setText(p100.getText().replace(',', '.'));   
+    	if(! p100.getText().isBlank()) {
+    		App.setValido(p100);
+    		p100Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p100.getText())).toString());
+    	}
+    	else
+    		p100Nuevo.setText("");
+	}
+    
+    private void validar250() {
+    	p250.setText(p250.getText().replace(',', '.'));
+    	if(! p250.getText().isBlank()) {
+    		App.setValido(p250);
+    		p250Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p250.getText())).toString());
+    	}
+    	else
+    		p250Nuevo.setText("");
+	}
+    
+    private void validar500() {
+    	p500.setText(p500.getText().replace(',', '.'));
+    	
+    	if(! p500.getText().isBlank()) {
+    		App.setValido(p500);
+    		p500Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p500.getText())).toString());
+    	}
+    	else
+    		p500Nuevo.setText("");
+	}
+    
+    private void validar1000() {
+    	p1000.setText(p1000.getText().replace(',', '.'));
+    	
+    	if(! p1000.getText().isBlank()) {
+    		App.setValido(p1000);
+    		p1000Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p1000.getText())).toString());
+    	}
+    	else
+    		p1000Nuevo.setText("");
+	}
+    
+    private void validar2000() {
+    	p2000.setText(p2000.getText().replace(',', '.'));
+    	
+    	if(! p2000.getText().isBlank()) {
+    		App.setValido(p2000);
+    		p2000Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p2000.getText())).toString());
+    	}
+    	else
+    		p2000Nuevo.setText("");
+	}
+    
+    private void validarUnidad() {
+       	pUnidad.setText(pUnidad.getText().replace(',', '.'));
+    	
+    	if(! pUnidad.getText().isBlank()) {
+    		App.setValido(pUnidad);
+    		pUnidadNuevo.setText(calcularPrecioNuevo(Float.parseFloat(pUnidad.getText())).toString());
+    	}
+    	else
+    		pUnidadNuevo.setText("");
+	}
+
+	private void validarCampos(KeyEvent e) {
 		TextField campo = (TextField) e.getSource();
     	Character caracter = e.getCharacter().charAt(0);
     	String temporal = "";

@@ -52,7 +52,9 @@ public class CU05Controller {
 	@FXML private ImageView imagen;
 	
 	private URI imagenPath = null;
-     
+
+	private CU02Controller01 controllerCU02 = null;
+	
     @FXML private void initialize(){    	
     	setCombo();    	
     }
@@ -132,8 +134,8 @@ public class CU05Controller {
     			
     			if(GestorProductos.get().updateTipoProducto(dto)) {
     				PanelAlerta.getInformation("Confirmación", null, "El producto '"+nombreProducto+"' fue correctamente actualizado.");
-    				CU02Controller.get().actualizarProductoEditado(dto.getIdProducto());
-                    volver();
+    				controllerCU02.actualizarProductoEditado(dto.getIdProducto()); 
+    				volver();
     			}
     		}    		
     	}
@@ -163,7 +165,7 @@ public class CU05Controller {
     	btnQuitarImagen.setDisable(true);
     }
     
-    @FXML private void volver() {
+    public void volver() {
     	App.getViewAnterior();
     	instance = null;
 	}
@@ -177,4 +179,8 @@ public class CU05Controller {
     @FXML private void setNombreValido() {
     	App.setValido(nombre);
     }
+
+	public void setControllerCU02(CU02Controller01 controllerCU02) {
+		this.controllerCU02 = controllerCU02;
+	}
 }

@@ -97,6 +97,50 @@ public class DTOCU03 {
 		checkPUnidad = false;		
 	}
 	
+	public DTOCU03(DTOTipoProductoCU02 dto) {
+		this.idTipoProducto = dto.getIdProducto();
+		this.nombreCategoria = dto.getNombreCategoria();
+		this.nombreTipoProducto = dto.getNombreTipoProducto();
+		
+		lista = null;
+		p100Final = 0f;	
+		p250Final = 0f;
+		p500Final = 0f;
+		p1000Final = 0f;
+		p2000Final = 0f;	
+		pUnidadFinal = 0f;
+		p100 = 0f;	
+		p250 = 0f;
+		p500 = 0f;
+		p1000 = 0f;
+		p2000 = 0f;	
+		pUnidad = 0f;
+		p100Nuevo = 0f;
+		p250Nuevo = 0f;		
+		p500Nuevo = 0f;		
+		p1000Nuevo = 0f;
+		p2000Nuevo = 0f;
+		pUnidadNuevo = 0f;
+		p100Anterior = dto.getPrecio100F();	
+		p250Anterior = dto.getPrecio250F();	
+		p500Anterior = dto.getPrecio500F();		
+		p1000Anterior = dto.getPrecio1000F();
+		p2000Anterior = dto.getPrecio2000F();
+		pUnidadAnterior = dto.getPrecioUnidadF();
+		rd100 = true;		
+		rd250 = true;		
+		rd500 = true;		
+		rd1000 = true;		
+		rd2000 = true;		
+		rdUnidad = true;	
+		checkP100 = false;		
+		checkP250 = false;		
+		checkP500 = false;	
+		checkP1000 = false;		
+		checkP2000 = false;		
+		checkPUnidad = false;	
+	}
+
 	public List<DTOProductoInicial> getLista() { return lista; }
 	public Integer getIdTipoProducto() { return idTipoProducto; }
 	public String getNombreTipoProducto() { return nombreTipoProducto; }

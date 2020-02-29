@@ -6,6 +6,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.GridPane;
@@ -19,8 +21,14 @@ public class PanelAlerta {
     	alert.setTitle("Excepción!");
     	alert.setHeaderText(null);
     	alert.setContentText(tipoError);
+    	App.setStyle(alert.getDialogPane());
     	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
     	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+    	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
+            if (KeyCode.ESCAPE == event.getCode()) {
+                stage.close();
+            }
+        });
     	
     	String exceptionText = excepcion.toString();
 
@@ -45,32 +53,50 @@ public class PanelAlerta {
 	
 	public static void getError(String titulo, String header, String cadena) {
 		Alert alert = new Alert(AlertType.ERROR);
-		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
 		alert.setTitle(titulo);
 		alert.setHeaderText(header);
 		alert.setContentText(cadena);
+		App.setStyle(alert.getDialogPane());
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+    	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
+            if (KeyCode.ESCAPE == event.getCode()) {
+                stage.close();
+            }
+        });
 		alert.showAndWait();
 	}
 	
 	@SuppressWarnings("exports")
 	public static Optional<ButtonType> getConfirmation(String titulo, String header, String cadena) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);   
-		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
 		alert.setTitle(titulo);
 		alert.setHeaderText(header);
 		alert.setContentText(cadena);
+		App.setStyle(alert.getDialogPane());
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+    	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
+            if (KeyCode.ESCAPE == event.getCode()) {
+                stage.close();
+            }
+        });
     	return alert.showAndWait();
 	}
 	
 	public static void getInformation(String titulo, String header, String cadena) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+		Alert alert = new Alert(AlertType.INFORMATION);	
         alert.setTitle(titulo);
         alert.setHeaderText(header);
         alert.setContentText(cadena);
+		App.setStyle(alert.getDialogPane());
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+    	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
+            if (KeyCode.ESCAPE == event.getCode()) {
+                stage.close();
+            }
+        });
         alert.showAndWait();  
 	}
 }

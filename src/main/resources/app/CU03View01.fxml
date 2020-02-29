@@ -25,13 +25,13 @@
                   <HBox alignment="CENTER" spacing="5.0">
                      <children>
                         <Label text="Producto:" />
-                        <ComboBox fx:id="productos" minWidth="200.0" onAction="#validarSeleccionProductos" prefWidth="250.0">
+                        <ComboBox fx:id="productos" focusTraversable="false" minWidth="200.0" onAction="#validarSeleccionProductos" prefWidth="250.0">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </ComboBox>
                         <Pane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="30.0" />
-                        <Button contentDisplay="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnAgregarTipoProducto" text="Agregar producto">
+                        <Button fx:id="btnAgregarProducto" contentDisplay="CENTER" focusTraversable="false" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnAgregarTipoProducto" text="Agregar producto">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -41,13 +41,13 @@
                   <HBox alignment="CENTER" spacing="5.0">
                      <children>
                         <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Proveedor:" />
-                        <ComboBox fx:id="proveedores" minWidth="200.0" onAction="#validarSeleccionProveedores" prefWidth="250.0">
+                        <ComboBox fx:id="proveedores" focusTraversable="false" minWidth="200.0" onAction="#validarSeleccionProveedores" prefWidth="250.0">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </ComboBox>
                         <Pane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="30.0" HBox.hgrow="NEVER" />
-                        <Button mnemonicParsing="false" onAction="#btnAgregarProveedor" text="Agregar proveedor">
+                        <Button fx:id="btnAgregarProveedor" focusTraversable="false" mnemonicParsing="false" onAction="#btnAgregarProveedor" text="Agregar proveedor">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -63,7 +63,7 @@
                         <TextField fx:id="cantidad" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="100.0" promptText="0.0" />
                         <Pane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="60.0" />
                         <Label text="Vencimiento:" />
-                        <DatePicker fx:id="vencimiento" editable="false" maxWidth="120.0" />
+                        <DatePicker fx:id="vencimiento" editable="false" maxWidth="150.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="4.0">
@@ -74,16 +74,16 @@
                   </HBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnAnadirProducto" text="Añadir producto">
+                        <Button contentDisplay="CENTER" defaultButton="true" focusTraversable="false" mnemonicParsing="false" onAction="#btnAnadirProducto" text="Añadir producto">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
                      </children>
                   </HBox>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="150.0" minWidth="-Infinity">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="150.0" minWidth="-Infinity" VBox.vgrow="ALWAYS">
                      <content>
-                        <TableView fx:id="tabla" onMouseClicked="#seleccionarProducto">
+                        <TableView fx:id="tabla" focusTraversable="false" onMouseClicked="#seleccionarProducto">
                            <columns>
                               <TableColumn fx:id="columnaProducto" editable="false" maxWidth="500.0" minWidth="100.0" prefWidth="-1.0" text="Producto" />
                               <TableColumn fx:id="columnaProveedor" editable="false" maxWidth="500.0" minWidth="100.0" prefWidth="-1.0" text="Proveedor" />
@@ -100,28 +100,28 @@
                   </ScrollPane>
                   <HBox alignment="CENTER" spacing="30.0">
                      <children>
-                        <Button fx:id="btnEliminarFila" disable="true" mnemonicParsing="false" onAction="#btnEliminarFila" text="Eliminar fila">
+                        <Button fx:id="btnEliminarFila" disable="true" focusTraversable="false" mnemonicParsing="false" onAction="#btnEliminarFila" text="Eliminar fila">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button fx:id="btnDuplicarFila" disable="true" mnemonicParsing="false" onAction="#btnDuplicarFila" text="Duplicar fila">
+                        <Button fx:id="btnDuplicarFila" disable="true" focusTraversable="false" mnemonicParsing="false" onAction="#btnDuplicarFila" text="Duplicar fila">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button fx:id="btnEditarFila" disable="true" mnemonicParsing="false" onAction="#btnEditarFila" text="Editar fila">
+                        <Button fx:id="btnEditarFila" disable="true" focusTraversable="false" mnemonicParsing="false" onAction="#btnEditarFila" text="Editar fila">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
                         <Region minWidth="20.0" prefWidth="50.0" />
-                        <Button mnemonicParsing="false" onAction="#btnConfirmarProductos" text="Confirmar productos">
+                        <Button fx:id="btnConfirmarProductos" focusTraversable="false" mnemonicParsing="false" onAction="#btnConfirmarProductos" text="Confirmar productos">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button cancelButton="true" mnemonicParsing="false" onAction="#volver" text="Volver">
+                        <Button cancelButton="true" focusTraversable="false" mnemonicParsing="false" onAction="#volver" text="Volver">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

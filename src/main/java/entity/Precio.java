@@ -18,8 +18,7 @@ public class Precio {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_precio")
-	@SequenceGenerator(name="id_precio", sequenceName = "id_precio_seq", initialValue = 100, allocationSize = 1)
-	@Column(nullable = false)
+	@SequenceGenerator(name="id", sequenceName = "id_precio_seq", initialValue = 100, allocationSize = 1)
 	private Integer id;
 	
 	@Column(nullable = false, name = "tipo_venta")

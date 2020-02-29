@@ -65,17 +65,22 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button disable="true" mnemonicParsing="false" onAction="#setCU11View" text="CU11 - Exportar archivos">
+                  <Button mnemonicParsing="false" onAction="#setCU11View" text="CU11 - Exportar archivos">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#setCU14View" text="CU14 - Buscar combos">
+                  <Button disable="true" mnemonicParsing="false" onAction="#setCU14View" text="CU14 - Buscar combos">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
                   <Button mnemonicParsing="false" onAction="#setCU15View" text="CU15 - Administrar categorías">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#setCU16View" text="CU16 - Búsqueda de productos empaquetados">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

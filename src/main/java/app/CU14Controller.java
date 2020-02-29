@@ -31,7 +31,6 @@ public class CU14Controller {
 	@FXML private TableView<TipoProducto> tabla;
     
     public CU14Controller() { }
-	//TODO CU14 implementar
     @FXML private void initialize(){
     	
     }

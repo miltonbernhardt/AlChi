@@ -26,8 +26,7 @@ public class Categoria {
 		
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_categoria")
-	@SequenceGenerator(name="id_categoria", sequenceName = "id_categoria_seq", initialValue = 100, allocationSize = 1)
-	@Column(nullable = false)
+	@SequenceGenerator(name="id", sequenceName = "id_categoria_seq", initialValue = 100, allocationSize = 1)
 	private Integer id;
 		
 	@Column(nullable = false)

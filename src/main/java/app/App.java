@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Control;
+import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -15,6 +16,8 @@ import java.util.List;
 import database.HibernateUtil;
 
 public class App extends Application {
+	//TODO APP corregir los float con cero, que aparezcan sin cero
+	//TODO APP ver si no cambiar el metodo de busqueda por nombre, si hacer por escribir o con combos
 	
     private static Scene scene;
     private static Stage stage;
@@ -32,7 +35,7 @@ public class App extends Application {
     public void start(Stage primaryStage) throws IOException {
     	HibernateUtil.apagarLog(true);
     	HibernateUtil.getSessionFactory();    	    	
-    	scene = new Scene(loadFXML("CU14View"));
+    	scene = new Scene(loadFXML("CU16View"));
     	primaryStage.setOnCloseRequest(e->{
         	Platform.exit();
         	System.exit(0);    
@@ -104,5 +107,10 @@ public class App extends Application {
 	static void setValido(Control nodo) {
 		nodo.getStylesheets().clear();
 		nodo.getStylesheets().add("app/styles.css");
+	}
+
+	public static void setStyle(@SuppressWarnings("exports") DialogPane dialogPane) {
+		dialogPane.getStylesheets().clear();
+		dialogPane.getStylesheets().add("app/styles.css");		
 	}
 }

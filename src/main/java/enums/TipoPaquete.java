@@ -10,6 +10,11 @@ public enum TipoPaquete {
 
 	private String value;
 	private Float cantidad;
+	
+	TipoPaquete(String value) {
+		this.value = value;
+        this.cantidad = null;
+    }
 
     private TipoPaquete(String value, Float cantidad) {
         this.value = value;

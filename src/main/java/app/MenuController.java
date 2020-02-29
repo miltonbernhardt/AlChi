@@ -11,7 +11,7 @@ public class MenuController  {
 	
     @FXML
     private void setCU02View() {
-		CU02Controller.get();
+		CU02Controller01.get();
     }
 
     @FXML
@@ -51,7 +51,7 @@ public class MenuController  {
     
     @FXML
     private void setCU11View() {
-		CU11Controller.get();
+		CU11Controller01.get();
     }
     
     @FXML
@@ -62,6 +62,11 @@ public class MenuController  {
     @FXML
     private void setCU15View() {
 		CU15Controller.get();
+    }  
+    
+    @FXML
+    private void setCU16View() {
+		CU16Controller.get();
     }  
 	
 }

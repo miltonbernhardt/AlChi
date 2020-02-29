@@ -11,8 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedAttributeNode;
-import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
@@ -20,7 +18,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tipo_producto")
-@NamedEntityGraph(name = "graph.TipoProducto.productos", attributeNodes = @NamedAttributeNode("productos"))
 public class TipoProducto{
 	
 	@OneToMany(cascade = CascadeType.ALL,  fetch = FetchType.LAZY)
@@ -40,8 +37,7 @@ public class TipoProducto{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_tipo_producto")
-	@SequenceGenerator(name="id_tipo_producto", sequenceName = "id_tipo_producto_seq", initialValue = 100, allocationSize = 1)
-	@Column(nullable = false)
+	@SequenceGenerator(name="id", sequenceName = "id_tipo_producto_seq", initialValue = 100, allocationSize = 1)
 	private Integer id;
 	
 	@Column(nullable = false)
@@ -65,7 +61,7 @@ public class TipoProducto{
 	public String getDescripcion() { return descripcion; }
 	public Boolean getEnVenta() { return enVenta; }	
 	public String getDirectorioImagen() { return directorioImagen; }
-
+	
 	public void setCategoria(Categoria categoria) { this.categoria = categoria; }
 	public void setProductos(List<ProductoInicial> productos) { this.productos = productos; }
 	public void setPrecios(List<Precio> precios) { this.precios = precios; }

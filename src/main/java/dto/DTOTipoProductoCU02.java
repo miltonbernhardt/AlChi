@@ -76,12 +76,48 @@ public class DTOTipoProductoCU02 {
 			return "No"; 
 	}
 	
-	public String getPrecio100() { return precio100.toString()+" $";  }
-	public String getPrecio250() { return precio250.toString()+" $";  }
-	public String getPrecio500() {  return precio500.toString()+" $";  }
-	public String getPrecio1000() {  return precio1000.toString()+" $";  }
-	public String getPrecio2000() {  return precio2000.toString()+" $";  }
-	public String getPrecioUnidad() {  return precioUnidad.toString()+" $";  }
+	public String getPrecio100() {
+		if(precio100 <= 0f) {
+			return "-";
+		}
+		else
+			return precio100.toString()+" $";  
+	}
+	public String getPrecio250() { 
+		if(precio250 <= 0f) {
+			return "-";
+		}
+		else
+			return precio250.toString()+" $";
+	}
+	public String getPrecio500() {  
+		if(precio500 <= 0f) {
+			return "-";
+		}
+		else
+			return precio500.toString()+" $";  
+	}
+	public String getPrecio1000() {  
+		if(precio1000 <= 0f) {
+			return "-";
+		}
+		else
+			return precio1000.toString()+" $"; 
+	}
+	public String getPrecio2000() {  
+		if(precio2000 <= 0f) {
+			return "-";
+		}
+		else
+			return precio2000.toString()+" $";  
+	}
+	public String getPrecioUnidad() {  
+		if(precioUnidad == 0f) {
+			return "-";
+		}
+		else
+			return precioUnidad.toString()+" $"; 
+	}
 	public Boolean getEnVentaF() { return enVenta; }
 	public Float getPrecio100F() { return precio100;  }
 	public Float getPrecio250F() { return precio250;  }
@@ -93,11 +129,5 @@ public class DTOTipoProductoCU02 {
 	@Override
 	public String toString() {
 		return nombreTipoProducto;
-	}
-
-	
-	
-	
-
-	
+	}	
 }

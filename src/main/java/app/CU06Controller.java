@@ -65,7 +65,6 @@ public class CU06Controller {
     	iniciarTabla();
     	cargarTabla();
     	addListenerCampos();
-    	precioVenta.setFocusTraversable(false);
     }
     
     private void iniciarTabla() {    	

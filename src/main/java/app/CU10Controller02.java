@@ -47,7 +47,7 @@ public class CU10Controller02 {
     @FXML private void initialize(){
     	
     }
-	//TODO CU10.2 implementar
+	//TODO CU10.2 implementar AnadirConOtroPaquete
     
 	@FXML private void btnAnadirEmpaquetamiento() {
 
