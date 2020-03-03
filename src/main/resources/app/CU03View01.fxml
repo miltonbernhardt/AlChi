@@ -57,10 +57,10 @@
                   <HBox alignment="CENTER" spacing="5.0">
                      <children>
                         <Label text="Precio de compra ($):" />
-                        <TextField fx:id="precioCompra" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="100.0" promptText="0.0" />
+                        <TextField fx:id="precioCompra" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="100.0" promptText="0" />
                         <Pane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="60.0" HBox.hgrow="SOMETIMES" />
-                        <Label text="Cantidad (Kg o unidad):" />
-                        <TextField fx:id="cantidad" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="100.0" promptText="0.0" />
+                        <Label text="Cantidad (Kg o Unidad):" />
+                        <TextField fx:id="cantidad" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="100.0" promptText="0" />
                         <Pane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="60.0" />
                         <Label text="Vencimiento:" />
                         <DatePicker fx:id="vencimiento" editable="false" maxWidth="150.0" />

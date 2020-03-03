@@ -54,7 +54,7 @@
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
                         <Label minWidth="-Infinity" text="Precio de venta($):" />
-                        <TextField fx:id="precioVenta" alignment="CENTER" focusTraversable="false" maxHeight="30.0" maxWidth="100.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="80.0" promptText="0.0">
+                        <TextField fx:id="precioVenta" alignment="CENTER" focusTraversable="false" maxHeight="30.0" maxWidth="100.0" minWidth="-Infinity" prefHeight="30.0" prefWidth="80.0" promptText="0">
                            <tooltip>
                               <Tooltip text="Si se desea poner un precio de venta distinto" />
                            </tooltip>

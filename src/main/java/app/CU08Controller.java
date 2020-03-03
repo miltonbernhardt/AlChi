@@ -7,7 +7,6 @@ import dto.DTOCU08;
 import dto.DTOCategoria;
 import dto.DTOProductoInicialCU10;
 import dto.DTOProveedor;
-import dto.DTOTipoProducto;
 import gestor.GestorCategoria;
 import gestor.GestorEntradaSalida;
 import gestor.GestorProductos;
@@ -47,12 +46,13 @@ public class CU08Controller {
         return instance;
     }
     
+    
     private DTOCU08 productoSeleccionado = null;
 	
 	@FXML private ComboBox<DTOCategoria> categorias;
 	@FXML private ComboBox<DTOProveedor> proveedores;
-	@FXML private ComboBox<DTOTipoProducto> productos;
 	
+	@FXML private TextField nombreProducto;	
 	@FXML private TextField codigoBarra;	
 	
 	@FXML private DatePicker fechaIngresoAntes;	
@@ -147,13 +147,13 @@ public class CU08Controller {
     }
 
 	@FXML public void btnBuscar() {
-		Integer idCategoria=categorias.getValue().getId(), idProveedor = proveedores.getValue().getId(), idProducto=null;
-		String textCodigoBarra=codigoBarra.getText();
+		Integer idCategoria=categorias.getValue().getId(), idProveedor = proveedores.getValue().getId();
+		String textCodigoBarra=codigoBarra.getText(), textNombreProducto = null;
 		LocalDate fechaIngAntes=fechaIngresoAntes.getValue(), fechaIngDespues=fechaIngresoDespues.getValue();
 		Boolean disponible = null;
 		
-		if(!productos.isDisable())
-			idProducto=productos.getValue().getId();
+		if(!nombreProducto.getText().isBlank()) 
+			textNombreProducto = nombreProducto.getText();
 		
 		if(siDisponible.isSelected()) 
 			disponible = true;
@@ -162,31 +162,13 @@ public class CU08Controller {
 				disponible = false;
 		}
 		
-		cargarTabla(GestorProductos.get().buscarProductosIniciales(idCategoria, idProveedor, textCodigoBarra, idProducto, fechaIngAntes, fechaIngDespues, disponible));
+		cargarTabla(GestorProductos.get().buscarProductosIniciales(idCategoria, idProveedor, textCodigoBarra, textNombreProducto, fechaIngAntes, fechaIngDespues, disponible));
 	}
 	
     @FXML private void volver() {
     	App.getViewAnterior();
     	instance = null;
 	}
-    
-    @FXML private void seleccionarCategoria() {
-    	Integer idCategoria = categorias.getValue().getId();
-    	if(idCategoria != null) {
-    		List<DTOTipoProducto> lista = GestorProductos.get().getTiposProducto(idCategoria);
-    		if(lista.size() > 0) {
-    			productos.setDisable(false);
-        		productos.getItems().clear();
-        		productos.getItems().add(new DTOTipoProducto(null, "Seleccionar producto"));        		
-        		productos.getItems().addAll(lista);
-        		productos.getSelectionModel().selectFirst();
-    		}
-    	}
-    	else {
-    		productos.setDisable(true);
-    		productos.getItems().clear();
-    	}
-    }
     
     @FXML private void seleccionarProducto() {
     	productoSeleccionado = tabla.getSelectionModel().getSelectedItem();
@@ -221,9 +203,12 @@ public class CU08Controller {
 	    	Optional<ButtonType> options = alert.showAndWait();
 	    	
 	    	if(options.get().equals(b2)) {
-    			//TODO CU09 desarollar bien
-        		if(GestorEntradaSalida.get().darBaja(productoSeleccionado))
-        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"'\nha sido correctamente dado de baja.");
+        		if(GestorEntradaSalida.get().darBaja(productoSeleccionado)) {
+        			productoSeleccionado.setDisponible(false);
+        			tabla.getColumns().get(8).setVisible(false);
+        			tabla.getColumns().get(8).setVisible(true);
+        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"' ha sido correctamente dado de baja.");
+        		}
         	}
 		}
 		else {
@@ -252,8 +237,10 @@ public class CU08Controller {
 	    	else {
 	    		if(options.get().equals(b2)) {
 	        		if(GestorEntradaSalida.get().darBaja(productoSeleccionado)) {
-	        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"'\nha sido correctamente dado de baja.");
-	        			
+	        			productoSeleccionado.setDisponible(false);
+	        			tabla.getColumns().get(8).setVisible(false);
+	        			tabla.getColumns().get(8).setVisible(true);
+	        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"' ha sido correctamente dado de baja.");
 	    			}
 	        	}
 	    	}

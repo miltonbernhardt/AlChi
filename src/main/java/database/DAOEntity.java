@@ -105,8 +105,9 @@ public class DAOEntity {
 		Object o = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
-			o = session.createSQLQuery(cadena).getSingleResult();			
+			o = session.createSQLQuery(cadena).getSingleResult();	
 		}catch (javax.persistence.NoResultException e) { 
+			
 			o = null;    
 		}
 		
@@ -117,26 +118,4 @@ public class DAOEntity {
 		session.close();
 	    return i;
 	}
-	
-	/*@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void addProductoInicialToTipoProducto(Class clase, Integer id, String cadenaGraph, List<ProductoInicial> productos) {//ProductoInicial pro) {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-
-		EntityGraph graph = session.getEntityGraph(cadenaGraph);
-		  
-		Map hints = new HashMap();
-		hints.put("javax.persistence.fetchgraph", graph);
-		  
-		TipoProducto tipoProducto = (TipoProducto) session.find(clase, id, hints);
-		
-		Iterator<ProductoInicial> iterator = productos.iterator();
-		
-		while(iterator.hasNext()) {
-			ProductoInicial pro = iterator.next();
-			//pro.setTipoProducto(tipoProducto);
-			tipoProducto.getProductos().add(pro);
-		}
-		
-		session.close();
-	}*/
 }

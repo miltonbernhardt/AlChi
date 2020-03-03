@@ -2,6 +2,7 @@ package dto;
 
 import java.time.LocalDate;
 
+import app.App;
 import enums.TipoPaquete;
 
 public class DTOCU16 {
@@ -72,7 +73,7 @@ public class DTOCU16 {
 	
 	public String getPrecioVenta() {
 		if(precioVenta != null)
-			return precioVenta.toString()+" $";
+			return App.floatSinCero(precioVenta)+" $";
 		else {
 			if(fechaVenta != null) {
 				return "Parte del combo";

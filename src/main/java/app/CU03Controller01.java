@@ -174,12 +174,28 @@ public class CU03Controller01 {
     		completoPrecio = false;
     		App.setError(precioCompra);
     	}
+    	else {
+    		if(Float.parseFloat(precioCompra.getText())<=0) {
+    			cadenaError += nroCampo.toString()+") Precio de compra no puede ser cero.\n";
+        		nroCampo++;
+        		completoPrecio = false;
+        		App.setError(precioCompra);
+    		}    		
+    	}
     	
     	if(cantidad.getText().isBlank()) {
     		cadenaError += nroCampo.toString()+") Cantidad de producto.\n";
     		nroCampo++;
     		completoCantidad = false;
     		App.setError(cantidad);
+    	}
+    	else {
+    		if(Float.parseFloat(cantidad.getText())<=0) {
+    			cadenaError += nroCampo.toString()+") Cantidad de producto no puede ser cero.\n";
+        		nroCampo++;
+        		completoCantidad = false;
+        		App.setError(cantidad);
+    		}    		
     	}
     	
     	if(codigoBarra.getText().isBlank()) {
@@ -234,8 +250,8 @@ public class CU03Controller01 {
         	proveedores.getSelectionModel().select(productoSeleccionado.getProveedor());
         	
     		vencimiento.setValue(productoSeleccionado.getVencimiento());
-    		precioCompra.setText(productoSeleccionado.getPrecioCompradoF().toString());	
-    		cantidad.setText(productoSeleccionado.getCantidadNoVendidaF().toString());	
+    		precioCompra.setText(App.floatSinCero(productoSeleccionado.getPrecioCompradoF()));	
+    		cantidad.setText(productoSeleccionado.getCantidadNoVendida());	
     		codigoBarra.setText(productoSeleccionado.getCodigoBarra());
     		
     		tabla.getItems().remove(productoSeleccionado);

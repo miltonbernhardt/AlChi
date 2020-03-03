@@ -1,5 +1,7 @@
 package dto;
 
+import app.App;
+
 public class DTOTipoProductoCU02 {	
 	private String nombreCategoria;
 	private Integer idProducto;
@@ -81,42 +83,42 @@ public class DTOTipoProductoCU02 {
 			return "-";
 		}
 		else
-			return precio100.toString()+" $";  
+			return  App.floatSinCero(precio100)+" $";  
 	}
 	public String getPrecio250() { 
 		if(precio250 <= 0f) {
 			return "-";
 		}
 		else
-			return precio250.toString()+" $";
+			return App.floatSinCero(precio250)+" $";
 	}
 	public String getPrecio500() {  
 		if(precio500 <= 0f) {
 			return "-";
 		}
 		else
-			return precio500.toString()+" $";  
+			return App.floatSinCero(precio500)+" $";  
 	}
 	public String getPrecio1000() {  
 		if(precio1000 <= 0f) {
 			return "-";
 		}
 		else
-			return precio1000.toString()+" $"; 
+			return App.floatSinCero(precio1000)+" $"; 
 	}
 	public String getPrecio2000() {  
 		if(precio2000 <= 0f) {
 			return "-";
 		}
 		else
-			return precio2000.toString()+" $";  
+			return App.floatSinCero(precio2000)+" $";  
 	}
 	public String getPrecioUnidad() {  
 		if(precioUnidad == 0f) {
 			return "-";
 		}
 		else
-			return precioUnidad.toString()+" $"; 
+			return App.floatSinCero(precioUnidad)+" $"; 
 	}
 	public Boolean getEnVentaF() { return enVenta; }
 	public Float getPrecio100F() { return precio100;  }

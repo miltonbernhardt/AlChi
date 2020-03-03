@@ -38,7 +38,7 @@ public class CU03Controller02 {
     private DTOCU03 tipoProductoTabla = null;
     
 	@FXML private ComboBox<DTOCU03> productos;
-	
+
 	@FXML private TextField p100;	
 	@FXML private TextField p250;
 	@FXML private TextField p500;
@@ -305,7 +305,7 @@ public class CU03Controller02 {
 				rd100Ant.setSelected(true);
 				
 				p100Anterior.setDisable(false);
-				p100Anterior.setText(tipoProductoCombo.getP100Anterior().toString());
+				p100Anterior.setText(App.floatSinCero(tipoProductoCombo.getP100Anterior()));
 			}			
     	}
     	else {
@@ -345,7 +345,7 @@ public class CU03Controller02 {
 				rd250Ant.setSelected(true);
 				
 				p250Anterior.setDisable(false); 
-				p250Anterior.setText(tipoProductoCombo.getP250Anterior().toString());
+				p250Anterior.setText(App.floatSinCero(tipoProductoCombo.getP250Anterior()));
 			}
     	}
     	else {
@@ -384,7 +384,7 @@ public class CU03Controller02 {
     			rd500Ant.setSelected(true);
     			
     			p500Anterior.setDisable(false); 
-    			p500Anterior.setText(tipoProductoCombo.getP500Anterior().toString());
+    			p500Anterior.setText(App.floatSinCero(tipoProductoCombo.getP500Anterior()));
 			}
     	}
     	else {
@@ -423,7 +423,7 @@ public class CU03Controller02 {
     			rd1000Ant.setSelected(true);
     			
     			p1000Anterior.setDisable(false);   
-    			p1000Anterior.setText(tipoProductoCombo.getP1000Anterior().toString());
+    			p1000Anterior.setText(App.floatSinCero(tipoProductoCombo.getP1000Anterior()));
 			}
     	}
     	else {
@@ -462,7 +462,7 @@ public class CU03Controller02 {
     			rd2000Ant.setSelected(true);
     			
     			p2000Anterior.setDisable(false);
-    			p2000Anterior.setText(tipoProductoCombo.getP2000Anterior().toString());
+    			p2000Anterior.setText(App.floatSinCero(tipoProductoCombo.getP2000Anterior()));
 			}
     	}
     	else {
@@ -516,7 +516,7 @@ public class CU03Controller02 {
     			rdUnidadAnt.setSelected(true);
     			
 				pUnidadAnterior.setDisable(false);
-				pUnidadAnterior.setText(tipoProductoCombo.getPUnidadAnterior().toString());
+				pUnidadAnterior.setText(App.floatSinCero(tipoProductoCombo.getPUnidadAnterior()));
 			}
     	}
     	else {
@@ -653,12 +653,12 @@ public class CU03Controller02 {
 			@Override public void handle(KeyEvent e) { validarCampos(e); }
     	});
     }
-    
+
     private void validar100() {
     	p100.setText(p100.getText().replace(',', '.'));   
     	if(! p100.getText().isBlank()) {
     		App.setValido(p100);
-    		p100Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p100.getText())).toString());
+    		p100Nuevo.setText(calcularPrecioNuevo(p100.getText()));
     	}
     	else
     		p100Nuevo.setText("");
@@ -668,7 +668,7 @@ public class CU03Controller02 {
     	p250.setText(p250.getText().replace(',', '.'));
     	if(! p250.getText().isBlank()) {
     		App.setValido(p250);
-    		p250Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p250.getText())).toString());
+    		p250Nuevo.setText(calcularPrecioNuevo(p250.getText()));
     	}
     	else
     		p250Nuevo.setText("");
@@ -679,7 +679,7 @@ public class CU03Controller02 {
     	
     	if(! p500.getText().isBlank()) {
     		App.setValido(p500);
-    		p500Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p500.getText())).toString());
+    		p500Nuevo.setText(calcularPrecioNuevo(p500.getText()));
     	}
     	else
     		p500Nuevo.setText("");
@@ -690,7 +690,7 @@ public class CU03Controller02 {
     	
     	if(! p1000.getText().isBlank()) {
     		App.setValido(p1000);
-    		p1000Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p1000.getText())).toString());
+    		p1000Nuevo.setText(calcularPrecioNuevo(p1000.getText()));
     	}
     	else
     		p1000Nuevo.setText("");
@@ -701,7 +701,7 @@ public class CU03Controller02 {
     	
     	if(! p2000.getText().isBlank()) {
     		App.setValido(p2000);
-    		p2000Nuevo.setText(calcularPrecioNuevo(Float.parseFloat(p2000.getText())).toString());
+    		p2000Nuevo.setText(calcularPrecioNuevo(p2000.getText()));
     	}
     	else
     		p2000Nuevo.setText("");
@@ -712,7 +712,7 @@ public class CU03Controller02 {
     	
     	if(! pUnidad.getText().isBlank()) {
     		App.setValido(pUnidad);
-    		pUnidadNuevo.setText(calcularPrecioNuevo(Float.parseFloat(pUnidad.getText())).toString());
+    		pUnidadNuevo.setText(calcularPrecioNuevo(pUnidad.getText()));
     	}
     	else
     		pUnidadNuevo.setText("");
@@ -733,8 +733,9 @@ public class CU03Controller02 {
 		}
     }
     
-	private Float calcularPrecioNuevo(Float valorSugerido) {
-    	Float valor = valorSugerido*Porcentaje.NORMAL.getValue();
+	private String calcularPrecioNuevo(String valorSugerido) {
+		Float f = Float.parseFloat(valorSugerido);
+    	Float valor = f*Porcentaje.NORMAL.getValue();
     	
     	Float modulo5 = valor%5;
     	if(modulo5 >= 2.5) {
@@ -744,7 +745,7 @@ public class CU03Controller02 {
     		valor = valor - modulo5;
     	}   	
     	
-    	return valor;
+    	return App.floatSinCero(valor);
     }
     
 	@SuppressWarnings("exports")
@@ -828,8 +829,8 @@ public class CU03Controller02 {
     	
     	if(ch100) {
     		if(! (sug100 == 0f)) {
-    			p100.setText(sug100.toString());
-    			p100Nuevo.setText(dto.getP100Nuevo().toString());
+    			p100.setText(App.floatSinCero(sug100));
+    			p100Nuevo.setText(App.floatSinCero(dto.getP100Nuevo()));
     		}
     		
     		if(dto.getRd100())
@@ -840,8 +841,8 @@ public class CU03Controller02 {
     	
     	if(ch250) {
     		if(! (sug250 == 0f)) {
-    			p250.setText(sug250.toString());
-    			p250Nuevo.setText(dto.getP250Nuevo().toString());
+    			p250.setText(App.floatSinCero(sug250));
+    			p250Nuevo.setText(App.floatSinCero(dto.getP250Nuevo()));
     		}
     		
     		if(dto.getRd250())
@@ -852,8 +853,8 @@ public class CU03Controller02 {
     	
     	if(ch500) {
     		if(! (sug500 == 0f)) {
-    			p500.setText(sug500.toString());
-    			p500Nuevo.setText(dto.getP500Nuevo().toString());
+    			p500.setText(App.floatSinCero(sug500));
+    			p500Nuevo.setText(App.floatSinCero(dto.getP500Nuevo()));
     		}
     		
     		if(dto.getRd500())
@@ -864,8 +865,8 @@ public class CU03Controller02 {
     	
     	if(ch1000) {
     		if(! (sug1000 == 0f)) {
-    			p1000.setText(sug1000.toString());
-    			p1000Nuevo.setText(dto.getP1000Nuevo().toString());
+    			p1000.setText(App.floatSinCero(sug1000));
+    			p1000Nuevo.setText(App.floatSinCero(dto.getP1000Nuevo()));
     		}
     		
     		if(dto.getRd1000())
@@ -876,8 +877,8 @@ public class CU03Controller02 {
     	
     	if(ch2000) {
     		if(! (sug2000 == 0f)) {
-    			p2000.setText(sug2000.toString());
-    			p2000Nuevo.setText(dto.getP2000Nuevo().toString());
+    			p2000.setText(App.floatSinCero(sug2000));
+    			p2000Nuevo.setText(App.floatSinCero(dto.getP2000Nuevo()));
     		}
     		
     		if(dto.getRd2000())
@@ -888,8 +889,8 @@ public class CU03Controller02 {
 
     	if(chUnidad) {
     		if(! (sugUnidad == 0f)) {
-    			pUnidad.setText(sugUnidad.toString());
-    			pUnidadNuevo.setText(dto.getPUnidadNuevo().toString());
+    			pUnidad.setText(App.floatSinCero(sugUnidad));
+    			pUnidadNuevo.setText(App.floatSinCero(dto.getPUnidadNuevo()));
     		}
     		
     		if(dto.getRdUnidad())

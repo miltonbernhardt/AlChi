@@ -2,6 +2,8 @@ package dto;
 
 import java.time.LocalDate;
 
+import app.App;
+
 public class DTOProductoInicialCU10 {
 	
 	private Integer idTipoProducto;
@@ -43,7 +45,7 @@ public class DTOProductoInicialCU10 {
 	
 	public void setIdTipoProducto(Integer idTipoProducto) { this.idTipoProducto = idTipoProducto; }	
 	public void setIdProductoInicial(Integer idProductoInicial) { this.idProductoInicial = idProductoInicial; }
-	public void setCantidadNoVendida(Float cantidadNoVendida) { this.cantidadNoVendida = cantidadNoVendida; }
+	public void setCantidadNoVendida(Float cantidadNoVendida) { this.cantidadNoVendida = App.redondear(cantidadNoVendida); }
 	public void setCodigoBarra(String codigoBarra) { this.codigoBarra = codigoBarra; }
 	public void setVencimiento(LocalDate vencimiento) { this.vencimiento = vencimiento; }
 	public void setProveedor(String proveedor) { this.proveedor = proveedor; }

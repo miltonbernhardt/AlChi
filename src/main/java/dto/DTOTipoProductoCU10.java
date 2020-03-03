@@ -25,15 +25,7 @@ public class DTOTipoProductoCU10 {
 	public Integer getId() { return id; }
 	public String getNombre() { return nombre; }
 	public List<DTOProductoInicialCU10> getProductosIniciales() { 
-		/*List<DTOProductoInicialCU10> lista = new ArrayList<DTOProductoInicialCU10>();
-		Iterator<DTOProductoInicialCU10> ite = productosIniciales.iterator();
-		while(ite.hasNext()) {
-			DTOProductoInicialCU10 dto = ite.next();
-			if(dto.getCantidadNoVendidaF()>0) {
-				lista.add(dto);
-			}
-		}*/
-		return productosIniciales;//lista; 
+		return productosIniciales;
 	}
 	public List<DTOFormaVentaCU10> getFormasVenta() { return formasVenta; }
 	public Boolean getConStock() { return conStock; }

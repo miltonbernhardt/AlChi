@@ -2,6 +2,8 @@ package dto;
 
 import java.time.LocalDate;
 
+import app.App;
+
 public class DTOProductoInicial {
 	private String nombreCategoria;
 
@@ -63,12 +65,14 @@ public class DTOProductoInicial {
 	public Float getPrecioUnidad() { return precioUnidad; }
 	public DTOProveedor getProveedor() { return proveedor; }
 	public DTOTipoProductoCU02 getTipoProducto() { return tipoProducto; }	
-	public String getPrecioComprado() { return precioComprado.toString()+" $"; }
-	public String getCantidadNoVendida() { return cantidadNoVendida.toString(); }
+	public String getPrecioComprado() { return App.floatSinCero(precioComprado)+" $"; }
+	public String getCantidadNoVendida() {
+		return App.floatSinCero(cantidadNoVendida); 
+	}
 
 	public void setNombreCategoria(String nombreCategoria) { this.nombreCategoria = nombreCategoria; }
-	public void setPrecioComprado(Float precioComprado) { this.precioComprado = precioComprado; }
-	public void setCantidadNoVendida(Float cantidadNoVendida) { this.cantidadNoVendida = cantidadNoVendida; }
+	public void setPrecioComprado(Float precioComprado) { this.precioComprado = App.redondear(precioComprado); }
+	public void setCantidadNoVendida(Float cantidadNoVendida) { this.cantidadNoVendida = App.redondear(cantidadNoVendida); }
 	public void setVencimiento(LocalDate vencimiento) { this.vencimiento = vencimiento; }
 	public void setCodigoBarra(String codigoBarra) { this.codigoBarra = codigoBarra; }
 	public void setPrecio100(Float precio100) { this.precio100 = precio100; }

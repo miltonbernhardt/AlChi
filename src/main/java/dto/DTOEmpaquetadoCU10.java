@@ -2,6 +2,7 @@ package dto;
 
 import java.time.LocalDate;
 
+import app.App;
 import enums.TipoPaquete;
 
 public class DTOEmpaquetadoCU10 {
@@ -10,8 +11,12 @@ public class DTOEmpaquetadoCU10 {
 	private DTOProductoInicialCU10 dtoProductoInicial;
 	private DTOTipoProductoCU10 dtoTipoProducto;
 	
+	private DTOProductoInicialCU10 dtoProductoInicialSecundario;
+	private Float cantPrimario;
+	
 	private Integer idTipoProducto;
 	private Integer idProductoInicial;
+	private Integer idProductoSecundario;
 	
 	private String nombreTipoProducto;
 	private String nombreProveedor;
@@ -19,6 +24,9 @@ public class DTOEmpaquetadoCU10 {
 	private LocalDate vencimiento;
 	private TipoPaquete tipoPaquete;
 	private Integer cantidadPaquetes;
+	
+	private Boolean secundario = false;
+	private Boolean dadoBaja = false;
 	
 	public DTOEmpaquetadoCU10() { }
 	
@@ -33,6 +41,9 @@ public class DTOEmpaquetadoCU10 {
 	public LocalDate getVencimiento() { return vencimiento; }
 	public TipoPaquete getTipoPaqueteE() { return tipoPaquete; }
 	public Integer getCantidadPaquetesF() { return cantidadPaquetes; }
+	public DTOProductoInicialCU10 getDtoProductoInicialSecundario() { return dtoProductoInicialSecundario; }
+	public Float getCantPrimario() { return cantPrimario; }
+	public Integer getIdProductoSecundario() { return idProductoSecundario; }
 	
 	
 	public String getTipoPaquete() { 
@@ -62,5 +73,22 @@ public class DTOEmpaquetadoCU10 {
 	public void setVencimiento(LocalDate vencimiento) { this.vencimiento = vencimiento; }
 	public void setTipoPaquete(TipoPaquete tipoPaquete) { this.tipoPaquete = tipoPaquete; }
 	public void setCantidadPaquetes(Integer cantidadPaquetes) { this.cantidadPaquetes = cantidadPaquetes; }
+	public void setDtoProductoInicialSecundario(DTOProductoInicialCU10 dtoProductoInicialSecundario) { this.dtoProductoInicialSecundario = dtoProductoInicialSecundario; }
+	public void setCantPrimario(Float cantPrimario) { this.cantPrimario = App.redondear(cantPrimario); }	public void setIdProductoSecundario(Integer idProductoSecundario) { this.idProductoSecundario = idProductoSecundario; }
 
+	public Boolean getDadoBaja() {
+		return dadoBaja;
+	}
+
+	public void setDadoBaja(Boolean dadoBaja) {
+		this.dadoBaja = dadoBaja;
+	}
+
+	public Boolean getSecundario() {
+		return secundario;
+	}
+
+	public void setSecundario(Boolean secundario) {
+		this.secundario = secundario;
+	}
 }

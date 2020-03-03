@@ -1,6 +1,7 @@
 package dto;
 
 import java.time.LocalDate;
+import app.App;
 
 public class DTOCU08 {
 
@@ -60,16 +61,16 @@ public class DTOCU08 {
 	public void setPrecioUnidad(Float precioUnidad) { this.precioUnidad = precioUnidad; }
 	
 	public String getPrecioCompra() {
-		return precioCompra.toString()+" $"; 
+		return App.floatSinCero(precioCompra)+" $"; 
 	}	
 	
 	public String getCantidadNoVendida() {	
 		
 		if(precioUnidad!= null && precioUnidad>0f) {
-			return cantidadNoVendida.toString()+" unidades";
+			return App.floatSinCero(cantidadNoVendida)+" unidades";
 		}
 		else {
-			return cantidadNoVendida.toString()+" Kg";
+			return App.floatSinCero(cantidadNoVendida)+" Kg";
 		}
 	}
 	

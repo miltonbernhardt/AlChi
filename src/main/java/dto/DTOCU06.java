@@ -3,6 +3,7 @@ package dto;
 import java.time.LocalDate;
 import java.util.List;
 
+import app.App;
 import enums.TipoPaquete;
 
 public class DTOCU06 {
@@ -71,7 +72,7 @@ public class DTOCU06 {
 	public Integer getCantidad() { return cantidad; }
 	
 	public String getPrecioVenta() {
-		return precioVenta.toString()+" $";
+		return App.floatSinCero(precioVenta)+" $";
 	}
 	
 	public String getVencimiento() {

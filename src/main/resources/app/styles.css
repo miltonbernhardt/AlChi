@@ -65,6 +65,8 @@
 }
 
 .text-field:disabled{
+	-fx-opacity: 1.0;
+	-fx-background-color: RGB(171,95,77);
    /* -fx-background-color:transparent;*/
 }
 

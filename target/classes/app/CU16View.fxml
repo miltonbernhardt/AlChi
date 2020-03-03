@@ -29,7 +29,7 @@
                         <Insets right="-5.0" />
                      </padding>
                   </Label>
-                  <ComboBox fx:id="categorias" focusTraversable="false" minWidth="200.0" onAction="#seleccionarCategoria">
+                  <ComboBox fx:id="categorias" focusTraversable="false" minWidth="200.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -42,14 +42,11 @@
                         <Insets right="-5.0" />
                      </padding>
                   </Label>
-                  <ComboBox fx:id="productos" disable="true" focusTraversable="false" minWidth="200.0">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
+                  <TextField fx:id="nombreProducto">
                      <VBox.margin>
                         <Insets top="-10.0" />
                      </VBox.margin>
-                  </ComboBox>
+                  </TextField>
                   <Label text="Forma de venta:">
                      <padding>
                         <Insets right="-5.0" />

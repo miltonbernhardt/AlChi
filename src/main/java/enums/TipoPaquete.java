@@ -1,11 +1,11 @@
 package enums;
 
 public enum TipoPaquete {
-	G100("100g", 100f),
-	G250("250g", 250f),
-	G500("500g", 500f),
-	G1000("1000g", 1000f),
-	G2000("2000g", 2000f),
+	G100("100g", 0.10f),
+	G250("250g", 0.25f),
+	G500("500g", 0.50f),
+	G1000("1000g", 1f),
+	G2000("2000g", 2f),
 	UNIDAD("Unidad", 1f);
 
 	private String value;

@@ -21,7 +21,7 @@ import entity.TipoProducto;
 import enums.TipoPaquete;
 
 public class GestorEntradaSalida {	
-	
+
 	private static GestorEntradaSalida instance = null;
     private GestorEntradaSalida() { }
     public static GestorEntradaSalida get() {
@@ -111,7 +111,16 @@ public class GestorEntradaSalida {
 						if(! DAOEntity.get().save(p))
 							return false;
 					}
+					
+					ProductoInicial pro2 = (ProductoInicial) DAOEntity.get().get(ProductoInicial.class, pro.getId());
+
+					pro2.setDisponible(false);	
+					
+					if(! DAOEntity.get().update(pro2))
+						return false;
 				}
+				
+
 			}		
 			
 			if(!tipoProducto.getEnVenta())
@@ -177,14 +186,25 @@ public class GestorEntradaSalida {
 				if(!DAOEntity.get().update(e))
 					return false;
 			}
+			
+			if(!GestorProductos.get().cantProductosTipoProducto(dto.getIdTipoProducto()))
+				return false;
+			
 		}
 		
+
 		return true;
 	}
 	
 	public Boolean darBaja(DTOCU08 producto) {
-		buscarProductosEnBaja();
-		//TODO CU09 dar de baja a empaquetado y tambien darla opcion de darle al producto
+		ProductoInicial p = (ProductoInicial) DAOEntity.get().get(ProductoInicial.class, producto.getIdProducto());
+		p.setDisponible(false);
+		if(!DAOEntity.get().update(p)) 
+			return false;
+		
+		if(!GestorProductos.get().cantProductosTipoProducto(producto.getIdTipoProducto()))
+			return false;
+		
 		return true;
 	}
 	
@@ -196,10 +216,12 @@ public class GestorEntradaSalida {
 		Empaquetado producto = (Empaquetado) DAOEntity.get().get(Empaquetado.class, productoSeleccionado.getIdProductoEmpaquetado());
 		producto.setDadoBaja(true);
 		
-		
 		if( !DAOEntity.get().update(producto) )
 			return false;
 		productoSeleccionado.setDadoBaja(true);
+		
+		if(!GestorProductos.get().cantProductosTipoProducto(productoSeleccionado.getIdTipoProducto()))
+			return false;
 		
 		return true;
 	}

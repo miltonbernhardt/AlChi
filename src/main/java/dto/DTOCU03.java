@@ -3,6 +3,8 @@ package dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.App;
+
 public class DTOCU03 {
 	
 	private List<DTOProductoInicial> lista;
@@ -185,42 +187,42 @@ public class DTOCU03 {
 		if(p100Final == 0f)
 			return "-";
 		else
-			return p100Final.toString()+" $";
+			return App.floatSinCero(p100Final)+" $";
 	}
 	
 	public String getP250Final() {
 		if(p250Final == 0f)
 			return "-";
 		else
-			return p250Final.toString()+" $";
+			return App.floatSinCero(p250Final)+" $";
 	}
 	
 	public String getP500Final() {
 		if(p500Final == 0f)
 			return "-";
 		else
-			return p500Final.toString()+" $";
+			return App.floatSinCero(p500Final)+" $";
 	}
 	
 	public String getP1000Final() {
 		if(p1000Final == 0f)
 			return "-";
 		else
-			return p1000Final.toString()+" $";
+			return App.floatSinCero(p1000Final)+" $";
 	}
 	
 	public String getP2000Final() {
 		if(p2000Final == 0f)
 			return "-";
 		else
-			return p2000Final.toString()+" $";
+			return App.floatSinCero(p2000Final)+" $";
 	}
 	
 	public String getPUnidadFinal() {
 		if(pUnidadFinal == 0f)
 			return "-";
 		else
-			return pUnidadFinal.toString()+" $";
+			return App.floatSinCero(pUnidadFinal)+" $";
 	}
 	
 	public void setLista(List<DTOProductoInicial> lista) { this.lista = lista; }

@@ -94,7 +94,7 @@
                            <tooltip>
                               <Tooltip text="Si se vende por peso, no se vende por unidad" />
                            </tooltip></CheckBox>
-                        <TextField fx:id="p100" alignment="CENTER" disable="true" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                        <TextField fx:id="p100" alignment="CENTER" disable="true" minWidth="60.0" prefWidth="80.0" promptText="0" GridPane.columnIndex="3" GridPane.rowIndex="4">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
@@ -112,7 +112,7 @@
                            <tooltip>
                               <Tooltip text="Si se vende por peso, no se vende por unidad" />
                            </tooltip></CheckBox>
-                        <TextField fx:id="p250" alignment="CENTER" disable="true" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="7" GridPane.rowIndex="4">
+                        <TextField fx:id="p250" alignment="CENTER" disable="true" minWidth="60.0" prefWidth="80.0" promptText="0" GridPane.columnIndex="7" GridPane.rowIndex="4">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
@@ -130,7 +130,7 @@
                            <tooltip>
                               <Tooltip text="Si se vende por peso, no se vende por unidad" />
                            </tooltip></CheckBox>
-                        <TextField fx:id="p500" alignment="CENTER" disable="true" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="11" GridPane.rowIndex="4">
+                        <TextField fx:id="p500" alignment="CENTER" disable="true" minWidth="60.0" prefWidth="80.0" promptText="0" GridPane.columnIndex="11" GridPane.rowIndex="4">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
@@ -148,7 +148,7 @@
                            <tooltip>
                               <Tooltip text="Si se vende por peso, no se vende por unidad" />
                            </tooltip></CheckBox>
-                        <TextField fx:id="p1000" alignment="CENTER" disable="true" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="15" GridPane.rowIndex="4">
+                        <TextField fx:id="p1000" alignment="CENTER" disable="true" minWidth="60.0" prefWidth="80.0" promptText="0" GridPane.columnIndex="15" GridPane.rowIndex="4">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
@@ -166,7 +166,7 @@
                            <tooltip>
                               <Tooltip text="Si se vende por peso, no se vende por unidad" />
                            </tooltip></CheckBox>
-                        <TextField fx:id="p2000" alignment="CENTER" disable="true" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="19" GridPane.rowIndex="4">
+                        <TextField fx:id="p2000" alignment="CENTER" disable="true" minWidth="60.0" prefWidth="80.0" promptText="0" GridPane.columnIndex="19" GridPane.rowIndex="4">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
@@ -184,7 +184,7 @@
                            <tooltip>
                               <Tooltip text="Si se vende una unidad, no se vende por peso" />
                            </tooltip></CheckBox>
-                        <TextField fx:id="pUnidad" alignment="CENTER" disable="true" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="23" GridPane.rowIndex="4">
+                        <TextField fx:id="pUnidad" alignment="CENTER" disable="true" minWidth="60.0" prefWidth="80.0" promptText="0" GridPane.columnIndex="23" GridPane.rowIndex="4">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
@@ -220,7 +220,7 @@
                            </tooltip>
                         </Label>
                         <Label text="P.100g:" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-                        <TextField fx:id="p100Anterior" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="3" GridPane.rowIndex="7">
+                        <TextField fx:id="p100Anterior" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0" GridPane.columnIndex="3" GridPane.rowIndex="7">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
@@ -248,7 +248,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </RadioButton>
-                        <TextField fx:id="p250Anterior" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="7" GridPane.rowIndex="7">
+                        <TextField fx:id="p250Anterior" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0" GridPane.columnIndex="7" GridPane.rowIndex="7">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
@@ -268,7 +268,7 @@
                            </cursor>
                         </RadioButton>
                         <Label text="P. 500g:" GridPane.columnIndex="10" GridPane.rowIndex="7" />
-                        <TextField fx:id="p500Anterior" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="11" GridPane.rowIndex="7">
+                        <TextField fx:id="p500Anterior" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0" GridPane.columnIndex="11" GridPane.rowIndex="7">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
@@ -288,7 +288,7 @@
                            </cursor>
                         </RadioButton>
                         <Label text="P. 1000g:" GridPane.columnIndex="14" GridPane.rowIndex="7" />
-                        <TextField fx:id="p1000Anterior" alignment="CENTER" disable="true" editable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="15" GridPane.rowIndex="7">
+                        <TextField fx:id="p1000Anterior" alignment="CENTER" disable="true" editable="false" minWidth="60.0" prefWidth="80.0" promptText="0" GridPane.columnIndex="15" GridPane.rowIndex="7">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
@@ -308,7 +308,7 @@
                            </toggleGroup>
                         </RadioButton>
                         <Label text="P. 2000g:" GridPane.columnIndex="18" GridPane.rowIndex="7" />
-                        <TextField fx:id="p2000Anterior" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="19" GridPane.rowIndex="7">
+                        <TextField fx:id="p2000Anterior" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0" GridPane.columnIndex="19" GridPane.rowIndex="7">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
@@ -328,7 +328,7 @@
                            </toggleGroup>
                         </RadioButton>
                         <Label text="P. Unidad:" GridPane.columnIndex="22" GridPane.rowIndex="7" />
-                        <TextField fx:id="pUnidadAnterior" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="23" GridPane.rowIndex="7">
+                        <TextField fx:id="pUnidadAnterior" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0" GridPane.columnIndex="23" GridPane.rowIndex="7">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
@@ -348,7 +348,7 @@
                            </tooltip>
                         </Label>
                         <Label text="P. 100g:" GridPane.columnIndex="2" GridPane.rowIndex="10" />
-                        <TextField fx:id="p100Nuevo" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="3" GridPane.rowIndex="10">
+                        <TextField fx:id="p100Nuevo" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0" GridPane.columnIndex="3" GridPane.rowIndex="10">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
@@ -370,7 +370,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </RadioButton>
-                        <TextField fx:id="p250Nuevo" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="7" GridPane.rowIndex="10">
+                        <TextField fx:id="p250Nuevo" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0" GridPane.columnIndex="7" GridPane.rowIndex="10">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
@@ -387,7 +387,7 @@
                            </cursor>
                         </RadioButton>
                         <Label text="P. 500g:" GridPane.columnIndex="10" GridPane.rowIndex="10" />
-                        <TextField fx:id="p500Nuevo" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="11" GridPane.rowIndex="10">
+                        <TextField fx:id="p500Nuevo" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0" GridPane.columnIndex="11" GridPane.rowIndex="10">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
@@ -404,7 +404,7 @@
                            </cursor>
                         </RadioButton>
                         <Label text="P. 1000g:" GridPane.columnIndex="14" GridPane.rowIndex="10" />
-                        <TextField fx:id="p1000Nuevo" alignment="CENTER" disable="true" editable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="15" GridPane.rowIndex="10">
+                        <TextField fx:id="p1000Nuevo" alignment="CENTER" disable="true" editable="false" minWidth="60.0" prefWidth="80.0" promptText="0" GridPane.columnIndex="15" GridPane.rowIndex="10">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
@@ -421,7 +421,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </RadioButton>
-                        <TextField fx:id="p2000Nuevo" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="19" GridPane.rowIndex="10">
+                        <TextField fx:id="p2000Nuevo" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0" GridPane.columnIndex="19" GridPane.rowIndex="10">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>
@@ -438,7 +438,7 @@
                            </cursor>
                         </RadioButton>
                         <Label text="P. Unidad:" GridPane.columnIndex="22" GridPane.rowIndex="10" />
-                        <TextField fx:id="pUnidadNuevo" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0.0" GridPane.columnIndex="23" GridPane.rowIndex="10">
+                        <TextField fx:id="pUnidadNuevo" alignment="CENTER" disable="true" editable="false" focusTraversable="false" minWidth="60.0" prefWidth="80.0" promptText="0" GridPane.columnIndex="23" GridPane.rowIndex="10">
                            <cursor>
                               <Cursor fx:constant="TEXT" />
                            </cursor>

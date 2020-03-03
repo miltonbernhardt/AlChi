@@ -30,7 +30,7 @@
                         <Insets right="-5.0" />
                      </padding>
                   </Label>
-                  <ComboBox fx:id="categorias" focusTraversable="false" minWidth="200.0" onAction="#seleccionarCategoria">
+                  <ComboBox fx:id="categorias" focusTraversable="false" minWidth="200.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -43,14 +43,11 @@
                         <Insets right="-5.0" />
                      </padding>
                   </Label>
-                  <ComboBox fx:id="productos" disable="true" focusTraversable="false" minWidth="200.0">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
+                  <TextField fx:id="nombreProducto">
                      <VBox.margin>
                         <Insets top="-10.0" />
                      </VBox.margin>
-                  </ComboBox>
+                  </TextField>
                   <Label text="Código de barra:">
                      <padding>
                         <Insets right="-5.0" />
@@ -107,7 +104,7 @@
                         </Tooltip>
                      </tooltip>
                   </DatePicker>
-                  <Label text="¿Disponible?">
+                  <Label text="¿Dado de baja?">
                      <tooltip>
                         <Tooltip text="Si el producto está disponible significa que se lo puede vender. Si no lo está es que se lo vendió que se lo dió de baja." />
                      </tooltip></Label>
@@ -169,7 +166,7 @@
                   <TableColumn fx:id="columnaIngreso" maxWidth="300.0" minWidth="130.0" prefWidth="130.0" text="Fecha ingreso" />
                   <TableColumn fx:id="columnaPrecioCompra" maxWidth="250.0" minWidth="110.0" prefWidth="120.0" text="Precio compra" />
                   <TableColumn fx:id="columnaNoVendido" maxWidth="250.0" minWidth="130.0" prefWidth="130.0" text="Cant. no vendida" />
-                  <TableColumn fx:id="columnaVencimiento" maxWidth="300.0" minWidth="130.0" prefWidth="130.0" text="Fecha vencimiento" />
+                  <TableColumn fx:id="columnaVencimiento" maxWidth="300.0" minWidth="130.0" prefWidth="130.0" text="Vencimiento" />
                   <TableColumn fx:id="columnaDisponible" maxWidth="150.0" minWidth="100.0" prefWidth="100.0" text="Disponible" />
                </columns>
                <BorderPane.margin>

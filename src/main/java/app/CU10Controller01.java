@@ -82,6 +82,9 @@ public class CU10Controller01 {
     		
     	}catch(Exception e) {e.printStackTrace();}
     	tipoProducto.getSelectionModel().selectFirst();
+    	if(tipoProducto.getItems().size()==1) {
+    		tipoProducto.setDisable(true);
+    	}
     }
     
     private void iniciarTabla() {
@@ -128,19 +131,24 @@ public class CU10Controller01 {
 			DTOFormaVentaCU10 dtoForma = formaVenta.getValue();
 			dto.setDtoFormaVenta(dtoForma);
 			dto.setTipoPaquete(dtoForma.getTipoPaquete());		
-			dto.setCantidadPaquetes(Integer.parseInt(cantidad.getText()));		
+			dto.setCantidadPaquetes(Integer.parseInt(cantidad.getText()));	
 			
 			cantidadRestante = cantidadRestante - dto.getCantidadPaquetesF()*dto.getTipoPaqueteE().getCantidad();
-			productoInicial.getValue().setCantidadNoVendida(cantidadRestante/1000);	
+			productoInicial.getValue().setCantidadNoVendida(cantidadRestante);	
 			
 			if(cantidadRestante>0) {			
-				productoRestante.setText("Cantidad no vendida: "+productoInicial.getValue().getCantidadNoVendida().toString()+" Kg / "+cantidadRestante.toString()+" g ");
-				calcularCantidad();			
+				productoRestante.setText("Cantidad no vendida: "+App.floatSinCero(cantidadRestante)+" Kg / "+App.floatSinCero(cantidadRestante*1000)+" g ");
+				calcularCantidad();	
+				Integer i = productoInicial.getSelectionModel().getSelectedIndex();
+				productoInicial.getSelectionModel().clearSelection();
+				productoInicial.getSelectionModel().clearAndSelect(i);
 			}
 			else {
+				productoInicial.getValue().setDisponible(false);
+				tipoProducto.getValue().getProductosIniciales().remove(productoInicial.getValue());
 				productoInicial.getItems().remove(productoInicial.getValue());
 				cambiarProductoSinStock();	
-			}		
+			}	
 			
 			tabla.getItems().add(dto);
 		}
@@ -177,26 +185,140 @@ public class CU10Controller01 {
 	@FXML  private void btnEliminar() {
 		if(productoEmpaquetado != null) {
 			DTOTipoProductoCU10 dtoTipoProd = productoEmpaquetado.getDtoTipoProducto();		
-			DTOProductoInicialCU10 dtoProdIni = productoEmpaquetado.getDtoProductoInicial();	
+			DTOProductoInicialCU10 dtoProdIni = productoEmpaquetado.getDtoProductoInicial();
 			DTOFormaVentaCU10 dtoForma = productoEmpaquetado.getDtoFormaVenta();
 			
-			Float f = productoEmpaquetado.getDtoProductoInicial().getCantidadNoVendida();
-			
-			dtoProdIni.setCantidadNoVendida(f + (productoEmpaquetado.getCantidadPaquetesF()*productoEmpaquetado.getTipoPaqueteE().getCantidad())/1000);
-			
-			if(f<=0) {
-				dtoTipoProd.setConStock(true);
+			if(productoEmpaquetado.getSecundario()){
+				DTOProductoInicialCU10 dtoProdSec = productoEmpaquetado.getDtoProductoInicialSecundario();	
+				
+				Boolean prodPrimario = false, prodSecundario = false;
+				Iterator<DTOProductoInicialCU10> iterator = dtoTipoProd.getProductosIniciales().iterator();
+				while(iterator.hasNext()) {
+					DTOProductoInicialCU10 prod = iterator.next();
+					if(prod.getIdProductoInicial() == dtoProdIni.getIdProductoInicial()) {
+						dtoProdIni = prod;
+						prodPrimario = true;
+					}
+					else {
+						if(prod.getIdProductoInicial() == dtoProdSec.getIdProductoInicial()) {
+							dtoProdSec = prod;
+							prodSecundario = true;
+						}
+						
+					}
+					
+					if(prodSecundario && prodPrimario) {
+						break;
+					}
+				}
+				
+				
+				Float f = productoEmpaquetado.getCantPrimario();
+				if(prodPrimario) {
+					dtoProdIni.setCantidadNoVendida(dtoProdIni.getCantidadNoVendida()+f);
+					dtoProdIni.setDisponible(true);
+				}
+				else {					
+					dtoProdIni.setCantidadNoVendida(f);
+					dtoProdIni.setDisponible(true);
+					dtoTipoProd.getProductosIniciales().add(dtoProdIni);
+					dtoTipoProd.setConStock(true);
+				}
+				
+				Float f1 = productoEmpaquetado.getDtoFormaVenta().getTipoPaquete().getCantidad()-productoEmpaquetado.getCantPrimario();
+				if(prodSecundario) {
+					dtoProdSec.setCantidadNoVendida(dtoProdSec.getCantidadNoVendida()+f1);
+					dtoProdSec.setDisponible(true);
+				}
+				else {					
+					dtoProdSec.setCantidadNoVendida(f1);
+					dtoProdSec.setDisponible(true);
+					dtoTipoProd.getProductosIniciales().add(dtoProdSec);
+					dtoTipoProd.setConStock(true);
+				}
+				
 				if(tipoProducto.isDisable())
 					tipoProducto.setDisable(false);
 				tipoProducto.getSelectionModel().clearSelection();
 				tipoProducto.getSelectionModel().select(dtoTipoProd);
 				productoInicial.getSelectionModel().select(dtoProdIni);
-				formaVenta.getSelectionModel().select(dtoForma);
-			}		
-			cantidadRestante = productoInicial.getValue().getCantidadNoVendida()*1000;
-			productoRestante.setText("Cantidad no vendida: "+productoInicial.getValue().getCantidadNoVendida().toString()+" Kg / "+cantidadRestante.toString()+" g ");
+			}
+			else{
+				if(productoEmpaquetado.getDadoBaja()) {//Si es un paquete que ordena la baja del prod
+					Boolean prodPrimario = false;
+					Iterator<DTOProductoInicialCU10> iterator = dtoTipoProd.getProductosIniciales().iterator();
+					while(iterator.hasNext()) {
+						DTOProductoInicialCU10 prod = iterator.next();
+						if(prod.getIdProductoInicial() == dtoProdIni.getIdProductoInicial()) {
+							dtoProdIni = prod;
+							prodPrimario = true;
+							break;
+						}
+					}
+					
+					if(prodPrimario) {
+						dtoProdIni.setCantidadNoVendida(dtoProdIni.getCantidadNoVendida()+productoEmpaquetado.getCantPrimario());
+						dtoProdIni.setDisponible(true);
+					}
+					else {
+						Float f = productoEmpaquetado.getCantPrimario();
+						dtoProdIni.setCantidadNoVendida(f);
+						dtoProdIni.setDisponible(true);
+						dtoTipoProd.getProductosIniciales().add(dtoProdIni);
+						dtoTipoProd.setConStock(true);
+					}
+					
+					if(tipoProducto.isDisable())
+						tipoProducto.setDisable(false);
+					tipoProducto.getSelectionModel().clearSelection();
+					tipoProducto.getSelectionModel().select(dtoTipoProd);
+					productoInicial.getSelectionModel().select(dtoProdIni);
+				}
+				else {
+					
+					Boolean prodPrimario = false;
+					Iterator<DTOProductoInicialCU10> iterator = dtoTipoProd.getProductosIniciales().iterator();
+					while(iterator.hasNext()) {
+						DTOProductoInicialCU10 prod = iterator.next();
+						if(prod.getIdProductoInicial() == dtoProdIni.getIdProductoInicial()) {
+							dtoProdIni = prod;
+							prodPrimario = true;
+							break;
+						}
+					}
+					Float f = productoEmpaquetado.getCantidadPaquetesF()*productoEmpaquetado.getTipoPaqueteE().getCantidad();
+					if(prodPrimario) {
+						dtoProdIni.setCantidadNoVendida(dtoProdIni.getCantidadNoVendida()+f);
+						dtoProdIni.setDisponible(true);
+					}
+					else {						
+						dtoProdIni.setCantidadNoVendida(f);
+						dtoProdIni.setDisponible(true);
+						dtoTipoProd.getProductosIniciales().add(dtoProdIni);
+						dtoTipoProd.setConStock(true);
+						if(tipoProducto.isDisable())
+							tipoProducto.setDisable(false);
+						tipoProducto.getSelectionModel().clearSelection();
+						tipoProducto.getSelectionModel().select(dtoTipoProd);
+						productoInicial.getSelectionModel().select(dtoProdIni);
+						formaVenta.getSelectionModel().select(dtoForma);
+					}
+				}
+				
+			}
+			
+			Integer i = productoInicial.getSelectionModel().getSelectedIndex();
+			productoInicial.getSelectionModel().clearSelection();
+			productoInicial.getSelectionModel().clearAndSelect(i);
+			
+			cantidadRestante = productoInicial.getValue().getCantidadNoVendida();
+			if(cantidadRestante<0.01f) {
+				cantidadRestante = 0f;
+			}
+			productoRestante.setText("Cantidad no vendida: "+App.floatSinCero(cantidadRestante)+" Kg / "+App.floatSinCero(cantidadRestante*1000)+" g ");
 			calcularCantidad();
 			tabla.getItems().remove(productoEmpaquetado);
+			tabla.getSelectionModel().clearSelection();
 			btnEliminarFila.setDisable(true);
 			btnEditarFila.setDisable(true);	
 		}
@@ -208,13 +330,111 @@ public class CU10Controller01 {
 			DTOProductoInicialCU10 dtoProdIni = productoEmpaquetado.getDtoProductoInicial();	
 			DTOFormaVentaCU10 dtoForma = productoEmpaquetado.getDtoFormaVenta();
 			
-			Float f = dtoProdIni.getCantidadNoVendida();		
-			dtoProdIni.setCantidadNoVendida(f + (productoEmpaquetado.getCantidadPaquetesF()*productoEmpaquetado.getTipoPaqueteE().getCantidad())/1000);
-			dtoTipoProd.setConStock(true);
+			if(productoEmpaquetado.getSecundario()){
+				DTOProductoInicialCU10 dtoProdSec = productoEmpaquetado.getDtoProductoInicialSecundario();	
+				
+				Boolean prodPrimario = false, prodSecundario = false;
+				Iterator<DTOProductoInicialCU10> iterator = dtoTipoProd.getProductosIniciales().iterator();
+				while(iterator.hasNext()) {
+					DTOProductoInicialCU10 prod = iterator.next();
+					if(prod.getIdProductoInicial() == dtoProdIni.getIdProductoInicial()) {
+						dtoProdIni = prod;
+						prodPrimario = true;
+					}
+					else{
+						if(prod.getIdProductoInicial() == dtoProdSec.getIdProductoInicial()) {
+							dtoProdSec = prod;
+							prodSecundario = true;
+						}
+					}
+					if(prodSecundario && prodPrimario) {
+						break;
+					}
+				}
+				
+				Float f = productoEmpaquetado.getCantPrimario();
+				if(prodPrimario) {
+					dtoProdIni.setCantidadNoVendida(dtoProdIni.getCantidadNoVendida()+productoEmpaquetado.getCantPrimario());
+					dtoProdIni.setDisponible(true);
+				}
+				else {
+					dtoProdIni.setCantidadNoVendida(f);
+					dtoProdIni.setDisponible(true);
+					dtoTipoProd.getProductosIniciales().add(dtoProdIni);
+					dtoTipoProd.setConStock(true);
+				}
+				
+				Float f1 = productoEmpaquetado.getDtoFormaVenta().getTipoPaquete().getCantidad()-productoEmpaquetado.getCantPrimario();
+				if(prodSecundario) {
+					dtoProdSec.setCantidadNoVendida(dtoProdSec.getCantidadNoVendida()+f1);
+					dtoProdSec.setDisponible(true);
+				}
+				else {					
+					dtoProdSec.setCantidadNoVendida(f1);
+					dtoProdSec.setDisponible(true);
+					dtoTipoProd.getProductosIniciales().add(dtoProdSec);
+					dtoTipoProd.setConStock(true);
+				}
+				
+			}
+			else {
+				if(productoEmpaquetado.getDadoBaja()) {//Si es un paquete que ordena la baja del prod
+					Boolean prodPrimario = false;
+					Iterator<DTOProductoInicialCU10> iterator = dtoTipoProd.getProductosIniciales().iterator();
+					while(iterator.hasNext()) {
+						DTOProductoInicialCU10 prod = iterator.next();
+						if(prod.getIdProductoInicial() == dtoProdIni.getIdProductoInicial()) {
+							dtoProdIni = prod;
+							prodPrimario = true;
+							break;
+						}
+					}
+					
+					if(prodPrimario) {
+						dtoProdIni.setCantidadNoVendida(dtoProdIni.getCantidadNoVendida()+productoEmpaquetado.getCantPrimario());
+						dtoProdIni.setDisponible(true);
+					}
+					else {
+						Float f = productoEmpaquetado.getCantPrimario();
+						dtoProdIni.setCantidadNoVendida(f);
+						dtoProdIni.setDisponible(true);
+						dtoTipoProd.getProductosIniciales().add(dtoProdIni);
+						dtoTipoProd.setConStock(true);
+					}
+				}
+				else {
+					
+					Boolean prodPrimario = false;
+					Iterator<DTOProductoInicialCU10> iterator = dtoTipoProd.getProductosIniciales().iterator();
+					while(iterator.hasNext()) {
+						DTOProductoInicialCU10 prod = iterator.next();
+						if(prod.getIdProductoInicial() == dtoProdIni.getIdProductoInicial()) {
+							dtoProdIni = prod;
+							prodPrimario = true;
+							break;
+						}
+					}
+					Float f = productoEmpaquetado.getCantidadPaquetesF()*productoEmpaquetado.getTipoPaqueteE().getCantidad();
+					if(prodPrimario) {
+						dtoProdIni.setCantidadNoVendida(dtoProdIni.getCantidadNoVendida()+f);
+						dtoProdIni.setDisponible(true);
+					}
+					else {						
+						dtoProdIni.setCantidadNoVendida(f);
+						dtoProdIni.setDisponible(true);
+						dtoTipoProd.getProductosIniciales().add(dtoProdIni);
+						dtoTipoProd.setConStock(true);						
+					}
+				}
+				
+			}
 			
+			if(tipoProducto.isDisable())
+				tipoProducto.setDisable(false);			
 			tipoProducto.getSelectionModel().clearSelection();
 			tipoProducto.getSelectionModel().select(dtoTipoProd);
-			productoInicial.getSelectionModel().select(dtoProdIni);
+			productoInicial.getSelectionModel().select(dtoProdIni);	
+			
 			formaVenta.getSelectionModel().select(dtoForma);
 			
 			calcularCantidad();
@@ -255,46 +475,45 @@ public class CU10Controller01 {
 	}
 	
 	@FXML private void btnDarBajaPaqueteInicial() {
-		if(!cantidad.getText().isBlank()) {
-			DTOEmpaquetadoCU10 dto = new DTOEmpaquetadoCU10(); 
-			
-			
-			DTOTipoProductoCU10 dtoTipoProd = tipoProducto.getValue();	
-			dto.setDtoTipoProducto(dtoTipoProd);
-			dto.setIdProductoInicial(dtoTipoProd.getId());
-			dto.setNombreTipoProducto(dtoTipoProd.getNombre());
-			
-			DTOProductoInicialCU10 dtoProdIni = productoInicial.getValue();	
-			dto.setDtoProductoInicial(dtoProdIni);
-			dto.setIdProductoInicial(dtoProdIni.getIdProductoInicial());
-			dto.setCodigoBarra(dtoProdIni.getCodigoBarra());		
-			dto.setNombreProveedor(dtoProdIni.getProveedor());
-			dto.setVencimiento(dtoProdIni.getVencimiento());	
-			
-			dto.setDtoFormaVenta(null);
-			dto.setTipoPaquete(null);		
-			dto.setCantidadPaquetes(-1);		
-
-			dtoProdIni.setDisponible(false);
-			
-			if(cantidadRestante>0) {			
-				productoRestante.setText("Cantidad no vendida: "+productoInicial.getValue().getCantidadNoVendida().toString()+" Kg / "+cantidadRestante.toString()+" g ");
-				calcularCantidad();			
-			}
-			else {
-				productoInicial.getItems().remove(productoInicial.getValue());
-				cambiarProductoSinStock();	
-			}		
-			
-			tabla.getItems().add(dto);
-		}
+		DTOEmpaquetadoCU10 dto = new DTOEmpaquetadoCU10(); 	
 		
-		//Si se elimina de la tabla de venta no se da de baja
+		dto.setDtoFormaVenta(formaVenta.getValue());
+		
+		DTOTipoProductoCU10 dtoTipoProd = tipoProducto.getValue();	
+		dto.setDtoTipoProducto(dtoTipoProd);
+		dto.setIdProductoInicial(dtoTipoProd.getId());
+		dto.setNombreTipoProducto(dtoTipoProd.getNombre());
+		
+		DTOProductoInicialCU10 dtoProdIni = productoInicial.getValue();	
+		dto.setDtoProductoInicial(dtoProdIni);
+		dto.setIdProductoInicial(dtoProdIni.getIdProductoInicial());
+		dto.setCodigoBarra(dtoProdIni.getCodigoBarra());		
+		dto.setNombreProveedor(dtoProdIni.getProveedor());
+		dto.setVencimiento(dtoProdIni.getVencimiento());	
+		
+		dto.setDtoFormaVenta(null);
+		dto.setTipoPaquete(null);		
+		dto.setCantidadPaquetes(-1);
+		dto.setCantPrimario(productoInicial.getValue().getCantidadNoVendida());
+		dtoProdIni.setDisponible(false);
+		dto.setDadoBaja(true);
+		
+		productoInicial.getValue().setDisponible(false);
+		tipoProducto.getValue().getProductosIniciales().remove(productoInicial.getValue());
+		productoInicial.getItems().remove(productoInicial.getValue());
+		cambiarProductoSinStock();	
+		tabla.getItems().add(dto);
 	}
 	
 	@FXML private void btnAnadirConOtroPaquete() {
-		//CU10Controller02.get();
-		//TODO CU10.2 implementar, diria de abrir otra pantalla
+		if(productoInicial.getItems().size() > 1){
+			CU10Controller02.setController(this);
+			CU10Controller02.get(tipoProducto.getValue(), productoInicial.getValue(), formaVenta.getValue());
+		}
+		else {
+			btnAnadirConOtroPaquete.setDisable(true);
+		}
+		
 	}
 
     @FXML private void volver() {
@@ -349,9 +568,8 @@ public class CU10Controller01 {
     	DTOProductoInicialCU10 dto = productoInicial.getValue();
 		if(dto != null) {
 			btnDarBajaProductoInicial.setDisable(false);
-			
-			cantidadRestante = dto.getCantidadNoVendida()*1000;
-			productoRestante.setText("Cantidad no vendida: "+dto.getCantidadNoVendida().toString()+" Kg / "+cantidadRestante.toString()+" g ");
+			cantidadRestante = dto.getCantidadNoVendida();
+			productoRestante.setText("Cantidad no vendida: "+App.floatSinCero(cantidadRestante)+" Kg / "+App.floatSinCero(cantidadRestante*1000)+" g ");
 			
 			calcularCantidad();
 		}
@@ -382,6 +600,31 @@ public class CU10Controller01 {
 		}        	
     }
     
+	@SuppressWarnings("exports")
+	public void addToTable(DTOEmpaquetadoCU10 dto) {
+		productoInicial.getItems().remove(dto.getDtoProductoInicial());
+		dto.getDtoTipoProducto().getProductosIniciales().remove(dto.getDtoProductoInicial());
+		
+		if(dto.getDtoProductoInicialSecundario().getCantidadNoVendida() <= 0) {
+			productoInicial.getItems().remove(dto.getDtoProductoInicialSecundario());
+			dto.getDtoTipoProducto().getProductosIniciales().remove(dto.getDtoProductoInicialSecundario());
+		}		
+		
+		Iterator<DTOProductoInicialCU10>  ite = productoInicial.getItems().iterator();
+		while(ite.hasNext()) {
+			DTOProductoInicialCU10 prod = ite.next();
+			if(prod.getIdProductoInicial() != null && prod.getIdProductoInicial()==dto.getIdProductoSecundario()) {
+				productoInicial.getSelectionModel().select(prod);
+				prod.setCantidadNoVendida(dto.getDtoProductoInicialSecundario().getCantidadNoVendida());
+				break;
+			}
+		}
+		//si no esta diponivble al eliminar de tabla y es el primario entonces volverlo disponible
+		
+    	tabla.getItems().add(dto);
+    	cambiarProductoSinStock();
+    }
+    
     private void calcularCantidad() {    	
     	if( (tamanoPaquete!=null) && (cantidadRestante!=null)) {
     		cantidad.setText("");
@@ -389,7 +632,11 @@ public class CU10Controller01 {
     			cantidad.setDisable(true);
     			
     			btnAnadirEmpaquetamiento.setDisable(true);
-    			btnAnadirConOtroPaquete.setDisable(false);
+    			btnAnadirConOtroPaquete.setDisable(true);
+    			if(productoInicial.getItems().size()>1 && hayParaEmpaquetar() ) {
+    				btnAnadirConOtroPaquete.setDisable(false);
+    			}
+    			
     			
     			cantidadMaximaPaquete.setText("Cantidad de paquetes:");
     		}
@@ -397,7 +644,7 @@ public class CU10Controller01 {
             	cantidadMaxima = (int) (cantidadRestante / tamanoPaquete);
             	if( !(cantidadMaxima<1) ) {
             		cantidad.setDisable(false);
-            		
+            		            		
             		btnAnadirEmpaquetamiento.setDisable(false);
         			btnAnadirConOtroPaquete.setDisable(true);
         			
@@ -463,5 +710,32 @@ public class CU10Controller01 {
     	productoInicial.getSelectionModel().select(dto);
     	seleccionarProductoInicial();
     }
-    
+   
+    private Boolean hayParaEmpaquetar() {
+    	//TODO ver
+    	DTOProductoInicialCU10 prod = productoInicial.getValue();
+    	
+    	if( prod != null && tipoProducto.getValue().getProductosIniciales().size() > 1) {
+    		Boolean hay = false;
+    		Iterator<DTOProductoInicialCU10> iterator = tipoProducto.getValue().getProductosIniciales().iterator();
+    		if(formaVenta.getValue() != null) {
+    			while(iterator.hasNext()) {
+            		DTOProductoInicialCU10 dto = iterator.next();
+            		
+            		if(dto.getIdProductoInicial() != prod.getIdProductoInicial()) {
+            			Float cant = prod.getCantidadNoVendida() + dto.getCantidadNoVendida();
+            			
+            			if(cant>=formaVenta.getValue().getTipoPaquete().getCantidad()) {
+            				hay = true;
+            				break;
+            			}
+            		}
+            	}
+			}        	
+        	return hay;
+    	}
+    	else {
+    		return false;
+    	}
+    }
 }

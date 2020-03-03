@@ -1,12 +1,10 @@
 package app;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 import dto.DTOCU16;
 import dto.DTOCategoria;
 import dto.DTOProveedor;
-import dto.DTOTipoProducto;
 import enums.TipoPaquete;
 import gestor.GestorCategoria;
 import gestor.GestorEntradaSalida;
@@ -47,10 +45,10 @@ public class CU16Controller {
 	
 	@FXML private ComboBox<DTOCategoria> categorias;
 	@FXML private ComboBox<DTOProveedor> proveedores;
-	@FXML private ComboBox<DTOTipoProducto> productos;
 	@FXML private ComboBox<String> formaVenta;
 	
 	@FXML private TextField codigoBarra;	
+	@FXML private TextField nombreProducto;
 	
 	@FXML private DatePicker fechaVentaAntes;	
 	@FXML private DatePicker fechaVentaDespues;
@@ -156,8 +154,8 @@ public class CU16Controller {
     }
 
 	@FXML public void btnBuscar() {
-		Integer idCategoria=categorias.getValue().getId(), idProveedor = proveedores.getValue().getId(), idProducto=null;
-		String textCodigoBarra=codigoBarra.getText(), textFormaVenta = formaVenta.getValue();
+		Integer idCategoria=categorias.getValue().getId(), idProveedor = proveedores.getValue().getId();
+		String textCodigoBarra=codigoBarra.getText(), textFormaVenta = formaVenta.getValue(), textNombreProducto = null;
 		LocalDate fechaVenAntes=fechaVentaAntes.getValue(), fechaVenDespues=fechaVentaDespues.getValue();
 		Boolean dadoBaja = null, vendido = null;
 		
@@ -165,8 +163,8 @@ public class CU16Controller {
 			textFormaVenta = "";
 		}
 		
-		if(!productos.isDisable())
-			idProducto=productos.getValue().getId();
+		if(!nombreProducto.getText().isBlank()) 
+			textNombreProducto = nombreProducto.getText();
 		
 		if(siDadoBaja.isSelected()) 
 			dadoBaja = true;
@@ -185,31 +183,13 @@ public class CU16Controller {
 		}
 		
 		tabla.getItems().clear();
-		tabla.getItems().addAll(GestorProductos.get().buscarProductosEmpaquetados(idCategoria, idProducto, textFormaVenta, textCodigoBarra, idProveedor, dadoBaja, vendido, fechaVenAntes, fechaVenDespues));
+		tabla.getItems().addAll(GestorProductos.get().buscarProductosEmpaquetados(idCategoria, textNombreProducto, textFormaVenta, textCodigoBarra, idProveedor, dadoBaja, vendido, fechaVenAntes, fechaVenDespues));
 	}
 	
     @FXML private void volver() {
     	App.getViewAnterior();
     	instance = null;
 	}
-    
-    @FXML private void seleccionarCategoria() {
-    	Integer idCategoria = categorias.getValue().getId();
-    	if(idCategoria != null) {
-    		List<DTOTipoProducto> lista = GestorProductos.get().getTiposProducto(idCategoria);
-    		if(lista.size() > 0) {
-    			productos.setDisable(false);
-        		productos.getItems().clear();
-        		productos.getItems().add(new DTOTipoProducto(null, "Seleccionar producto"));        		
-        		productos.getItems().addAll(lista);
-        		productos.getSelectionModel().selectFirst();
-    		}
-    	}
-    	else {
-    		productos.setDisable(true);
-    		productos.getItems().clear();
-    	}
-    }
     
     @FXML private void seleccionarProducto() {
     	productoSeleccionado = tabla.getSelectionModel().getSelectedItem();
