@@ -19,7 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 
-/*
+/**
  * Controller para la view "Registro de entrada de productos"
  */
 public class CU03Controller01 {	
@@ -28,7 +28,7 @@ public class CU03Controller01 {
 	public static CU03Controller01 get() {
         if (instance == null){
         	App.setViewAnterior();
-        	instance = (CU03Controller01) App.setRoot("CU03View01", "AlChi: Registrar entrada de productos");
+        	instance = (CU03Controller01) App.setRoot("CU03View01", "Registrar entrada de productos");
         }    
         return instance;
     }

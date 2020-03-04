@@ -22,7 +22,7 @@ public class CU07Controller01 {
 
     public static CU07Controller01 get() {
         if (instance == null){ 
-        	instance = (CU07Controller01) App.setRoot("CU07View01", "AlChi: Administrar proveedores");
+        	instance = (CU07Controller01) App.setRoot("CU07View01", "Administrar proveedores");
         }    
         return instance;
     }

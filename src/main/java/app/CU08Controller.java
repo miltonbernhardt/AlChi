@@ -32,7 +32,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 /**
- * Controller para la view de "Búsqueda de productos en stock"
+ * Controller para la view de "Buscar stock de productos"
  * para productos iniciales
  */
 public class CU08Controller {	
@@ -41,7 +41,7 @@ public class CU08Controller {
     public static CU08Controller get() {
         if (instance == null){ 
         	App.setViewAnterior();	
-        	instance = (CU08Controller) App.setRoot("CU08View", "AlChi: Búsqueda de productos en stock");
+        	instance = (CU08Controller) App.setRoot("CU08View", "Buscar stock de productos");
         }    
         return instance;
     }
@@ -203,12 +203,16 @@ public class CU08Controller {
 	    	Optional<ButtonType> options = alert.showAndWait();
 	    	
 	    	if(options.get().equals(b2)) {
-        		if(GestorEntradaSalida.get().darBaja(productoSeleccionado)) {
-        			productoSeleccionado.setDisponible(false);
-        			tabla.getColumns().get(8).setVisible(false);
-        			tabla.getColumns().get(8).setVisible(true);
-        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"' ha sido correctamente dado de baja.");
-        		}
+	    		Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar baja", null, "¿Desea confirmar la baja del producto empaquetado '"+productoSeleccionado.getNombreProducto()+"'?");
+    			
+    			if (result.get() == ButtonType.OK){
+	        		if(GestorEntradaSalida.get().darBaja(productoSeleccionado)) {
+	        			productoSeleccionado.setDisponible(false);
+	        			tabla.getColumns().get(8).setVisible(false);
+	        			tabla.getColumns().get(8).setVisible(true);
+	        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"' ha sido correctamente dado de baja.");
+	        		}
+    			}
         	}
 		}
 		else {
@@ -236,11 +240,15 @@ public class CU08Controller {
 	    	}
 	    	else {
 	    		if(options.get().equals(b2)) {
-	        		if(GestorEntradaSalida.get().darBaja(productoSeleccionado)) {
-	        			productoSeleccionado.setDisponible(false);
-	        			tabla.getColumns().get(8).setVisible(false);
-	        			tabla.getColumns().get(8).setVisible(true);
-	        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"' ha sido correctamente dado de baja.");
+	    			Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar baja", null, "¿Desea confirmar la baja del producto empaquetado '"+productoSeleccionado.getNombreProducto()+"'?");
+	    			
+	    			if (result.get() == ButtonType.OK){
+	    				if(GestorEntradaSalida.get().darBaja(productoSeleccionado)) {
+		        			productoSeleccionado.setDisponible(false);
+		        			tabla.getColumns().get(8).setVisible(false);
+		        			tabla.getColumns().get(8).setVisible(true);
+		        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"' ha sido correctamente dado de baja.");
+		    			}
 	    			}
 	        	}
 	    	}

@@ -29,7 +29,7 @@ public class CU06Controller {
     public static CU06Controller get() {
     	App.setViewAnterior();	
         if (instance == null){ 
-    		instance = (CU06Controller) App.setRoot("CU06View", "AlChi: Registrar venta de combos");
+    		instance = (CU06Controller) App.setRoot("CU06View", "Registrar venta de combos");
     	}    
         return instance;
     }

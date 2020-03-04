@@ -6,8 +6,10 @@ import java.util.Optional;
 
 import dto.DTOCU03;
 import dto.DTOCategoria;
+import dto.DTOProductoInicialCU10;
 import dto.DTOTipoProductoCU02;
 import gestor.GestorCategoria;
+import gestor.GestorEntradaSalida;
 import gestor.GestorProductos;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -38,7 +40,7 @@ public class CU02Controller01 {
     public static CU02Controller01 get() {
         if (instance == null){
         	App.setViewAnterior();	
-        	instance = (CU02Controller01) App.setRoot("CU02View01", "AlChi: Buscar productos");
+        	instance = (CU02Controller01) App.setRoot("CU02View01", "Buscar productos");
         }    
         return instance;
     }
@@ -182,4 +184,83 @@ public class CU02Controller01 {
 		controller.addDTOCU03(new DTOCU03(productoSeleccionado));
 		controller.setController(this);
 	}
+	
+	/**
+	 private void getOptions() {
+		ButtonType b1 = new ButtonType("Empaquetarlo"), b2 = new ButtonType("Darlo de baja"), b3 = new ButtonType("Cancelar", ButtonData.CANCEL_CLOSE);
+		
+		if(productoSeleccionado.getPrecioUnidad()>0f) {
+			Alert alert = new Alert(AlertType.CONFIRMATION, "", b2, b3);
+	    	alert.setTitle("Acción sobre '"+productoSeleccionado.getNombreProducto()+"'");
+	    	alert.setHeaderText(null);
+	    	alert.setContentText("¿Que desea hacer sobre '"+productoSeleccionado.getNombreProducto()+"'?");
+	    	
+	    	App.setStyle(alert.getDialogPane());
+			
+			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+	    	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
+	            if (KeyCode.ESCAPE == event.getCode()) {
+	                stage.close();
+	            }
+	        });
+	    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+	    	Optional<ButtonType> options = alert.showAndWait();
+	    	
+	    	if(options.get().equals(b2)) {
+	    		Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar baja", null, "¿Desea confirmar la baja del producto empaquetado '"+productoSeleccionado.getNombreProducto()+"'?");
+    			
+    			if (result.get() == ButtonType.OK){
+	        		if(GestorEntradaSalida.get().darBaja(productoSeleccionado)) {
+	        			productoSeleccionado.setDisponible(false);
+	        			tabla.getColumns().get(8).setVisible(false);
+	        			tabla.getColumns().get(8).setVisible(true);
+	        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"' ha sido correctamente dado de baja.");
+	        		}
+    			}
+        	}
+		}
+		else {
+			Alert alert = new Alert(AlertType.CONFIRMATION, "", b1, b2, b3);
+	    	alert.setTitle("Acción sobre '"+productoSeleccionado.getNombreProducto()+"'");
+	    	alert.setHeaderText(null);
+	    	alert.setContentText("¿Que desea hacer sobre '"+productoSeleccionado.getNombreProducto()+"'?");
+	    	
+	    	App.setStyle(alert.getDialogPane());
+			
+			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+	    	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
+	            if (KeyCode.ESCAPE == event.getCode()) {
+	                stage.close();
+	            }
+	        });
+	    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+	    	Optional<ButtonType> options = alert.showAndWait();
+	    	
+	    	if(options.get().equals(b1)) {
+	    		CU10Controller01 controller = CU10Controller01.get();
+	    		controller.setControllerCu08(this);
+	    		controller.empaquetarProducto(new DTOProductoInicialCU10(productoSeleccionado));
+	    		
+	    	}
+	    	else {
+	    		if(options.get().equals(b2)) {
+	    			Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar baja", null, "¿Desea confirmar la baja del producto empaquetado '"+productoSeleccionado.getNombreProducto()+"'?");
+	    			
+	    			if (result.get() == ButtonType.OK){
+	    				if(GestorEntradaSalida.get().darBaja(productoSeleccionado)) {
+		        			productoSeleccionado.setDisponible(false);
+		        			tabla.getColumns().get(8).setVisible(false);
+		        			tabla.getColumns().get(8).setVisible(true);
+		        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"' ha sido correctamente dado de baja.");
+		    			}
+	    			}
+	        	}
+	    	}
+		}		
+		
+	}	
+	 */
+	
+	//TODO CU02 mostrar imagen de producto
+	//TODO CU02 si se da de baja un tipo producto se dará de baja todos los productos
 }

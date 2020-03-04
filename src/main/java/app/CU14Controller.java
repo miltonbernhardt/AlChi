@@ -15,11 +15,12 @@ public class CU14Controller {
     public static CU14Controller get() {
         if (instance == null){ 
         	App.setViewAnterior();	
-        	instance = (CU14Controller) App.setRoot("CU14View", "AlChi: Buscar combos");
+        	instance = (CU14Controller) App.setRoot("CU14View", "Buscar combos");
         }    
         return instance;
     }
 	
+    //TODO CU14 hacer
 	@FXML private DatePicker fechaAntes;
 	
 	@FXML private DatePicker fechaDespues;

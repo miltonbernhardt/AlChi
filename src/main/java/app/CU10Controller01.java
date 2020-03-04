@@ -34,7 +34,7 @@ public class CU10Controller01 {
     public static CU10Controller01 get() {
         if (instance == null){ 
         	App.setViewAnterior();	
-        	instance = (CU10Controller01) App.setRoot("CU10View01", "AlChi: Registrar empaquetamientos");
+        	instance = (CU10Controller01) App.setRoot("CU10View01", "Registrar empaquetamientos");
         }
         return instance;
     }

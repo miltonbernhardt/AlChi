@@ -34,7 +34,7 @@ public class CU05Controller {
     public static CU05Controller get() {
         if (instance == null){ 
         	App.setViewAnterior();	
-        	instance = (CU05Controller) App.setRoot("CU05View", "AlChi: Actualización de características de productos");
+        	instance = (CU05Controller) App.setRoot("CU05View", "Actualización de características de productos");
         }    
         return instance;
     }

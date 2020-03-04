@@ -34,11 +34,9 @@ public class App extends Application {
     public void start(Stage primaryStage) throws IOException {
     	HibernateUtil.apagarLog(true);
     	HibernateUtil.getSessionFactory();    	    	
-    	scene = new Scene(loadFXML("CU10View01"));
+    	scene = new Scene(loadFXML("menu"));
     	primaryStage.setOnCloseRequest(e->{
-        	Platform.exit();
-        	System.exit(0);    
-        	HibernateUtil.closeBaseDatos();
+        	salir();
         });    	    	
     	primaryStage.getIcons().add(new Image("app/icon/logoAlChi.png"));
     	primaryStage.setTitle("AlChi: Menú");
@@ -52,7 +50,13 @@ public class App extends Application {
     	stage = primaryStage;  
     }
     
-    private static Parent loadFXML(String fxml)  {
+    static void salir() {
+    	Platform.exit();
+    	System.exit(0);    
+    	HibernateUtil.closeBaseDatos();
+	}
+
+	private static Parent loadFXML(String fxml)  {
         fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         try {
         	Parent p = fxmlLoader.load();

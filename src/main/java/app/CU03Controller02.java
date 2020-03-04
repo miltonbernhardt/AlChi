@@ -29,7 +29,7 @@ public class CU03Controller02 {
     public static CU03Controller02 get() {
         if (instance == null){
         	App.setViewAnterior();	
-        	instance = (CU03Controller02) App.setRoot("CU03View02", "AlChi: Actualización de precios para los productos de entrada");
+        	instance = (CU03Controller02) App.setRoot("CU03View02", "Actualización de precios para los productos de entrada");
         }    
         return instance;
     }

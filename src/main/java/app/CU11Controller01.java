@@ -14,7 +14,7 @@ public class CU11Controller01 {
     public static CU11Controller01 get() {
         if (instance == null){ 
         	App.setViewAnterior();	
-        	instance = (CU11Controller01) App.setRoot("CU11View01", "AlChi: Exportar archivos");
+        	instance = (CU11Controller01) App.setRoot("CU11View01", "Exportar archivos");
         }    
         return instance;
     }

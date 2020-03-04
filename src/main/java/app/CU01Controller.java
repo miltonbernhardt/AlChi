@@ -34,7 +34,7 @@ public class CU01Controller {
 	public static CU01Controller get() {
         if (instance == null){
         	App.setViewAnterior();	
-        	instance = (CU01Controller) App.setRoot("CU01View", "AlChi: Registrar nuevo producto"); 
+        	instance = (CU01Controller) App.setRoot("CU01View", "Registrar nuevo producto"); 
         }    
         return instance;
     }

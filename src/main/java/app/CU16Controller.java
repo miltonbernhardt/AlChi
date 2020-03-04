@@ -30,13 +30,16 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+/**
+ * Controller para la view del CU16 "Buscar productos empaquetados"
+ */
 public class CU16Controller {
 	private static CU16Controller instance = null;
 
     public static CU16Controller get() {
         if (instance == null){ 
         	App.setViewAnterior();	
-        	instance = (CU16Controller) App.setRoot("CU16View", "AlChi: Búsqueda de productos empaquetados");
+        	instance = (CU16Controller) App.setRoot("CU16View", "Buscar productos empaquetados");
         }    
         return instance;
     }

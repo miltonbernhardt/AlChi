@@ -20,7 +20,7 @@ public class CU02Controller02 {
     public static CU02Controller02 get() {
         if (instance == null){
         	App.setViewAnterior();	
-        	instance = (CU02Controller02) App.setRoot("CU02View02", "AlChi: Editar precios");
+        	instance = (CU02Controller02) App.setRoot("CU02View02", "Editar precios");
         }    
         return instance;
     }

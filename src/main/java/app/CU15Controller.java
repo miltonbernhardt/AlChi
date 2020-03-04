@@ -24,7 +24,7 @@ public class CU15Controller {
     public static CU15Controller get() {
         if (instance == null){
         	App.setViewAnterior();	
-        	instance = (CU15Controller) App.setRoot("CU15View", "AlChi: Administrar categorías"); 
+        	instance = (CU15Controller) App.setRoot("CU15View", "Administrar categorías"); 
         }    
         return instance;
     }

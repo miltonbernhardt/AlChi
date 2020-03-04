@@ -92,7 +92,7 @@
                         </Button>
                         <StackPane maxHeight="300.0" maxWidth="300.0" VBox.vgrow="SOMETIMES">
                            <children>
-                              <Rectangle fx:id="rectangulo" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="300.0" stroke="BLACK" strokeType="INSIDE" width="300.0" />
+                              <Rectangle fx:id="rectangulo" arcHeight="5.0" arcWidth="5.0" fill="#ff6822" height="300.0" stroke="BLACK" strokeType="INSIDE" width="300.0" />
                               <ImageView fx:id="imagen" fitHeight="300.0" pickOnBounds="true" preserveRatio="true">
                                  <viewport>
                                     <Rectangle2D />
