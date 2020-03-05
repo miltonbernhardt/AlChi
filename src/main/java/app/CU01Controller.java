@@ -116,18 +116,8 @@ public class CU01Controller {
     					volver();
     				}
     				else {
-    					Optional<ButtonType> result2 = PanelAlerta.getConfirmation("Confirmación", "El producto '"+nombreProducto+"' fue correctamente guardado.",
-        						"¿Desea registrar un nuevo producto?");
-        				
-        				if (result2.get() == ButtonType.OK){
-        					categoria.getSelectionModel().selectFirst();
-        					nombre.setText("");
-        					descripcion.setText("");
-        					btnQuitarImagen();
-        				}
-        				else {
-        					volver();
-        				}
+    					PanelAlerta.getInformation("Confirmación", null,  "El producto '"+nombreProducto+"' fue correctamente guardado.");
+        				volver();
     				}                    
     			}
     		}    		

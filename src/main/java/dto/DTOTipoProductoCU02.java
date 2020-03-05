@@ -1,5 +1,7 @@
 package dto;
 
+import java.util.Objects;
+
 import app.App;
 
 public class DTOTipoProductoCU02 {	
@@ -59,6 +61,12 @@ public class DTOTipoProductoCU02 {
 	public String getNombreCategoria() { return nombreCategoria; }
 	public String getNombreTipoProducto() { return nombreTipoProducto; }
 	public Integer getIdProducto() { return idProducto; }
+	public String getDirectorioImagenS() {
+		if(directorioImagen != null)
+			return directorioImagen;
+		else
+			return "";
+	}
 	
 	public String getDirectorioImagen() {
 		if(directorioImagen == null)
@@ -131,5 +139,25 @@ public class DTOTipoProductoCU02 {
 	@Override
 	public String toString() {
 		return nombreTipoProducto;
-	}	
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(directorioImagen, idProducto, nombreCategoria, nombreTipoProducto);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DTOTipoProductoCU02 other = (DTOTipoProductoCU02) obj;
+		return Objects.equals(directorioImagen, other.directorioImagen) && Objects.equals(idProducto, other.idProducto)
+				&& Objects.equals(nombreCategoria, other.nombreCategoria)
+				&& Objects.equals(nombreTipoProducto, other.nombreTipoProducto);
+	}
+	
 }

@@ -34,7 +34,7 @@ public class CU10Controller02 {
     	alert.setHeaderText(null);
     	alert.setContentText(""); 	
     	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+    	stage.getIcons().add(new Image("app/icon/logoVentana.png"));
     	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
             if (KeyCode.ESCAPE == event.getCode()) {
                 stage.close();

@@ -15,7 +15,7 @@
 
 <ScrollPane fitToHeight="true" fitToWidth="true" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.CU14Controller">
    <content>
-      <BorderPane>
+      <BorderPane prefHeight="900.0" prefWidth="1300.0">
          <left>
             <VBox spacing="15.0" BorderPane.alignment="CENTER">
                <children>

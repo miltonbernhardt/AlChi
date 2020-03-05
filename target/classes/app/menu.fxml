@@ -33,31 +33,21 @@
             <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
                <children>
                   <Pane maxHeight="100.0" VBox.vgrow="SOMETIMES" />
-                  <HBox alignment="CENTER" spacing="50.0">
+                  <HBox alignment="CENTER" spacing="80.0">
                      <children>
                         <VBox spacing="25.0">
                            <children>
-                              <Label text="Registrar">
+                              <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Administrar">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>
                               </Label>
-                              <Button mnemonicParsing="false" onAction="#registrarNuevoProducto" text="Registrar nuevo producto">
+                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#administrarProveedores" text="Administrar proveedores">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#registrarEntradaProductos" text="Registrar entrada de productos">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#registrarVentasProductos" text="Registrar ventas de productos">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#registrarEmpaquetamientos" text="Registrar empaquetamientos">
+                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#administrarCategorias" text="Administrar categorías">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -66,27 +56,33 @@
                         </VBox>
                         <VBox spacing="25.0">
                            <children>
-                              <Label text="Buscar">
+                              <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Archivos">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>
                               </Label>
-                              <Button mnemonicParsing="false" onAction="#buscarProductos" text="Buscar productos">
+                              <HBox>
+                                 <children>
+                                    <Button disable="true" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#informeGananciasPerdidas" text="Informe de ganancias y perdidas">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Button>
+                                    <Pane maxWidth="70.0" minWidth="10.0" prefWidth="35.0" HBox.hgrow="SOMETIMES" />
+                                    <VBox minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" />
+                                 </children>
+                              </HBox>
+                              <Button disable="true" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#informeStockDisponible" text="Informe de stock disponible">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#buscarStockProductos" text="Buscar stock de productos">
+                              <Button disable="true" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#generarPlanilaProductos" text="Generar planilla productos">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#buscarProductosEmpaquetados" text="Buscar productos empaquetados">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
-                              <Button disable="true" mnemonicParsing="false" onAction="#buscarCombos" text="Buscar combos">
+                              <Button disable="true" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#generarImagenesRedesSociales" text="Generar imágenes para redes sociales">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -95,17 +91,30 @@
                         </VBox>
                         <VBox spacing="25.0">
                            <children>
-                              <Label text="Administrar">
+                              <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Buscar">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>
                               </Label>
-                              <Button mnemonicParsing="false" onAction="#administrarProveedores" text="Administrar proveedores">
+                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buscarProductos" text="Buscar productos">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#administrarCategorias" text="Administrar categorías">
+                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buscarStockProductos" text="Buscar stock de productos">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </Button>
+                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buscarProductosEmpaquetados" text="Buscar productos empaquetados">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Button disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buscarCombos" text="Buscar combos">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -114,12 +123,27 @@
                         </VBox>
                         <VBox spacing="25.0">
                            <children>
-                              <Label text="Archivos">
+                              <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Registrar">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>
                               </Label>
-                              <Button disable="true" mnemonicParsing="false" onAction="#exportarArchivos" text="Exportar archivos">
+                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#registrarNuevoProducto" text="Registrar nuevo producto">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#registrarEntradaProductos" text="Registrar entrada de productos">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#registrarEmpaquetamientos" text="Registrar empaquetamientos">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#registrarVentasProductos" text="Registrar ventas de productos">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -131,7 +155,7 @@
                   <Pane VBox.vgrow="SOMETIMES" />
                   <HBox alignment="CENTER">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#salir" text="Salir" />
+                        <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#salir" text="Salir" />
                      </children>
                   </HBox>
                   <Pane VBox.vgrow="SOMETIMES" />

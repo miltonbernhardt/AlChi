@@ -23,7 +23,7 @@ public class PanelAlerta {
     	alert.setContentText(tipoError);
     	App.setStyle(alert.getDialogPane());
     	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+    	stage.getIcons().add(new Image("app/icon/logoVentana.png"));
     	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
             if (KeyCode.ESCAPE == event.getCode()) {
                 stage.close();
@@ -58,7 +58,7 @@ public class PanelAlerta {
 		alert.setContentText(cadena);
 		App.setStyle(alert.getDialogPane());
 		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+    	stage.getIcons().add(new Image("app/icon/logoVentana.png"));
     	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
             if (KeyCode.ESCAPE == event.getCode()) {
                 stage.close();
@@ -75,7 +75,7 @@ public class PanelAlerta {
 		alert.setContentText(cadena);
 		App.setStyle(alert.getDialogPane());
 		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+    	stage.getIcons().add(new Image("app/icon/logoVentana.png"));
     	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
             if (KeyCode.ESCAPE == event.getCode()) {
                 stage.close();
@@ -91,7 +91,7 @@ public class PanelAlerta {
         alert.setContentText(cadena);
 		App.setStyle(alert.getDialogPane());
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+    	stage.getIcons().add(new Image("app/icon/logoVentana.png"));
     	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
             if (KeyCode.ESCAPE == event.getCode()) {
                 stage.close();

@@ -111,26 +111,32 @@
                         <Insets top="20.0" />
                      </VBox.margin>
                   </HBox>
-                  <Pane maxHeight="70.0" VBox.vgrow="SOMETIMES" />
+                  <Pane VBox.vgrow="SOMETIMES" />
+                  <HBox />
                   <HBox alignment="CENTER">
                      <children>
-                        <StackPane maxHeight="300.0" maxWidth="300.0">
+                        <VBox spacing="5.0">
                            <children>
-                              <Rectangle fx:id="rectangulo" arcHeight="5.0" arcWidth="5.0" fill="#ff6822" height="300.0" stroke="BLACK" strokeType="INSIDE" width="300.0">
-                                 <StackPane.margin>
-                                    <Insets />
-                                 </StackPane.margin>
-                              </Rectangle>
-                              <ImageView fx:id="imagen" fitHeight="300.0" pickOnBounds="true" preserveRatio="true">
-                                 <viewport>
-                                    <Rectangle2D />
-                                 </viewport>
-                              </ImageView>
+                              <Label text="Imágen del producto:" />
+                              <StackPane alignment="TOP_CENTER" maxHeight="300.0" maxWidth="300.0">
+                                 <children>
+                                    <Rectangle fx:id="rectangulo" arcHeight="5.0" arcWidth="5.0" fill="#ff6822" height="300.0" stroke="BLACK" strokeType="INSIDE" width="300.0">
+                                       <StackPane.margin>
+                                          <Insets />
+                                       </StackPane.margin>
+                                    </Rectangle>
+                                    <ImageView fx:id="imagen" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                                       <viewport>
+                                          <Rectangle2D />
+                                       </viewport>
+                                    </ImageView>
+                                 </children>
+                              </StackPane>
                            </children>
-                        </StackPane>
+                        </VBox>
                      </children>
                      <VBox.margin>
-                        <Insets top="30.0" />
+                        <Insets />
                      </VBox.margin>
                   </HBox>
                </children>
@@ -140,7 +146,7 @@
             </VBox>
          </left>
          <center>
-            <TableView fx:id="tabla" focusTraversable="false" minWidth="800.0" onMouseClicked="#seleccionarProducto" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+            <TableView fx:id="tabla" focusTraversable="false" minWidth="800.0" onMouseClicked="#seleccionarProducto" BorderPane.alignment="CENTER">
                <columns>
                   <TableColumn fx:id="columnaCategoria" maxWidth="1000.0" minWidth="100.0" prefWidth="150.0" text="Categoría" />
                   <TableColumn fx:id="columnaNombre" minWidth="100.0" prefWidth="185.0" text="Nombre" />

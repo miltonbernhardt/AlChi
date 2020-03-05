@@ -38,10 +38,10 @@ public class App extends Application {
     	primaryStage.setOnCloseRequest(e->{
         	salir();
         });    	    	
-    	primaryStage.getIcons().add(new Image("app/icon/logoAlChi.png"));
-    	primaryStage.setTitle("AlChi: Menú");
-    	primaryStage.setMinHeight(500);
-    	primaryStage.setMinWidth(900);
+    	primaryStage.getIcons().add(new Image("app/icon/logoVentana.png"));
+    	primaryStage.setTitle("Menú");
+    	primaryStage.setMinHeight(720);
+    	primaryStage.setMinWidth(1000);
         primaryStage.setMaxHeight(1080);
         primaryStage.setMaxWidth(1920);
         primaryStage.setMaximized(true);

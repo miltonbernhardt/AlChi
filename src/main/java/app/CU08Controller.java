@@ -1,5 +1,7 @@
 package app;
 
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -21,14 +23,17 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
@@ -73,6 +78,10 @@ public class CU08Controller {
 	@FXML private TableColumn<LocalDate, DTOCU08> columnaNoVendido;
 	@FXML private TableColumn<LocalDate, DTOCU08> columnaVencimiento;
 	@FXML private TableColumn<String, DTOCU08> columnaDisponible;
+	
+	@FXML private TextArea descripcion;	
+	@FXML private ImageView imagen;	
+	@FXML private Rectangle rectangulo;
     
     public CU08Controller() { }
 	
@@ -112,11 +121,13 @@ public class CU08Controller {
     	    	productoSeleccionado = tabla.getSelectionModel().getSelectedItem();
     	        if (event.getClickCount() == 2 && (! fila.isEmpty()) && productoSeleccionado != null ) {
     	        	productoSeleccionado = fila.getItem();
-    	        	if(productoSeleccionado.getDisponibleB()) {
+    	        	if(productoSeleccionado.getCantidadNoVendidaF()>0.05f) {
     	        		getOptions();
     	        	}
-    	        	else
-    	        		PanelAlerta.getInformation("Aviso", null, "No hay opciones sobre el producto seleccionado.");
+    	        	else {
+    	        		PanelAlerta.getInformation("Aviso", null, "No hay opciones válidas sobre el paquete inicial");
+    	        	}
+    	        	
     	        }
     	    });
     	    return fila ;
@@ -172,6 +183,27 @@ public class CU08Controller {
     
     @FXML private void seleccionarProducto() {
     	productoSeleccionado = tabla.getSelectionModel().getSelectedItem();
+    	if(productoSeleccionado != null) {
+        	if(!productoSeleccionado.getDirectorioImagen().isEmpty()) {
+        		URI imagenPath = URI.create(productoSeleccionado.getDirectorioImagen());
+        		Image image;
+    			try {
+    				image = new Image(imagenPath.toURL().toString());
+    				imagen.setImage(image);
+    				rectangulo.setVisible(false);
+    			} catch (MalformedURLException e) {
+    				e.printStackTrace();
+    			}    		
+        	}	
+        	else {
+        		imagen.setImage(null);
+        		rectangulo.setVisible(true);
+        	}
+    	}
+    	else {
+    		imagen.setImage(null);
+    		rectangulo.setVisible(true);
+    	}
     }
     
     @FXML private void vaciarFechaAntes() {
@@ -183,10 +215,10 @@ public class CU08Controller {
     }
     
 	private void getOptions() {
-		ButtonType b1 = new ButtonType("Empaquetarlo"), b2 = new ButtonType("Darlo de baja"), b3 = new ButtonType("Cancelar", ButtonData.CANCEL_CLOSE);
+		ButtonType b1 = new ButtonType("Empaquetar"), b2 = new ButtonType("Dar de baja"), b3 = new ButtonType("Cancelar", ButtonData.CANCEL_CLOSE), b4 = new ButtonType("Dar de alta");
 		
-		if(productoSeleccionado.getPrecioUnidad()>0f) {
-			Alert alert = new Alert(AlertType.CONFIRMATION, "", b2, b3);
+		if(!productoSeleccionado.getDisponibleB()) {
+			Alert alert = new Alert(AlertType.CONFIRMATION, "", b4, b3);
 	    	alert.setTitle("Acción sobre '"+productoSeleccionado.getNombreProducto()+"'");
 	    	alert.setHeaderText(null);
 	    	alert.setContentText("¿Que desea hacer sobre '"+productoSeleccionado.getNombreProducto()+"'?");
@@ -199,60 +231,91 @@ public class CU08Controller {
 	                stage.close();
 	            }
 	        });
-	    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+	    	stage.getIcons().add(new Image("app/icon/logoVentana.png"));
 	    	Optional<ButtonType> options = alert.showAndWait();
 	    	
-	    	if(options.get().equals(b2)) {
-	    		Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar baja", null, "¿Desea confirmar la baja del producto empaquetado '"+productoSeleccionado.getNombreProducto()+"'?");
+	    	if(options.get().equals(b4)) {
+	    		Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar alta", null, "¿Desea confirmar el alta del paquete inicial del producto '"+productoSeleccionado.getNombreProducto()+"'?");
     			
     			if (result.get() == ButtonType.OK){
-	        		if(GestorEntradaSalida.get().darBaja(productoSeleccionado)) {
-	        			productoSeleccionado.setDisponible(false);
-	        			tabla.getColumns().get(8).setVisible(false);
-	        			tabla.getColumns().get(8).setVisible(true);
-	        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"' ha sido correctamente dado de baja.");
+	        		if(GestorEntradaSalida.get().darAltaProductoInicial(productoSeleccionado.getIdProducto(), productoSeleccionado.getIdTipoProducto())) {
+	        			productoSeleccionado.setDisponible(true);
+	        			tabla.getColumns().get(2).setVisible(false);
+	        			tabla.getColumns().get(2).setVisible(true);
+	        			PanelAlerta.getInformation("Aviso", null, "El paquete inicial en stock del producto '"+productoSeleccionado.getNombreProducto()+"' ha sido correctamente dado de alta.");
 	        		}
     			}
         	}
 		}
 		else {
-			Alert alert = new Alert(AlertType.CONFIRMATION, "", b1, b2, b3);
-	    	alert.setTitle("Acción sobre '"+productoSeleccionado.getNombreProducto()+"'");
-	    	alert.setHeaderText(null);
-	    	alert.setContentText("¿Que desea hacer sobre '"+productoSeleccionado.getNombreProducto()+"'?");
-	    	
-	    	App.setStyle(alert.getDialogPane());
-			
-			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-	    	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
-	            if (KeyCode.ESCAPE == event.getCode()) {
-	                stage.close();
-	            }
-	        });
-	    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
-	    	Optional<ButtonType> options = alert.showAndWait();
-	    	
-	    	if(options.get().equals(b1)) {
-	    		CU10Controller01 controller = CU10Controller01.get();
-	    		controller.setControllerCu08(this);
-	    		controller.empaquetarProducto(new DTOProductoInicialCU10(productoSeleccionado));
-	    		
-	    	}
-	    	else {
-	    		if(options.get().equals(b2)) {
-	    			Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar baja", null, "¿Desea confirmar la baja del producto empaquetado '"+productoSeleccionado.getNombreProducto()+"'?");
+			if(productoSeleccionado.getPrecioUnidad()>0f) {
+				Alert alert = new Alert(AlertType.CONFIRMATION, "", b2, b3);
+		    	alert.setTitle("Acción sobre '"+productoSeleccionado.getNombreProducto()+"'");
+		    	alert.setHeaderText(null);
+		    	alert.setContentText("¿Que desea hacer sobre '"+productoSeleccionado.getNombreProducto()+"'?");
+		    	
+		    	App.setStyle(alert.getDialogPane());
+				
+				Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		    	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
+		            if (KeyCode.ESCAPE == event.getCode()) {
+		                stage.close();
+		            }
+		        });
+		    	stage.getIcons().add(new Image("app/icon/logoVentana.png"));
+		    	Optional<ButtonType> options = alert.showAndWait();
+		    	
+		    	if(options.get().equals(b2)) {
+		    		Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar baja", null, "¿Desea confirmar la baja del paquete inicial del producto '"+productoSeleccionado.getNombreProducto()+"'?");
 	    			
 	    			if (result.get() == ButtonType.OK){
-	    				if(GestorEntradaSalida.get().darBaja(productoSeleccionado)) {
+		        		if(GestorEntradaSalida.get().darBajaProductoInicial(productoSeleccionado.getIdProducto(), productoSeleccionado.getIdTipoProducto())) {
 		        			productoSeleccionado.setDisponible(false);
-		        			tabla.getColumns().get(8).setVisible(false);
-		        			tabla.getColumns().get(8).setVisible(true);
-		        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"' ha sido correctamente dado de baja.");
-		    			}
+		        			tabla.getColumns().get(2).setVisible(false);
+		        			tabla.getColumns().get(2).setVisible(true);
+		        			PanelAlerta.getInformation("Aviso", null, "El paquete inicial en stock del producto '"+productoSeleccionado.getNombreProducto()+"' ha sido correctamente dado de baja.");
+		        		}
 	    			}
 	        	}
-	    	}
-		}		
-		
+			}
+			else {
+				Alert alert = new Alert(AlertType.CONFIRMATION, "", b1, b2, b3);
+		    	alert.setTitle("Acción sobre '"+productoSeleccionado.getNombreProducto()+"'");
+		    	alert.setHeaderText(null);
+		    	alert.setContentText("¿Que desea hacer sobre '"+productoSeleccionado.getNombreProducto()+"'?");
+		    	
+		    	App.setStyle(alert.getDialogPane());
+				
+				Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		    	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
+		            if (KeyCode.ESCAPE == event.getCode()) {
+		                stage.close();
+		            }
+		        });
+		    	stage.getIcons().add(new Image("app/icon/logoVentana.png"));
+		    	Optional<ButtonType> options = alert.showAndWait();
+		    	
+		    	if(options.get().equals(b1)) {
+		    		CU10Controller01 controller = CU10Controller01.get();
+		    		controller.setControllerCu08(this);
+		    		controller.empaquetarProducto(new DTOProductoInicialCU10(productoSeleccionado));
+		    		
+		    	}
+		    	else {
+		    		if(options.get().equals(b2)) {
+		    			Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar baja", null, "¿Desea confirmar la baja del paquete inicial del producto '"+productoSeleccionado.getNombreProducto()+"'?");
+		    			
+		    			if (result.get() == ButtonType.OK){
+		    				if(GestorEntradaSalida.get().darBajaProductoInicial(productoSeleccionado.getIdProducto(), productoSeleccionado.getIdTipoProducto())) {
+			        			productoSeleccionado.setDisponible(false);
+			        			tabla.getColumns().get(8).setVisible(false);
+			        			tabla.getColumns().get(8).setVisible(true);
+			        			PanelAlerta.getInformation("Aviso", null, "El paquete inicial en stock del producto '"+productoSeleccionado.getNombreProducto()+"' ha sido correctamente dado de baja.");
+			    			}
+		    			}
+		        	}
+		    	}
+			}	
+		}
 	}	
 }

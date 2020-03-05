@@ -192,15 +192,13 @@ public class GestorProductos {
 			
 			ProductoInicial prodSecundario = null;
 			
-			Float cantNoVendida = 0f;	
+			Float cantNoVendida = prodInicial.getCantidadNoVendida();	
 
 			if(dto.getDadoBaja()) {	
 				prodInicial.setDisponible(false);
 			}
-			else {
-				
-				if(dto.getSecundario()) {
-					cantNoVendida = prodInicial.getCantidadNoVendida();			
+			else {				
+				if(dto.getSecundario()) {							
 					cantNoVendida = cantNoVendida - dto.getCantPrimario(); 					
 					prodSecundario = (ProductoInicial) DAOEntity.get().get(ProductoInicial.class, dto.getIdProductoSecundario());
 					Float cantNoVendida2 = prodSecundario.getCantidadNoVendida();			
@@ -363,7 +361,7 @@ public class GestorProductos {
 	public List<DTOCU08> buscarProductosIniciales(Integer idCategoria, Integer idProveedor, String textCodigoBarra,
 			String nombreProducto, LocalDate fechaIngAntes, LocalDate fechaIngDespues, Boolean disponible) {
 		
-		String consultaFalse="", consultaTrue = "SELECT new dto.DTOCU08(t.id, p.id, t.nombre, p.codigoBarra, c.nombre, pro.nombre, p.fechaEntrada, p.vencimiento, p.precioComprado, p.cantidadNoVendida, p.disponible) "
+		String consultaFalse="", consultaTrue = "SELECT new dto.DTOCU08(t.id, p.id, t.nombre, p.codigoBarra, c.nombre, pro.nombre, p.fechaEntrada, p.vencimiento, p.precioComprado, p.cantidadNoVendida, p.disponible, t.directorioImagen) "
 				+ "FROM Categoria c, TipoProducto t, ProductoInicial p, Proveedor pro "
 				+ "WHERE c.id=t.categoria AND t.id=p.tipoProducto AND pro.id=p.proveedor ";
 
@@ -671,6 +669,7 @@ public class GestorProductos {
 	
 	public Boolean cantProductosTipoProducto(Integer idTipoProducto) {
 		String consulta = "select count(p.id) from tipo_producto t, producto_inicial p where t.id="+idTipoProducto+" and p.id_tipo_producto=t.id and p.disponible=true";
+		
 		String consulta2 = "select count(e.id) from tipo_producto t, producto_inicial p, empaquetado e where t.id="+idTipoProducto
 				+ " and p.id_tipo_producto=t.id and e.id_producto_inicial=p.id and e.dado_baja=false and e.vendido=false";
 
@@ -689,7 +688,6 @@ public class GestorProductos {
 			if(!DAOEntity.get().update(t))
 				return false;
 		}
-		
 		
 		return true;
 	}

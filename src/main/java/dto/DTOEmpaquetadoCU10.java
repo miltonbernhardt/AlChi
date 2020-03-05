@@ -1,6 +1,7 @@
 package dto;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import app.App;
 import enums.TipoPaquete;
@@ -44,7 +45,8 @@ public class DTOEmpaquetadoCU10 {
 	public DTOProductoInicialCU10 getDtoProductoInicialSecundario() { return dtoProductoInicialSecundario; }
 	public Float getCantPrimario() { return cantPrimario; }
 	public Integer getIdProductoSecundario() { return idProductoSecundario; }
-	
+	public Boolean getDadoBaja() { return dadoBaja; }
+	public Boolean getSecundario() { return secundario; }
 	
 	public String getTipoPaquete() { 
 		if(tipoPaquete!=null)
@@ -75,20 +77,30 @@ public class DTOEmpaquetadoCU10 {
 	public void setCantidadPaquetes(Integer cantidadPaquetes) { this.cantidadPaquetes = cantidadPaquetes; }
 	public void setDtoProductoInicialSecundario(DTOProductoInicialCU10 dtoProductoInicialSecundario) { this.dtoProductoInicialSecundario = dtoProductoInicialSecundario; }
 	public void setCantPrimario(Float cantPrimario) { this.cantPrimario = App.redondear(cantPrimario); }	public void setIdProductoSecundario(Integer idProductoSecundario) { this.idProductoSecundario = idProductoSecundario; }
+	public void setDadoBaja(Boolean dadoBaja) { this.dadoBaja = dadoBaja; }
+	public void setSecundario(Boolean secundario) { this.secundario = secundario; }
 
-	public Boolean getDadoBaja() {
-		return dadoBaja;
+	@Override
+	public int hashCode() {
+		return Objects.hash(codigoBarra, idProductoInicial, idProductoSecundario, idTipoProducto, nombreProveedor,
+				nombreTipoProducto, vencimiento);
 	}
 
-	public void setDadoBaja(Boolean dadoBaja) {
-		this.dadoBaja = dadoBaja;
-	}
-
-	public Boolean getSecundario() {
-		return secundario;
-	}
-
-	public void setSecundario(Boolean secundario) {
-		this.secundario = secundario;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DTOEmpaquetadoCU10 other = (DTOEmpaquetadoCU10) obj;
+		return Objects.equals(codigoBarra, other.codigoBarra)
+				&& Objects.equals(idProductoInicial, other.idProductoInicial)
+				&& Objects.equals(idProductoSecundario, other.idProductoSecundario)
+				&& Objects.equals(idTipoProducto, other.idTipoProducto)
+				&& Objects.equals(nombreProveedor, other.nombreProveedor)
+				&& Objects.equals(nombreTipoProducto, other.nombreTipoProducto)
+				&& Objects.equals(vencimiento, other.vencimiento);
 	}
 }

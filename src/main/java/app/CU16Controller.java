@@ -127,7 +127,7 @@ public class CU16Controller {
     	    	productoSeleccionado = tabla.getSelectionModel().getSelectedItem();
     	        if (event.getClickCount() == 2 && (! fila.isEmpty()) && productoSeleccionado != null ) {
     	        	productoSeleccionado = fila.getItem();
-    	        	if(!productoSeleccionado.getDadoBajaB() && !productoSeleccionado.getVendidoB()) {
+    	        	if(!productoSeleccionado.getVendidoB()) {
     	        		getOptions();
     	        	}
     	        	else
@@ -220,39 +220,76 @@ public class CU16Controller {
     }
     
 	private void getOptions() {
-		ButtonType b1 = new ButtonType("Venderlo"), b2 = new ButtonType("Darlo de baja"), b3 = new ButtonType("Cancelar", ButtonData.CANCEL_CLOSE);
+		ButtonType b1 = new ButtonType("Vender"), b2 = new ButtonType("Dar de baja"), b3 = new ButtonType("Cancelar", ButtonData.CANCEL_CLOSE), b4 = new ButtonType("Dar de alta");
 
-		Alert alert = new Alert(AlertType.CONFIRMATION, "", b1, b2, b3);
-    	alert.setTitle("Acción sobre '"+productoSeleccionado.getNombreProducto()+"': "+productoSeleccionado.getFormaVentaE());
-    	alert.setHeaderText(null);
-    	alert.setContentText("¿Que desea hacer sobre '"+productoSeleccionado.getNombreProducto()+"': "+productoSeleccionado.getFormaVentaE()+"?");
-    	
-    	App.setStyle(alert.getDialogPane());
-		
-		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-    	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
-            if (KeyCode.ESCAPE == event.getCode()) {
-                stage.close();
-            }
-        });
-    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
-    	Optional<ButtonType> options = alert.showAndWait();
-    	
-    	if(options.get().equals(b1)) {
-    		CU04Controller controller = CU04Controller.get();
-    		controller.addToVenta(GestorProductos.get().getDTOCU06(productoSeleccionado.getIdProductoEmpaquetado()));
-    		controller.setController(this);    		
-    	}
-    	else {
-    		if(options.get().equals(b2)) {
-        		if(GestorEntradaSalida.get().darBajaProductoEmpaquetado(productoSeleccionado)) {
-        			tabla.getColumns().get(7).setVisible(false);
-        			tabla.getColumns().get(7).setVisible(true);
-        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"'\nha sido correctamente dado de baja.");
-        			
-    			}
-        	}
-    	}
+		if(productoSeleccionado.getDadoBajaB()) {
+			Alert alert = new Alert(AlertType.CONFIRMATION, "", b4, b3);
+	    	alert.setTitle("Acción sobre '"+productoSeleccionado.getNombreProducto()+"': "+productoSeleccionado.getFormaVentaE());
+	    	alert.setHeaderText(null);
+	    	alert.setContentText("¿Que desea hacer sobre '"+productoSeleccionado.getNombreProducto()+"': "+productoSeleccionado.getFormaVentaE()+"?");
+	    	
+	    	App.setStyle(alert.getDialogPane());
+			
+			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+	    	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
+	            if (KeyCode.ESCAPE == event.getCode()) {
+	                stage.close();
+	            }
+	        });
+	    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+	    	Optional<ButtonType> options = alert.showAndWait();
+	    	
+	    	if(options.get().equals(b4)) {
+	    		Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar alta", null, "¿Desea confirmar la baja del producto empaquetado '"+productoSeleccionado.getNombreProducto()+"': "+productoSeleccionado.getFormaVentaE()+"?");
+	    		if(result.get() == ButtonType.OK) {
+	    			if(GestorEntradaSalida.get().darAltaProductoEmpaquetado(productoSeleccionado.getIdProductoEmpaquetado(), productoSeleccionado.getIdTipoProducto())) {
+	        			productoSeleccionado.setDadoBaja(false);
+	        			tabla.getColumns().get(7).setVisible(false);
+	        			tabla.getColumns().get(7).setVisible(true);
+	        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"' ha sido correctamente dado de baja.");
+	        			
+	    			}
+	    		}	    		
+	    	}
+		}
+		else {
+			Alert alert = new Alert(AlertType.CONFIRMATION, "", b1, b2, b3);
+	    	alert.setTitle("Acción sobre '"+productoSeleccionado.getNombreProducto()+"': "+productoSeleccionado.getFormaVentaE());
+	    	alert.setHeaderText(null);
+	    	alert.setContentText("¿Que desea hacer sobre '"+productoSeleccionado.getNombreProducto()+"': "+productoSeleccionado.getFormaVentaE()+"?");
+	    	
+	    	App.setStyle(alert.getDialogPane());
+			
+			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+	    	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
+	            if (KeyCode.ESCAPE == event.getCode()) {
+	                stage.close();
+	            }
+	        });
+	    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+	    	Optional<ButtonType> options = alert.showAndWait();
+	    	
+	    	if(options.get().equals(b1)) {
+	    		CU04Controller controller = CU04Controller.get();
+	    		controller.addToVenta(GestorProductos.get().getDTOCU06(productoSeleccionado.getIdProductoEmpaquetado()));
+	    		controller.setController(this);    		
+	    	}
+	    	else {
+	    		if(options.get().equals(b2)) {
+	    			Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar baja", null, "¿Desea confirmar la baja del producto empaquetado '"+productoSeleccionado.getNombreProducto()+"': "+productoSeleccionado.getFormaVentaE()+"?");
+	    			
+	    			if (result.get() == ButtonType.OK){
+		        		if(GestorEntradaSalida.get().darBajaProductoEmpaquetado(productoSeleccionado.getIdProductoEmpaquetado(), productoSeleccionado.getIdTipoProducto())) {
+		        			productoSeleccionado.setDadoBaja(true);
+		        			tabla.getColumns().get(7).setVisible(false);
+		        			tabla.getColumns().get(7).setVisible(true);
+		        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"' ha sido correctamente dado de baja.");
+		        			
+		    			}
+	    			}
+	        	}
+	    	}
+		}	
 		
 	}	
 	

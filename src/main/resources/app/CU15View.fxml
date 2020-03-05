@@ -102,7 +102,7 @@
                         <Insets top="30.0" />
                      </padding>
                      <children>
-                        <Button focusTraversable="false" maxHeight="70.0" mnemonicParsing="false" onAction="#volver" text="Volver">
+                        <Button cancelButton="true" focusTraversable="false" maxHeight="70.0" mnemonicParsing="false" onAction="#volver" text="Volver">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

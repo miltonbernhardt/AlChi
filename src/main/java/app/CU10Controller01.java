@@ -712,7 +712,6 @@ public class CU10Controller01 {
     }
    
     private Boolean hayParaEmpaquetar() {
-    	//TODO ver
     	DTOProductoInicialCU10 prod = productoInicial.getValue();
     	
     	if( prod != null && tipoProducto.getValue().getProductosIniciales().size() > 1) {

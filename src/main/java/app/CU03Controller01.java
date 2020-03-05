@@ -21,7 +21,7 @@ import javafx.scene.input.KeyEvent;
 
 /**
  * Controller para la view "Registro de entrada de productos"
- */
+ */ 
 public class CU03Controller01 {	
 	private static CU03Controller01 instance = null;
 	
@@ -232,12 +232,12 @@ public class CU03Controller01 {
     
     @FXML private void btnEliminarFila() {
     	if(productoSeleccionado != null) {
+    		tabla.getSelectionModel().clearSelection();
     		tabla.getItems().remove(productoSeleccionado);
     		productoSeleccionado = null;    		
     		btnEliminarFila.setDisable(true);
     		btnDuplicarFila.setDisable(true);
     		btnEditarFila.setDisable(true);
-    		tabla.getSelectionModel().clearSelection();
 		}
     	else {
     		PanelAlerta.getError("Aviso", null, "Se debe elegir un producto de la tabla para poder eliminarlo.");

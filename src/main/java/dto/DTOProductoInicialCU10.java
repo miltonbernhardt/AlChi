@@ -1,6 +1,7 @@
 package dto;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import app.App;
 
@@ -54,5 +55,25 @@ public class DTOProductoInicialCU10 {
 	@Override
 	public String toString() {		
 		return "Proveedor: "+proveedor+".  Código de barra: "+codigoBarra+".  Vencimiento: "+vencimiento+".  Cantidad restante: "+cantidadNoVendida.toString()+" Kg";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(codigoBarra, idProductoInicial, idTipoProducto, proveedor, vencimiento);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DTOProductoInicialCU10 other = (DTOProductoInicialCU10) obj;
+		return Objects.equals(codigoBarra, other.codigoBarra)
+				&& Objects.equals(idProductoInicial, other.idProductoInicial)
+				&& Objects.equals(idTipoProducto, other.idTipoProducto) && Objects.equals(proveedor, other.proveedor)
+				&& Objects.equals(vencimiento, other.vencimiento);
 	}
 }

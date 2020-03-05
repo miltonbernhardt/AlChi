@@ -9,8 +9,6 @@ import java.util.List;
 import database.DAOEntity;
 import dto.DTOCU03;
 import dto.DTOCU06;
-import dto.DTOCU08;
-import dto.DTOCU16;
 import dto.DTOProductoInicial;
 import entity.Combo;
 import entity.Empaquetado;
@@ -196,31 +194,93 @@ public class GestorEntradaSalida {
 		return true;
 	}
 	
-	public Boolean darBaja(DTOCU08 producto) {
-		ProductoInicial p = (ProductoInicial) DAOEntity.get().get(ProductoInicial.class, producto.getIdProducto());
+	public Boolean darBajaProductoInicial(Integer idProductoInicial, Integer idTipoProducto) {
+		ProductoInicial p = (ProductoInicial) DAOEntity.get().get(ProductoInicial.class, idProductoInicial);
 		p.setDisponible(false);
 		if(!DAOEntity.get().update(p)) 
 			return false;
 		
-		if(!GestorProductos.get().cantProductosTipoProducto(producto.getIdTipoProducto()))
+		if(!GestorProductos.get().cantProductosTipoProducto(idTipoProducto))
+			return false;
+		
+		return true;
+	}
+
+	public Boolean darBajaProductoEmpaquetado(Integer idEmpaquetado, Integer idTipoProducto) {
+		Empaquetado producto = (Empaquetado) DAOEntity.get().get(Empaquetado.class, idEmpaquetado);
+		producto.setDadoBaja(true);
+		
+		if( !DAOEntity.get().update(producto) )
+			return false;
+		
+		if(!GestorProductos.get().cantProductosTipoProducto(idTipoProducto))
 			return false;
 		
 		return true;
 	}
 	
-	public void buscarProductosEnBaja() {
+	
+	@SuppressWarnings("unchecked")
+	public Boolean dejarVender(Integer idTipoProducto) {
+		TipoProducto tipoProducto = (TipoProducto) DAOEntity.get().get(TipoProducto.class, idTipoProducto);
 		
-	}
-
-	public Boolean darBajaProductoEmpaquetado(DTOCU16 productoSeleccionado) {
-		Empaquetado producto = (Empaquetado) DAOEntity.get().get(Empaquetado.class, productoSeleccionado.getIdProductoEmpaquetado());
-		producto.setDadoBaja(true);
+		String consulta1 = "select p from ProductoInicial p where p.tipoProducto="+tipoProducto.getId();
 		
-		if( !DAOEntity.get().update(producto) )
+		List<ProductoInicial> listaProductosIniciales = (List<ProductoInicial>) DAOEntity.get().getResultList(consulta1, ProductoInicial.class);
+		
+		Iterator<ProductoInicial> iterator1 = listaProductosIniciales.iterator();
+		while(iterator1.hasNext()) {
+			ProductoInicial prodInicial = iterator1.next();
+			
+			String consulta2 = "select e from Empaquetado e where e.productoInicial="+prodInicial.getId();
+			
+			List<Empaquetado> listaEmpaquetados = (List<Empaquetado>) DAOEntity.get().getResultList(consulta2, Empaquetado.class);
+			
+			Iterator<Empaquetado> iterator2 = listaEmpaquetados.iterator();
+			while(iterator2.hasNext()) {
+				Empaquetado empaquetado = iterator2.next();
+				empaquetado.setDadoBaja(true);
+				if(!DAOEntity.get().update(empaquetado))
+					return false;
+			}
+			
+			prodInicial.setDisponible(false);
+			if(!DAOEntity.get().update(prodInicial))
+				return false;
+		}
+		
+		
+		tipoProducto.setEnVenta(false);
+		if(!DAOEntity.get().update(tipoProducto))
 			return false;
-		productoSeleccionado.setDadoBaja(true);
+		return true;
+	}
+	
+	public Boolean darAltaProductoInicial(Integer idProductoInicial, Integer idTipoProducto) {
+		ProductoInicial p = (ProductoInicial) DAOEntity.get().get(ProductoInicial.class, idProductoInicial);
+		p.setDisponible(true);
+		if(!DAOEntity.get().update(p)) 
+			return false;
 		
-		if(!GestorProductos.get().cantProductosTipoProducto(productoSeleccionado.getIdTipoProducto()))
+		TipoProducto t = (TipoProducto) DAOEntity.get().get(TipoProducto.class, idTipoProducto);
+		t.setEnVenta(true);		
+		
+		if(!DAOEntity.get().update(t))
+			return false;
+		
+		return true;
+	}
+	
+	public Boolean darAltaProductoEmpaquetado(Integer idProductoEmpaquetado, Integer idTipoProducto) {
+		Empaquetado e = (Empaquetado) DAOEntity.get().get(Empaquetado.class, idProductoEmpaquetado);
+		e.setDadoBaja(false);
+		if(!DAOEntity.get().update(e)) 
+			return false;
+		
+		TipoProducto t = (TipoProducto) DAOEntity.get().get(TipoProducto.class, idTipoProducto);
+		t.setEnVenta(true);		
+		
+		if(!DAOEntity.get().update(t))
 			return false;
 		
 		return true;

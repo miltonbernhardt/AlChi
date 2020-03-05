@@ -1,6 +1,7 @@
 package dto;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import app.App;
 import enums.TipoPaquete;
@@ -110,4 +111,29 @@ public class DTOCU16 {
 	public void setDadoBaja(Boolean dadoBaja) { this.dadoBaja = dadoBaja; }
 	public void setVendido(Boolean vendido) { this.vendido = vendido; }
 	public void setVencimiento(LocalDate vencimiento) { this.vencimiento = vencimiento; }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(codigoBarra, idProductoEmpaquetado, idProductoInicial, idTipoProducto, nombreCategoria,
+				nombreProducto, nombreProveedor, vencimiento);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DTOCU16 other = (DTOCU16) obj;
+		return Objects.equals(codigoBarra, other.codigoBarra)
+				&& Objects.equals(idProductoEmpaquetado, other.idProductoEmpaquetado)
+				&& Objects.equals(idProductoInicial, other.idProductoInicial)
+				&& Objects.equals(idTipoProducto, other.idTipoProducto)
+				&& Objects.equals(nombreCategoria, other.nombreCategoria)
+				&& Objects.equals(nombreProducto, other.nombreProducto)
+				&& Objects.equals(nombreProveedor, other.nombreProveedor)
+				&& Objects.equals(vencimiento, other.vencimiento);
+	}
 }

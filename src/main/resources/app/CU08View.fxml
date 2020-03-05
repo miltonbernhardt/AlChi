@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -13,10 +14,13 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <ScrollPane fitToHeight="true" fitToWidth="true" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.CU08Controller">
@@ -104,7 +108,7 @@
                         </Tooltip>
                      </tooltip>
                   </DatePicker>
-                  <Label text="¿Dado de baja?">
+                  <Label text="¿Disponible?">
                      <tooltip>
                         <Tooltip text="Si el producto está disponible significa que se lo puede vender. Si no lo está es que se lo vendió que se lo dió de baja." />
                      </tooltip></Label>
@@ -149,7 +153,29 @@
                      </VBox.margin>
                   </HBox>
                   <Pane VBox.vgrow="SOMETIMES" />
-                  <HBox alignment="CENTER_RIGHT" />
+                  <Label text="Imágen del producto:">
+                     <VBox.margin>
+                        <Insets bottom="-10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <StackPane alignment="TOP_CENTER" maxHeight="300.0" maxWidth="300.0">
+                           <children>
+                              <ImageView fx:id="imagen" fitWidth="300.0" pickOnBounds="true">
+                                 <viewport>
+                                    <Rectangle2D />
+                                 </viewport>
+                              </ImageView>
+                              <Rectangle fx:id="rectangulo" arcHeight="5.0" arcWidth="5.0" fill="#ff6822" height="300.0" stroke="BLACK" strokeType="INSIDE" width="300.0">
+                                 <StackPane.margin>
+                                    <Insets />
+                                 </StackPane.margin>
+                              </Rectangle>
+                           </children>
+                        </StackPane>
+                     </children>
+                  </HBox>
                </children>
                <BorderPane.margin>
                   <Insets />

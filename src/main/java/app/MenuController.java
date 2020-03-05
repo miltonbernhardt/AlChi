@@ -40,11 +40,6 @@ public class MenuController  {
     }
     
     @FXML
-    private void exportarArchivos() {
-		CU11Controller01.get();
-    }
-    
-    @FXML
     private void buscarCombos() {
 		CU14Controller.get();
     } 
@@ -63,5 +58,22 @@ public class MenuController  {
     private void salir() {
     	App.salir();
     }  
+    
+    
+    @FXML private void  informeGananciasPerdidas() {
+    	//TODO CU11 implementar 
+    }
+    
+    @FXML private void  informeStockDisponible() {
+    	//TODO CU11 implementar 
+    }
+    
+    @FXML private void  generarPlanilaProductos() {
+    	//TODO CU11 implementar 
+    }
+    
+    @FXML private void  generarImagenesRedesSociales() {
+    	//TODO CU11 implementar    	
+    }
 	
 }

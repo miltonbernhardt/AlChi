@@ -1,7 +1,9 @@
 package dto;
 
+import java.util.Objects;
+
 public class DTOProveedor {
-	
+
 	private Integer id;
 	private String nombre;
 	private String numeroTelefono;
@@ -32,5 +34,23 @@ public class DTOProveedor {
 	@Override
 	public String toString() {
 		return nombre;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, nombre, numeroTelefono);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DTOProveedor other = (DTOProveedor) obj;
+		return Objects.equals(id, other.id) && Objects.equals(nombre, other.nombre)
+				&& Objects.equals(numeroTelefono, other.numeroTelefono);
 	}	
 }

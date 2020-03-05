@@ -1,5 +1,7 @@
 package dto;
 
+import java.util.Objects;
+
 import enums.TipoPaquete;
 
 public class DTOFormaVentaCU10 {	
@@ -21,5 +23,22 @@ public class DTOFormaVentaCU10 {
 	@Override
 	public String toString() {
 		return tipoPaquete.toString();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(precioVenta, tipoPaquete);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DTOFormaVentaCU10 other = (DTOFormaVentaCU10) obj;
+		return Objects.equals(precioVenta, other.precioVenta) && tipoPaquete == other.tipoPaquete;
 	}
 }

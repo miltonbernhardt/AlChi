@@ -20,7 +20,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "producto_inicial")
 public class ProductoInicial {
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_tipo_producto", nullable = false)
 	private TipoProducto tipoProducto;		

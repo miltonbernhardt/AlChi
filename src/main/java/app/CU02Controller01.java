@@ -1,12 +1,13 @@
 package app;
 
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 import dto.DTOCU03;
 import dto.DTOCategoria;
-import dto.DTOProductoInicialCU10;
 import dto.DTOTipoProductoCU02;
 import gestor.GestorCategoria;
 import gestor.GestorEntradaSalida;
@@ -20,13 +21,16 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
@@ -67,6 +71,10 @@ public class CU02Controller01 {
 	@FXML private TableColumn<DTOTipoProductoCU02, String> columnaPrecio1000;	
 	@FXML private TableColumn<DTOTipoProductoCU02, String> columnaPrecio2000;	
 	@FXML private TableColumn<DTOTipoProductoCU02, String> columnaPrecioUnidad;
+	
+	@FXML private TextArea descripcion;	
+	@FXML private ImageView imagen;	
+	@FXML private Rectangle rectangulo;
     
     @FXML private void initialize(){
     	setCombo();
@@ -137,10 +145,32 @@ public class CU02Controller01 {
     public void actualizarProductoEditado(Integer id) {
     	DTOTipoProductoCU02 dto =  GestorProductos.get().getTipoProductoCU02(id);
     	tabla.getItems().set(tabla.getSelectionModel().getSelectedIndex(), dto);
+    	productoSeleccionado = dto;
     }
     
     @FXML private void seleccionarProducto() {
     	productoSeleccionado = tabla.getSelectionModel().getSelectedItem();
+    	if(productoSeleccionado != null) {
+        	if(!productoSeleccionado.getDirectorioImagenS().isEmpty()) {
+        		URI imagenPath = URI.create(productoSeleccionado.getDirectorioImagenS());
+        		Image image;
+    			try {
+    				image = new Image(imagenPath.toURL().toString());
+    				imagen.setImage(image);
+    				rectangulo.setVisible(false);
+    			} catch (MalformedURLException e) {
+    				e.printStackTrace();
+    			}    		
+        	}	
+        	else {
+        		imagen.setImage(null);
+        		rectangulo.setVisible(true);
+        	}
+    	}
+    	else {
+    		imagen.setImage(null);
+    		rectangulo.setVisible(true);
+    	}
     }
     
     @FXML private void volver() {
@@ -149,81 +179,14 @@ public class CU02Controller01 {
 	}
     
 	private void getOptions() {
-		ButtonType b1 = new ButtonType("Editar características"), b2 = new ButtonType("Editar precio"), b3 = new ButtonType("Cancelar", ButtonData.CANCEL_CLOSE);
+		ButtonType b1 = new ButtonType("Editar características"), b2 = new ButtonType("Editar precio"), b3 = new ButtonType("Dejar de vender todo el producto"), b4 = new ButtonType("Cancelar", ButtonData.CANCEL_CLOSE);
 		
-		Alert alert = new Alert(AlertType.CONFIRMATION, "", b1, b2, b3);
-    	alert.setTitle("Acción sobre '"+productoSeleccionado.getNombreTipoProducto()+"'");
-    	alert.setHeaderText(null);
-    	alert.setContentText("¿Que desea hacer sobre '"+productoSeleccionado.getNombreTipoProducto()+"'?");
-    	
-    	App.setStyle(alert.getDialogPane());
 		
-		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-    	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
-            if (KeyCode.ESCAPE == event.getCode()) {
-                stage.close();
-            }
-        });
-    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
-    	Optional<ButtonType> options = alert.showAndWait();
-    	
-    	if(options.get().equals(b1)) {
-    		CU05Controller cu05 = CU05Controller.get();
-    		cu05.setControllerCU02(this);
-    		cu05.setProducto(productoSeleccionado.getIdProducto());
-    	}
-    	else {
-    		if(options.get().equals(b2)) {
-    			editarPrecios();
-        	}
-    	}
-	}
-	
-	private void editarPrecios() {
-		CU02Controller02 controller = CU02Controller02.get();
-		controller.addDTOCU03(new DTOCU03(productoSeleccionado));
-		controller.setController(this);
-	}
-	
-	/**
-	 private void getOptions() {
-		ButtonType b1 = new ButtonType("Empaquetarlo"), b2 = new ButtonType("Darlo de baja"), b3 = new ButtonType("Cancelar", ButtonData.CANCEL_CLOSE);
-		
-		if(productoSeleccionado.getPrecioUnidad()>0f) {
-			Alert alert = new Alert(AlertType.CONFIRMATION, "", b2, b3);
-	    	alert.setTitle("Acción sobre '"+productoSeleccionado.getNombreProducto()+"'");
+		if(productoSeleccionado.getEnVentaF()) {
+			Alert alert = new Alert(AlertType.CONFIRMATION, "", b1, b2, b3, b4);
+	    	alert.setTitle("Acción sobre '"+productoSeleccionado.getNombreTipoProducto()+"'");
 	    	alert.setHeaderText(null);
-	    	alert.setContentText("¿Que desea hacer sobre '"+productoSeleccionado.getNombreProducto()+"'?");
-	    	
-	    	App.setStyle(alert.getDialogPane());
-			
-			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-	    	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
-	            if (KeyCode.ESCAPE == event.getCode()) {
-	                stage.close();
-	            }
-	        });
-	    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
-	    	Optional<ButtonType> options = alert.showAndWait();
-	    	
-	    	if(options.get().equals(b2)) {
-	    		Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar baja", null, "¿Desea confirmar la baja del producto empaquetado '"+productoSeleccionado.getNombreProducto()+"'?");
-    			
-    			if (result.get() == ButtonType.OK){
-	        		if(GestorEntradaSalida.get().darBaja(productoSeleccionado)) {
-	        			productoSeleccionado.setDisponible(false);
-	        			tabla.getColumns().get(8).setVisible(false);
-	        			tabla.getColumns().get(8).setVisible(true);
-	        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"' ha sido correctamente dado de baja.");
-	        		}
-    			}
-        	}
-		}
-		else {
-			Alert alert = new Alert(AlertType.CONFIRMATION, "", b1, b2, b3);
-	    	alert.setTitle("Acción sobre '"+productoSeleccionado.getNombreProducto()+"'");
-	    	alert.setHeaderText(null);
-	    	alert.setContentText("¿Que desea hacer sobre '"+productoSeleccionado.getNombreProducto()+"'?");
+	    	alert.setContentText("¿Que desea hacer sobre '"+productoSeleccionado.getNombreTipoProducto()+"'?");
 	    	
 	    	App.setStyle(alert.getDialogPane());
 			
@@ -237,30 +200,62 @@ public class CU02Controller01 {
 	    	Optional<ButtonType> options = alert.showAndWait();
 	    	
 	    	if(options.get().equals(b1)) {
-	    		CU10Controller01 controller = CU10Controller01.get();
-	    		controller.setControllerCu08(this);
-	    		controller.empaquetarProducto(new DTOProductoInicialCU10(productoSeleccionado));
-	    		
+	    		CU05Controller cu05 = CU05Controller.get();
+	    		cu05.setControllerCU02(this);
+	    		cu05.setProducto(productoSeleccionado.getIdProducto());
 	    	}
 	    	else {
 	    		if(options.get().equals(b2)) {
-	    			Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar baja", null, "¿Desea confirmar la baja del producto empaquetado '"+productoSeleccionado.getNombreProducto()+"'?");
-	    			
-	    			if (result.get() == ButtonType.OK){
-	    				if(GestorEntradaSalida.get().darBaja(productoSeleccionado)) {
-		        			productoSeleccionado.setDisponible(false);
-		        			tabla.getColumns().get(8).setVisible(false);
-		        			tabla.getColumns().get(8).setVisible(true);
-		        			PanelAlerta.getInformation("Aviso", null, "El producto empaquetado de '"+productoSeleccionado.getNombreProducto()+"' ha sido correctamente dado de baja.");
+	    			editarPrecios();
+	        	}
+	    		else {
+	        		if(options.get().equals(b3)) {
+	        			Optional<ButtonType> result = PanelAlerta.getConfirmation("Confirmar baja", null, "¿Desea confirmar la baja de el producto '"+productoSeleccionado.getNombreTipoProducto()+"' (incluyendo el stock y los empaquetados disponiles)?");
+		    			if (result.get() == ButtonType.OK){
+		    				if(GestorEntradaSalida.get().dejarVender(productoSeleccionado.getIdProducto())) {
+		    					productoSeleccionado.setEnVenta(false);
+			        			tabla.getColumns().get(2).setVisible(false);
+			        			tabla.getColumns().get(2).setVisible(true);
+			        			PanelAlerta.getInformation("Aviso", null, "El producto de '"+productoSeleccionado.getNombreTipoProducto()+"' ha sido correctamente dado de baja.");
+			    			}
 		    			}
-	    			}
+	            	}
+	    		}
+	    	}
+		}
+		else {
+			Alert alert = new Alert(AlertType.CONFIRMATION, "", b1, b2, b4);
+	    	alert.setTitle("Acción sobre '"+productoSeleccionado.getNombreTipoProducto()+"'");
+	    	alert.setHeaderText(null);
+	    	alert.setContentText("¿Que desea hacer sobre '"+productoSeleccionado.getNombreTipoProducto()+"'?");
+	    	
+	    	App.setStyle(alert.getDialogPane());
+			
+			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+	    	stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
+	            if (KeyCode.ESCAPE == event.getCode()) {
+	                stage.close();
+	            }
+	        });
+	    	stage.getIcons().add(new Image("app/icon/logoAlChi.png"));
+	    	Optional<ButtonType> options = alert.showAndWait();
+	    	
+	    	if(options.get().equals(b1)) {
+	    		CU05Controller cu05 = CU05Controller.get();
+	    		cu05.setControllerCU02(this);
+	    		cu05.setProducto(productoSeleccionado.getIdProducto());
+	    	}
+	    	else {
+	    		if(options.get().equals(b2)) {
+	    			editarPrecios();
 	        	}
 	    	}
-		}		
-		
-	}	
-	 */
+		}
+	}
 	
-	//TODO CU02 mostrar imagen de producto
-	//TODO CU02 si se da de baja un tipo producto se dará de baja todos los productos
+	private void editarPrecios() {
+		CU02Controller02 controller = CU02Controller02.get();
+		controller.addDTOCU03(new DTOCU03(productoSeleccionado));
+		controller.setController(this);
+	}
 }

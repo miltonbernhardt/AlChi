@@ -1,6 +1,7 @@
 package dto;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import app.App;
 
@@ -100,30 +101,25 @@ public class DTOProductoInicial {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((tipoProducto == null) ? 0 : tipoProducto.hashCode());
-		return result;
+		return Objects.hash(cantidadNoVendida, codigoBarra, nombreCategoria, nombreProveedor, nombreTipoProducto,
+				precioComprado, proveedor, tipoProducto, vencimiento);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		if (this == obj)
-			return true;		
-		
 		DTOProductoInicial other = (DTOProductoInicial) obj;
-		if (tipoProducto.getIdProducto() == null) {
-			if (other.tipoProducto.getIdProducto() != null)
-				return false;
-		} 
-		else 
-			if (!tipoProducto.getIdProducto().equals(other.tipoProducto.getIdProducto()))
-				return false;
-		return true;
-	}	
-	
+		return Objects.equals(cantidadNoVendida, other.cantidadNoVendida)
+				&& Objects.equals(codigoBarra, other.codigoBarra)
+				&& Objects.equals(nombreCategoria, other.nombreCategoria)
+				&& Objects.equals(nombreProveedor, other.nombreProveedor)
+				&& Objects.equals(nombreTipoProducto, other.nombreTipoProducto)
+				&& Objects.equals(precioComprado, other.precioComprado) && Objects.equals(proveedor, other.proveedor)
+				&& Objects.equals(tipoProducto, other.tipoProducto) && Objects.equals(vencimiento, other.vencimiento);
+	}
 }
